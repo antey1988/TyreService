@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+//@Entity
 public class Partner {
 
     @Id
@@ -32,13 +32,13 @@ public class Partner {
     private Double longitude;
 
     @Transient
-    @OneToMany(mappedBy = "partnerName", fetch = FetchType.EAGER)
+//    @OneToMany(mappedBy = "partnerName", fetch = FetchType.EAGER)
     private List<Service> services;
 
     @Transient
-    @OneToMany(mappedBy = "partner", fetch = FetchType.EAGER)
+//    @OneToMany(mappedBy = "partner", fetch = FetchType.EAGER)
     private List<Orders> orders;
 
-    @OneToOne(mappedBy = "partnerPhoto", fetch = FetchType.EAGER)
+//    @OneToOne(mappedBy = "partnerPhoto", fetch = FetchType.EAGER)
     private FileInfo fileInfo;
 }

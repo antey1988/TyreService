@@ -3,8 +3,8 @@ package ru.tyreservice.aggregator.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.tyreservice.aggregator.domain.entity.Partner;
 import ru.tyreservice.aggregator.dto.PartnerResponseDTO;
+import ru.tyreservice.aggregator.entities.Partner;
 import ru.tyreservice.aggregator.repositories.PartnerRepository;
 import ru.tyreservice.aggregator.utils.PartnerRepositoryStub;
 
@@ -19,6 +19,7 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     public List<PartnerResponseDTO> getPartners(String name) {
+        List<Partner> list = partnerRepository.findAll();
         return partnerRepositoryStub.getPartners(name);
     }
 }

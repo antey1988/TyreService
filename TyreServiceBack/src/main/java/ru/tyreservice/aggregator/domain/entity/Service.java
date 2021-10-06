@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+//@Entity
 public class Service {
 
     @Id
@@ -29,10 +29,10 @@ public class Service {
     @JoinColumn(name = "service_id")
     private Partner partnerName;
 
-    @ManyToMany(mappedBy = "services")
+//    @ManyToMany(mappedBy = "services")
     private List<Orders> orders;
 
-    @OneToOne(mappedBy = "servicePhoto", fetch = FetchType.EAGER)
+//    @OneToOne(mappedBy = "servicePhoto", fetch = FetchType.EAGER)
     private FileInfo fileInfo;
 
     @Enumerated(value = EnumType.STRING)
