@@ -34,11 +34,4 @@ public class Orders {
 
     @Enumerated(value = EnumType.STRING)
     private StateStatus status;
-
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "order_service",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "service_id"))
-    private List<Service> services;
 }

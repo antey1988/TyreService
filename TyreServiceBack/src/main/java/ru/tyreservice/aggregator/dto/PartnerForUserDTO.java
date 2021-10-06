@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.tyreservice.aggregator.domain.entity.Partner;
 import ru.tyreservice.aggregator.domain.entity.Service;
+import ru.tyreservice.aggregator.domain.enums.StateCarType;
 
 import javax.persistence.Entity;
 import java.util.List;
@@ -22,6 +23,7 @@ public class PartnerForUserDTO {
     private String email;
     private String phoneNumber;
     private String dateWork;
+    private StateCarType carType;
     private Double rank;
     private Double latitude;
     private Double longitude;
@@ -30,6 +32,7 @@ public class PartnerForUserDTO {
     public static PartnerForUserDTO of(Partner partner) {
         return PartnerForUserDTO.builder()
                 .name(partner.getName())
+                .services(partner.getServices())
                 .address(partner.getAddress())
                 .description(partner.getDescription())
                 .email(partner.getEmail())
@@ -39,6 +42,7 @@ public class PartnerForUserDTO {
                 .latitude(partner.getLatitude())
                 .longitude(partner.getLongitude())
                 .services(partner.getServices())
+                .carType(partner.getCarType())
                 .build();
     }
 }

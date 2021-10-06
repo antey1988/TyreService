@@ -1,9 +1,11 @@
 package ru.tyreservice.aggregator.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tyreservice.aggregator.domain.enums.StateCarType;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -31,14 +33,15 @@ public class Partner {
     private Double latitude;
     private Double longitude;
 
-    @Transient
-    @OneToMany(mappedBy = "partnerName", fetch = FetchType.EAGER)
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "partnerName")
     private List<Service> services;
 
-    @Transient
-    @OneToMany(mappedBy = "partner", fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToMany(mappedBy = "partner")
     private List<Orders> orders;
 
-    @OneToOne(mappedBy = "partnerPhoto", fetch = FetchType.EAGER)
-    private FileInfo fileInfo;
+    @Enumerated(value = EnumType.STRING)
+    private StateCarType carType;
 }

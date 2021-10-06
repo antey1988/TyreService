@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import ru.tyreservice.aggregator.dto.PartnerForUserDTO;
-import ru.tyreservice.aggregator.repositories.PartnerRepository;
 import ru.tyreservice.aggregator.services.PartnerForUserService;
 
 
