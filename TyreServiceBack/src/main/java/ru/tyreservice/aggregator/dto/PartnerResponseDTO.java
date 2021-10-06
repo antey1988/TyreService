@@ -1,16 +1,14 @@
 package ru.tyreservice.aggregator.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import ru.tyreservice.aggregator.utils.PartnerRepositoryStub;
+import ru.tyreservice.aggregator.domain.entity.Partner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Data
 @AllArgsConstructor
+@Getter
+@Setter
 @Slf4j
 public class PartnerResponseDTO {
     private Long id;
@@ -23,5 +21,19 @@ public class PartnerResponseDTO {
     private String address;
     private Double latitude;
     private Double longitude;
-}
 
+    public static PartnerResponseDTO of(Partner partner) {
+        return new PartnerResponseDTO(
+                partner.getId(),
+                partner.getName(),
+                partner.getDescription(),
+                partner.getEmail(),
+                partner.getDateWork(),
+                partner.getPhoneNumber(),
+                partner.getRank(),
+                partner.getAddress(),
+                partner.getLatitude(),
+                partner.getLongitude()
+        );
+    }
+}
