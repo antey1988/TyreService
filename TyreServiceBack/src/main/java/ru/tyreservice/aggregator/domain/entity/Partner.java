@@ -27,7 +27,7 @@ public class Partner {
     private String password;
     private String phoneNumber;
     private String dateWork;
-    private Integer rank;
+    private Double rank;
     private Double latitude;
     private Double longitude;
 
