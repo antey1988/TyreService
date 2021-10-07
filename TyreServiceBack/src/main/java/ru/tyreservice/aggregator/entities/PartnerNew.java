@@ -1,13 +1,11 @@
 package ru.tyreservice.aggregator.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -37,7 +35,6 @@ public class PartnerNew {
     @Column(nullable = false, name = "type")
     @Enumerated(value = EnumType.STRING)
     private StateCarType carType;
-    @JsonIgnore
     @OneToMany(mappedBy = "partner")
-    private Set<CostWork> costsWorks;
+    private Set<CostWork> costsWorks = new HashSet<>();
 }

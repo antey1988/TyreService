@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
-import ru.tyreservice.aggregator.dto.CostWorkRequestDTO;
 import ru.tyreservice.aggregator.dto.PartnerRequestDTO;
 import ru.tyreservice.aggregator.dto.PartnerResponseDTO;
 import ru.tyreservice.aggregator.dto.PartnerWithWorksResponseDTO;
@@ -23,16 +22,6 @@ public class PartnerController {
 
     private final PartnerService partnerService;
 
-//    @GetMapping(value = "/partners")
-//    public List<PartnerResponseDTO> getPartnersByFilter(
-//            @RequestParam(required = false) String name,
-//            @RequestParam(required = false) StateCarType type,
-//            @RequestParam(required = false) Integer page) {
-//        String params = name != null ? "?name="+name : "";
-//        log.info(String.format(REQUEST, GET, params));
-//        return partnerService.getPartners(name, page, type);
-//    }
-
     @GetMapping(value = "/partners")
     public List<PartnerResponseDTO> readListPartnersByFilter(
             @RequestParam(required = false) String name,
@@ -40,7 +29,7 @@ public class PartnerController {
             @RequestParam(required = false) Integer page) {
         String params = name != null ? "?name="+name : "";
         log.info(String.format(REQUEST, GET, params));
-        return partnerService.getListPartners(name, page, type);
+        return partnerService.readListPartners(name, page, type);
     }
 
     @GetMapping(value = "/partners/{id}")
@@ -48,15 +37,14 @@ public class PartnerController {
             @PathVariable(name = "id") Long id) {
         String params = "/"+id;
         log.info(String.format(REQUEST, GET, params));
-        return partnerService.getPartnerWithWorks(id);
+        return partnerService.readPartnerWithWorks(id);
     }
 
-    @PostMapping(value = "/partners/{id}/works")
-    public PartnerWithWorksResponseDTO addWorks(
-            @PathVariable Long id,
-            @RequestBody List<CostWorkRequestDTO> works) {
-        String params = String.format("/partners/%d/works", id);
+    @PostMapping(value = "/partners")
+    public PartnerWithWorksResponseDTO createPartner(
+            @RequestBody PartnerRequestDTO requestDTO) {
+        String params = "";
         log.info(String.format(REQUEST, POST, params));
-        return partnerService.addWorks(id, works);
+        return partnerService.createPartnerWithWorks(requestDTO);
     }
 }
