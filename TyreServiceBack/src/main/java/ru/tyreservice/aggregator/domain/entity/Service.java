@@ -1,5 +1,6 @@
 package ru.tyreservice.aggregator.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,15 +29,6 @@ public class Service {
     @ManyToOne
     @JoinColumn(name = "service_id")
     private Partner partnerName;
-
-    @ManyToMany(mappedBy = "services")
-    private List<Orders> orders;
-
-    @OneToOne(mappedBy = "servicePhoto", fetch = FetchType.EAGER)
-    private FileInfo fileInfo;
-
-    @Enumerated(value = EnumType.STRING)
-    private StateCarType carType;
 
     @Enumerated(value = EnumType.STRING)
     private StateWheelType stateWheelType;
