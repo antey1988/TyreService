@@ -4,15 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import ru.tyreservice.aggregator.domain.entity.Partner;
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
 import ru.tyreservice.aggregator.entities.PartnerNew;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
 @Setter
 @Slf4j
-public class PartnerResponseDTO {
+public class PartnerWithWorksResponseDTO {
     private Long id;
     private String name;
     private String description;
@@ -24,25 +26,10 @@ public class PartnerResponseDTO {
     private Double latitude;
     private Double longitude;
     private StateCarType carType;
+    private Set<CostWorkResponseDTO> works;
 
-    public static PartnerResponseDTO of(Partner partner) {
-        return new PartnerResponseDTO(
-                partner.getId(),
-                partner.getName(),
-                partner.getDescription(),
-                partner.getEmail(),
-                partner.getDateWork(),
-                partner.getPhoneNumber(),
-                partner.getRank(),
-                partner.getAddress(),
-                partner.getLatitude(),
-                partner.getLongitude(),
-                partner.getCarType()
-        );
-    }
-
-    public static PartnerResponseDTO of(PartnerNew partner) {
-        return new PartnerResponseDTO(
+    public static PartnerWithWorksResponseDTO of(PartnerNew partner) {
+        return new PartnerWithWorksResponseDTO(
                 partner.getId(),
                 partner.getName(),
                 partner.getDescription(),
@@ -53,7 +40,8 @@ public class PartnerResponseDTO {
                 partner.getAddress(),
                 partner.getLatitude(),
                 partner.getLongitude(),
-                partner.getCarType()
+                partner.getCarType(),
+                partner.getCostsWorks().stream().map(CostWorkResponseDTO::of).collect(Collectors.toSet())
         );
     }
 }

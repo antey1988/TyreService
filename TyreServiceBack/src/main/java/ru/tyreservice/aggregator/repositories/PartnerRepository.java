@@ -14,4 +14,5 @@ import java.util.List;
 public interface PartnerRepository extends JpaRepository<Partner, Long> {
     @Query(value = "select distinct p from Partner p left join p.services s where s.name like %:name%")
     List<Partner> findAll(@Param(value = "name") String name);
+    Partner getFirstByName (String name);
 }
