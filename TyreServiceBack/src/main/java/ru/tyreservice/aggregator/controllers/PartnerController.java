@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
 import ru.tyreservice.aggregator.dto.PartnerResponseDTO;
 import ru.tyreservice.aggregator.services.PartnerService;
-import ru.tyreservice.aggregator.utils.PartnerRepositoryStub;
 
 import java.util.List;
 

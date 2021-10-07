@@ -29,10 +29,12 @@ public class PartnerServiceImpl implements PartnerService {
         Sort sort = Sort.by(Sort.Order.desc("rank"), Sort.Order.asc("name"));
         Pageable pageable = PageRequest.of(numberPage, sizePage, sort);
 
-        Page<Partner> partnersEntity = partnerRepository.findAll(pageable);
-        List<Partner> partners = partnerRepository.findAll();
+        Page<Partner> pagePartners = partnerRepository.findAll(pageable);
+//        List<Partner> partners_1 = partnerRepository.findAll();
+//        List<Partner> partners_2 = partnerRepository.findAll("Мон");
+//        List<Partner> partners_3 = partnerRepository.findAll("Дем");
 
-        List<PartnerResponseDTO> dtoEntity = partnersEntity.getContent().stream().map(PartnerResponseDTO::of).collect(Collectors.toList());
+        List<PartnerResponseDTO> dtoEntity = pagePartners.getContent().stream().map(PartnerResponseDTO::of).collect(Collectors.toList());
         return dtoEntity;
     }
 }

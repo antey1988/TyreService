@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.tyreservice.aggregator.domain.entity.Partner;
+import ru.tyreservice.aggregator.domain.enums.StateCarType;
 
 @AllArgsConstructor
 @Getter
@@ -17,10 +18,11 @@ public class PartnerResponseDTO {
     private String email;
     private String date_work;
     private String phone_number;
-    private Integer rank;
+    private Double rank;
     private String address;
     private Double latitude;
     private Double longitude;
+    private StateCarType carType;
 
     public static PartnerResponseDTO of(Partner partner) {
         return new PartnerResponseDTO(
@@ -33,7 +35,8 @@ public class PartnerResponseDTO {
                 partner.getRank(),
                 partner.getAddress(),
                 partner.getLatitude(),
-                partner.getLongitude()
+                partner.getLongitude(),
+                partner.getCarType()
         );
     }
 }
