@@ -1,15 +1,20 @@
 package ru.tyreservice.aggregator.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
 import ru.tyreservice.aggregator.domain.enums.StateWheelType;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Service {
 

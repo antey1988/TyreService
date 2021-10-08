@@ -26,12 +26,18 @@ class PartnersViewController: UIViewController {
         self.filterCollectionView.register(FilterCollectionViewCell.nib(), forCellWithReuseIdentifier: FilterCollectionViewCell.cellIdentifier)
         self.filterCollectionView.delegate = self
         self.filterCollectionView.dataSource = self
+        viewModel.reloadFilter = { [weak self] in
+            self?.filterCollectionView.reloadData()
+        }
     }
     
     func initTableView() {
         self.partnersTableView.register(PartnerTableViewCell.nib(), forCellReuseIdentifier: PartnerTableViewCell.cellIdentifier)
         self.partnersTableView.delegate = self
         self.partnersTableView.dataSource = self
+        viewModel.reloadPartners = { [weak self] in
+            self?.partnersTableView.reloadData()
+        }
     }
 
 }
@@ -55,6 +61,11 @@ extension PartnersViewController: UICollectionViewDelegate, UICollectionViewData
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel.changeSelectedFilterId(index: indexPath.row)
+        self.filterCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
 }
 
