@@ -1,4 +1,4 @@
-package ru.tyreservice.aggregator.dto;
+package ru.tyreservice.aggregator.dto.requests;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,31 +35,4 @@ public class PartnerRequestDTO {
         partnerNew.setCarType(partner.carType);
         return partnerNew;
     }
-
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//    @Column(nullable = false)
-//    private String name;
-//    private String description;
-//    @Column(nullable = false)
-//    private String address;
-//    @Column(nullable = false)
-//    private String email;
-//    @Column(nullable = false)
-//    private String phone;
-//    @Column(nullable = false)
-//    private String password;
-//    @Column(nullable = false)
-//    private String schedule;
-//    private Double rank;
-//    private Double latitude;
-//    private Double longitude;
-//    @Column(nullable = false, name = "type")
-//    @Enumerated(value = EnumType.STRING)
-//    private StateCarType carType;
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "partner")
-//    private Set<CostWork> costsWorks;
 }

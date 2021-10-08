@@ -9,11 +9,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.tyreservice.aggregator.domain.entity.Partner;
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
-import ru.tyreservice.aggregator.dto.PartnerRequestDTO;
-import ru.tyreservice.aggregator.dto.PartnerResponseDTO;
-import ru.tyreservice.aggregator.dto.PartnerWithWorksResponseDTO;
+import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
+import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
+import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;
 import ru.tyreservice.aggregator.entities.PartnerNew;
-import ru.tyreservice.aggregator.repositories.CostWorkRepository;
 import ru.tyreservice.aggregator.repositories.PartnerNewRepository;
 import ru.tyreservice.aggregator.repositories.PartnerRepository;
 

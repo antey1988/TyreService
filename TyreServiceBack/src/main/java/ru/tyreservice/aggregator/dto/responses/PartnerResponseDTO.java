@@ -1,4 +1,4 @@
-package ru.tyreservice.aggregator.dto;
+package ru.tyreservice.aggregator.dto.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

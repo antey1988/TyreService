@@ -1,4 +1,4 @@
-package ru.tyreservice.aggregator.dto;
+package ru.tyreservice.aggregator.dto.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,7 +41,7 @@ public class PartnerWithWorksResponseDTO {
                 partner.getLatitude(),
                 partner.getLongitude(),
                 partner.getCarType(),
-                partner.getCostsWorks().stream().map(CostWorkResponseDTO::of).collect(Collectors.toSet())
+                partner.getCostsWorks().stream().map(CostWorkResponseDTO::fromEntity).collect(Collectors.toSet())
         );
     }
 }

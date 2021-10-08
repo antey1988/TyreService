@@ -16,16 +16,39 @@ INSERT INTO WORKS(id, name, description, type) VALUES
     (4, 'Демонтаж', 'Монтаж шины на диск, накачивание колеса до необходимого давления', 'R14')
 ;
 --
-INSERT INTO COSTS_WORKS(id, partner_id, work_id, price) VALUES
-    (1, 1, 1, 100),
-    (2, 1, 2, 50),
-    (3, 1, 3, 110),
-    (4, 1, 4, 50),
-    (5, 2, 1, 95),
-    (6, 2, 2, 50),
-    (7, 3, 3, 105),
-    (8, 3, 4, 45)
+--INSERT INTO COSTS_WORKS(id, partner_id, work_id, price) VALUES
+--    (1, 1, 1, 100),
+--    (2, 1, 2, 50),
+--    (3, 1, 3, 110),
+--    (4, 1, 4, 50),
+--    (5, 2, 1, 95),
+--    (6, 2, 2, 50),
+--    (7, 3, 3, 105),
+--    (8, 3, 4, 45)
+--;
+--
+INSERT INTO COSTS_WORKS(partner_id, work_id, price) VALUES
+    (1, 1, 100),
+    (1, 2, 50),
+    (1, 3, 110),
+    (1, 4, 50),
+    (2, 1, 95),
+    (2, 2, 50),
+    (3, 3, 105),
+    (3, 4, 45)
 ;
+
+INSERT INTO ORDERSS(id, partner_id, create_date, booking_date, status, client, phone, auto, price) VALUES
+    (1, 1, '2020-10-01', '2020-10-02','WAITING', 'Ivan', '892815748596145', 'fgfggg', 0)
+;
+
+INSERT INTO LINES_ORDER(order_id, work_id, price, count) VALUES
+    (1, 1, 100, 4),
+    (1, 2, 50, 4)
+;
+
+
+
 
 
 

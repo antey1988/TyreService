@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "orders")
+@Table(name = "orderss")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +21,9 @@ public class Order {
     @JoinColumn(nullable = false, name = "partner_id")
     private PartnerNew partner;
 
-    @Column(nullable = false, name = "create")
+    @Column(nullable = false, name = "create_date")
     private Date createDate;
-    @Column(nullable = false, name = "booking")
+    @Column(nullable = false, name = "booking_date")
     private Date bookingDate;
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -40,7 +40,7 @@ public class Order {
     @Column(name = "price")
     private int fullPrice;
     @ElementCollection
-    @CollectionTable(name = "order_lines",
+    @CollectionTable(name = "lines_order",
             joinColumns = @JoinColumn(name = "order_id", nullable = false))
     Set<LineOrder> lines;
 }

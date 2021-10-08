@@ -1,9 +1,9 @@
 package ru.tyreservice.aggregator.services;
 
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
-import ru.tyreservice.aggregator.dto.PartnerRequestDTO;
-import ru.tyreservice.aggregator.dto.PartnerResponseDTO;
-import ru.tyreservice.aggregator.dto.PartnerWithWorksResponseDTO;
+import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
+import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
+import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;
 
 import java.util.List;
 

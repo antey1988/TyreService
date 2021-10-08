@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
-import ru.tyreservice.aggregator.dto.PartnerRequestDTO;
-import ru.tyreservice.aggregator.dto.PartnerResponseDTO;
-import ru.tyreservice.aggregator.dto.PartnerWithWorksResponseDTO;
+import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
+import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
+import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;
 import ru.tyreservice.aggregator.services.PartnerService;
 
 import java.util.List;
