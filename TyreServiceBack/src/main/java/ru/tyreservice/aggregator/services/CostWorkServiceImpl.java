@@ -3,6 +3,7 @@ package ru.tyreservice.aggregator.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.tyreservice.aggregator.dto.requests.CostWorkRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.CostWorkResponseDTO;
 import ru.tyreservice.aggregator.entities.CostWork;
@@ -19,7 +20,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 public class CostWorkServiceImpl implements CostWorkService {
-
     private final CostWorkRepository costWorkRepository;
 
     @Override
@@ -37,4 +37,12 @@ public class CostWorkServiceImpl implements CostWorkService {
         return costWorkRepository.saveAll(costsWorks).stream()
                 .map(CostWorkResponseDTO::fromEntity).collect(Collectors.toList());
     }
+
+
+    @Override
+    @Transactional
+    public void deleteCostsWorks(Long id, List<Long> works) {
+        costWorkRepository.deleteAllByPartnerIdAndWorkIdIn(id, works);
+    }
+
 }

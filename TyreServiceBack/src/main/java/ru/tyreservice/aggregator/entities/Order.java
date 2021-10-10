@@ -37,8 +37,6 @@ public class Order {
     @Column(name = "auto")
     private String auto;
 
-    @Column(name = "price")
-    private int fullPrice;
     @ElementCollection
     @CollectionTable(name = "lines_order",
             joinColumns = @JoinColumn(name = "order_id", nullable = false))

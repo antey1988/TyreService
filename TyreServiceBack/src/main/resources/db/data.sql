@@ -38,8 +38,8 @@ INSERT INTO COSTS_WORKS(partner_id, work_id, price) VALUES
     (3, 4, 45)
 ;
 
-INSERT INTO ORDERSS(id, partner_id, create_date, booking_date, status, client, phone, auto, price) VALUES
-    (1, 1, '2020-10-01', '2020-10-02','WAITING', 'Ivan', '892815748596145', 'fgfggg', 0)
+INSERT INTO ORDERSS(id, partner_id, create_date, booking_date, status, client, phone, auto) VALUES
+    (1, 1, '2020-10-01', '2020-10-02','WAITING', 'Ivan', '892815748596145', 'fgfggg')
 ;
 
 INSERT INTO LINES_ORDER(order_id, work_id, price, count) VALUES

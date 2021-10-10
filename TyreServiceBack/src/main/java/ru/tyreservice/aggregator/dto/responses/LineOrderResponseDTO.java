@@ -1,5 +1,6 @@
 package ru.tyreservice.aggregator.dto.responses;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -8,12 +9,17 @@ import ru.tyreservice.aggregator.entities.LineOrder;
 @Getter
 @Setter
 @Slf4j
+@Schema(description = "Наименование, стоимость и количество услуг в заказе")
 public class LineOrderResponseDTO {
-    private Long id;
     //наименование услуги из общего справочника
+    @Schema(description = "id услуги из общего справочника")
+    private Long id;
+    @Schema(description = "Наименование услуги из общего справочника")
     private String name;
     //стоимость услуги из справочника партнера
+    @Schema(description = "Стоимость услуги")
     private Integer price;
+    @Schema(description = "Количество")
     private Integer count;
 
     public static LineOrderResponseDTO fromEntity(LineOrder lineOrder) {
