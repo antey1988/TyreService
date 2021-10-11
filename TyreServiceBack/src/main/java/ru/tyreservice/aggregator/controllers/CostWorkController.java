@@ -10,7 +10,6 @@ import ru.tyreservice.aggregator.dto.responses.CostWorkResponseDTO;
 import ru.tyreservice.aggregator.services.CostWorkService;
 
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @AllArgsConstructor
@@ -31,7 +30,7 @@ public class CostWorkController {
             @PathVariable Long id,
             @RequestBody List<CostWorkRequestDTO> works) {
         log.info(String.format(REQUEST, POST, id));
-        return costWorkService.createCostsWorks(id, works);
+        return costWorkService.createAndUpdateCostsWorks(id, works);
     }
 
     @GetMapping()

@@ -31,7 +31,7 @@ public class CostWorkServiceImpl implements CostWorkService {
     }
 
     @Override
-    public List<CostWorkResponseDTO> createCostsWorks(Long id, List<CostWorkRequestDTO> costWorkRequestDTOs) {
+    public List<CostWorkResponseDTO> createAndUpdateCostsWorks(Long id, List<CostWorkRequestDTO> costWorkRequestDTOs) {
         List<CostWork> costsWorks = costWorkRequestDTOs.stream()
                 .map(cw -> CostWorkRequestDTO.toEntity(id, cw)).collect(Collectors.toList());
         return costWorkRepository.saveAll(costsWorks).stream()

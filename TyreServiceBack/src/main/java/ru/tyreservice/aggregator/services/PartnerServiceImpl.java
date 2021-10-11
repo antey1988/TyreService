@@ -8,14 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.tyreservice.aggregator.domain.entity.Partner;
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;
 import ru.tyreservice.aggregator.entities.PartnerNew;
 import ru.tyreservice.aggregator.repositories.PartnerNewRepository;
-import ru.tyreservice.aggregator.repositories.PartnerRepository;
 import ru.tyreservice.aggregator.repositories.PartnerSpecification;
 
 import java.util.List;
@@ -27,24 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class PartnerServiceImpl implements PartnerService {
 
-    private final PartnerRepository partnerRepository;
     private final PartnerNewRepository partnerNewRepository;
-
-    @Override
-    public List<PartnerResponseDTO> getPartners(String nameService, Integer page, StateCarType type) {
-        int sizePage = 2;
-        int numberPage = page == null ? 0 : page;
-        Sort sort = Sort.by(Sort.Order.desc("rank"), Sort.Order.asc("name"));
-        Pageable pageable = PageRequest.of(numberPage, sizePage, sort);
-
-        Page<Partner> pagePartners = partnerRepository.findAll(pageable);
-//        List<Partner> partners_1 = partnerRepository.findAll();
-//        List<Partner> partners_2 = partnerRepository.findAll("Мон");
-//        List<Partner> partners_3 = partnerRepository.findAll("Дем");
-
-        List<PartnerResponseDTO> dtoEntity = pagePartners.getContent().stream().map(PartnerResponseDTO::of).collect(Collectors.toList());
-        return dtoEntity;
-    }
 
     @Override
     public List<PartnerResponseDTO> readListPartners(StateCarType type, String name, Long id, Integer page) {
@@ -63,23 +44,27 @@ public class PartnerServiceImpl implements PartnerService {
     @Override
     @Transactional
     public PartnerWithWorksResponseDTO readPartnerWithWorks(Long id) {
-        Optional<PartnerNew> optional = partnerNewRepository.findById(id);
-        if (optional.isPresent()) {
-            PartnerNew partner = optional.get();
-            return PartnerWithWorksResponseDTO.of(partner);
-        }
-        return null;
+        PartnerNew partner = findById(id);
+        return PartnerWithWorksResponseDTO.fromEntity(partner);
     }
 
     @Override
-    public PartnerWithWorksResponseDTO createPartnerWithWorks(PartnerRequestDTO partnerRequestDTO) {
-        PartnerNew partner = PartnerRequestDTO.onCreate(partnerRequestDTO);
+    public PartnerWithWorksResponseDTO createPartner(PartnerRequestDTO partnerRequest) {
+        PartnerNew partner = PartnerRequestDTO.onCreate(partnerRequest);
         partner = partnerNewRepository.save(partner);
-        return PartnerWithWorksResponseDTO.of(partner);
+        return PartnerWithWorksResponseDTO.fromEntity(partner);
     }
 
     @Override
-    public PartnerWithWorksResponseDTO updatePartnerWithWorks(Long id, PartnerRequestDTO partnerRequestDTO) {
-        return null;
+    @Transactional
+    public PartnerWithWorksResponseDTO updatePartner(Long id, PartnerRequestDTO partnerRequest) {
+        PartnerNew partner = findById(id);
+        PartnerRequestDTO.onUpdate(partner, partnerRequest);
+        return PartnerWithWorksResponseDTO.fromEntity(partner);
+    }
+
+    private PartnerNew findById(Long id) {
+        Optional<PartnerNew> optional = partnerNewRepository.findById(id);
+        return optional.orElseThrow(RuntimeException::new);
     }
 }

@@ -47,11 +47,21 @@ public class PartnerController {
     }
 
     @PostMapping(value = "/partners")
-    @Operation(summary = "Создание партнера", description = "Создание инфомации о партнере со списком оказывавемых услуг")
+    @Operation(summary = "Создание партнера", description = "Создание инфомации о партнере")
     public PartnerWithWorksResponseDTO createPartner(
             @RequestBody PartnerRequestDTO requestDTO) {
         String params = "";
         log.info(String.format(REQUEST, POST, params));
-        return partnerService.createPartnerWithWorks(requestDTO);
+        return partnerService.createPartner(requestDTO);
+    }
+
+    @PostMapping(value = "/partners/{id}")
+    @Operation(summary = "Обновление информации о партнера", description = "Обновление инфомации о партнере со списком оказывавемых услуг")
+    public PartnerWithWorksResponseDTO updatePartner(
+            @PathVariable Long id,
+            @RequestBody PartnerRequestDTO requestDTO) {
+        String params = "/"+id;
+        log.info(String.format(REQUEST, POST, params));
+        return partnerService.updatePartner(id, requestDTO);
     }
 }

@@ -35,6 +35,6 @@ public class PartnerNew {
     @Column(nullable = false, name = "type")
     @Enumerated(value = EnumType.STRING)
     private StateCarType carType;
-    @OneToMany(mappedBy = "partner")
+    @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL)
     private Set<CostWork> costsWorks = new HashSet<>();
 }

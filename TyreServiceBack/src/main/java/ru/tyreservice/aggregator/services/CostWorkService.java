@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface CostWorkService {
-    List<CostWorkResponseDTO> createCostsWorks(Long id, List<CostWorkRequestDTO> costWorkRequestDTOs);
+    List<CostWorkResponseDTO> createAndUpdateCostsWorks(Long id, List<CostWorkRequestDTO> costWorkRequestDTOs);
     List<CostWorkResponseDTO> readCostsWorks(Long id);
     void deleteCostsWorks(Long id, List<Long> works);
 }

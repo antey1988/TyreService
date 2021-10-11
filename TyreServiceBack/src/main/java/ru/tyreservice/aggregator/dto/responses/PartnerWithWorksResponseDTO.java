@@ -42,7 +42,7 @@ public class PartnerWithWorksResponseDTO {
     @Schema(description = "Список оказываемых услуг со стоимостью")
     private Set<CostWorkResponseDTO> works;
 
-    public static PartnerWithWorksResponseDTO of(PartnerNew partner) {
+    public static PartnerWithWorksResponseDTO fromEntity(PartnerNew partner) {
         return new PartnerWithWorksResponseDTO(
                 partner.getId(),
                 partner.getName(),

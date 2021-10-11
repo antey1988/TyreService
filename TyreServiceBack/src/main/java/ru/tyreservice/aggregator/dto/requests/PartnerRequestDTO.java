@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.tyreservice.aggregator.domain.enums.StateCarType;
+import ru.tyreservice.aggregator.entities.CostWork;
 import ru.tyreservice.aggregator.entities.PartnerNew;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -37,15 +39,30 @@ public class PartnerRequestDTO {
     @Schema(description = "Списк оказываемых услуг")
     private Set<CostWorkRequestDTO> works;
 
-    public static PartnerNew onCreate(PartnerRequestDTO partner) {
+    public static PartnerNew onCreate(PartnerRequestDTO partnerRequest) {
         PartnerNew partnerNew = new PartnerNew();
-        partnerNew.setName(partner.name);
-        partnerNew.setAddress(partner.address);
-        partnerNew.setEmail(partner.email);
-        partnerNew.setPhone(partner.phone);
-        partnerNew.setSchedule(partner.schedule);
-        partnerNew.setPassword(partner.password);
-        partnerNew.setCarType(partner.carType);
+        partnerNew.setName(partnerRequest.name);
+        partnerNew.setAddress(partnerRequest.address);
+        partnerNew.setEmail(partnerRequest.email);
+        partnerNew.setPhone(partnerRequest.phone);
+        partnerNew.setSchedule(partnerRequest.schedule);
+        partnerNew.setPassword(partnerRequest.password);
+        partnerNew.setCarType(partnerRequest.carType);
         return partnerNew;
+    }
+
+    public static PartnerNew onUpdate(PartnerNew partner, PartnerRequestDTO partnerRequest) {
+        partner.setName(partnerRequest.name);
+        partner.setAddress(partnerRequest.address);
+        partner.setEmail(partnerRequest.email);
+        partner.setPhone(partnerRequest.phone);
+        partner.setSchedule(partnerRequest.schedule);
+        partner.setPassword(partnerRequest.password);
+        partner.setCarType(partnerRequest.carType);
+        Long id = partner.getId();
+        Set<CostWork> costWorks = partner.getCostsWorks();
+        costWorks.clear();
+        partnerRequest.getWorks().forEach(cw -> costWorks.add(CostWorkRequestDTO.toEntity(id, cw)));
+        return partner;
     }
 }
