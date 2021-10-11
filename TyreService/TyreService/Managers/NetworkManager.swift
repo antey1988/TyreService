@@ -9,7 +9,7 @@ import Foundation
 
 class NetworkManager {
     
-    func getParnersAndGroups(lat: Double, lon: Double, filterId: Int, complition: @escaping ((RequestStatus, [Partner]?, [FilterModel]?) -> Void)) {
+    func getPartners(lat: Double, lon: Double, filterId: Int, pageNumber: Int, complition: @escaping ((RequestStatus, [Partner]?, [FilterModel]?) -> Void)) {
         var partners: [Partner] = []
         
         switch filterId {
@@ -45,6 +45,11 @@ class NetworkManager {
             FilterModel(id: 3, name: "Фуры")
         ]
         
-        complition(.OK, partners, filter)
+        DispatchQueue.global().async {
+            usleep(700000)
+            DispatchQueue.main.async {
+                complition(.OK, partners, filter)
+            }
+        }
     }
 }

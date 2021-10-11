@@ -12,6 +12,8 @@ class PartnersViewController: UIViewController {
     @IBOutlet weak var filterCollectionView: UICollectionView!
     @IBOutlet weak var partnersTableView: UITableView!
     
+    var activityIndicator: UIActivityIndicatorView?
+    
     lazy var viewModel: PartnersListViewModel = {
         return PartnersListViewModel()
     }()
@@ -20,26 +22,45 @@ class PartnersViewController: UIViewController {
         super.viewDidLoad()
         initCollectionView()
         initTableView()
+        createActivityIndicator()
     }
     
     func initCollectionView() {
-        self.filterCollectionView.register(FilterCollectionViewCell.nib(), forCellWithReuseIdentifier: FilterCollectionViewCell.cellIdentifier)
-        self.filterCollectionView.delegate = self
-        self.filterCollectionView.dataSource = self
+        filterCollectionView.register(FilterCollectionViewCell.nib(), forCellWithReuseIdentifier: FilterCollectionViewCell.cellIdentifier)
+        filterCollectionView.delegate = self
+        filterCollectionView.dataSource = self
         viewModel.reloadFilter = { [weak self] in
             self?.filterCollectionView.reloadData()
         }
     }
     
     func initTableView() {
-        self.partnersTableView.register(PartnerTableViewCell.nib(), forCellReuseIdentifier: PartnerTableViewCell.cellIdentifier)
-        self.partnersTableView.delegate = self
-        self.partnersTableView.dataSource = self
+        partnersTableView.register(PartnerTableViewCell.nib(), forCellReuseIdentifier: PartnerTableViewCell.cellIdentifier)
+        partnersTableView.delegate = self
+        partnersTableView.dataSource = self
         viewModel.reloadPartners = { [weak self] in
             self?.partnersTableView.reloadData()
+            self?.stopActivityIndicator()
         }
+        
     }
 
+    func createActivityIndicator() {
+        activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator?.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: partnersTableView.bounds.width, height: CGFloat(50))
+        partnersTableView.tableFooterView = activityIndicator
+        partnersTableView.tableFooterView?.isHidden = true
+    }
+    
+    func startActivityIndicator() {
+        activityIndicator?.startAnimating()
+        partnersTableView.tableFooterView?.isHidden = false
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator?.stopAnimating()
+        partnersTableView.tableFooterView?.isHidden = true
+    }
 }
 
 extension PartnersViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -83,4 +104,13 @@ extension PartnersViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+       let lastSectionIndex = tableView.numberOfSections - 1
+       let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
+       if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
+           viewModel.loadMoreData()
+           startActivityIndicator()
+       }
+   }
 }
