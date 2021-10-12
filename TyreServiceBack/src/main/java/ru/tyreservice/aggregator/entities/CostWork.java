@@ -1,35 +1,27 @@
 package ru.tyreservice.aggregator.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.tyreservice.aggregator.domain.enums.StateWheelType;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "costs_works")
-//        ,uniqueConstraints = @UniqueConstraint(columnNames = {"partner_id", "work_id"}))
 public class CostWork {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
     @EmbeddedId
     private Id id = new Id();
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "partner_id", nullable = false, insertable = false, updatable = false)
-    private PartnerNew partner;
+    private Partner partner;
     @ManyToOne
     @JoinColumn(name = "work_id", nullable = false, insertable = false, updatable = false)
     private Work work;
     private Long price;
 
-    public CostWork(PartnerNew partner, Work work, Long price) {
+    public CostWork(Partner partner, Work work, Long price) {
         this.id.partnerId = partner.getId();
         this.id.workId = work.getId();
         this.partner = partner;

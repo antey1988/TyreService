@@ -2,7 +2,7 @@ package ru.tyreservice.aggregator.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.tyreservice.aggregator.domain.enums.StateCarType;
+import ru.tyreservice.aggregator.enums.StateCarType;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,7 +12,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "partners")
-public class PartnerNew {
+public class Partner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +35,6 @@ public class PartnerNew {
     @Column(nullable = false, name = "type")
     @Enumerated(value = EnumType.STRING)
     private StateCarType carType;
-    @OneToMany(mappedBy = "partner")
+    @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL)
     private Set<CostWork> costsWorks = new HashSet<>();
 }

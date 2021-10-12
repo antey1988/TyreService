@@ -1,85 +1,88 @@
 package ru.tyreservice.aggregator.services;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.tyreservice.aggregator.domain.entity.Partner;
-import ru.tyreservice.aggregator.domain.enums.StateCarType;
+import org.springframework.transaction.annotation.Transactional;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
+import ru.tyreservice.aggregator.dto.responses.StartInfoDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;
-import ru.tyreservice.aggregator.entities.PartnerNew;
-import ru.tyreservice.aggregator.repositories.PartnerNewRepository;
+import ru.tyreservice.aggregator.dto.responses.WorkResponseDTO;
+import ru.tyreservice.aggregator.entities.Partner;
+import ru.tyreservice.aggregator.enums.StateCarType;
+import ru.tyreservice.aggregator.enums.StateStatus;
 import ru.tyreservice.aggregator.repositories.PartnerRepository;
+import ru.tyreservice.aggregator.repositories.PartnerSpecification;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
-@AllArgsConstructor
 @Service
 public class PartnerServiceImpl implements PartnerService {
+    @Value(value = "${partners.sizepage}")
+    private int SIZE_PAGE;
+    private final PartnerRepository repository;
+    private final WorkService workService;
 
-    private final PartnerRepository partnerRepository;
-    private final PartnerNewRepository partnerNewRepository;
+    public PartnerServiceImpl(PartnerRepository repository, WorkService workService) {
+        this.repository = repository;
+        this.workService = workService;
+    }
 
     @Override
-    public List<PartnerResponseDTO> getPartners(String nameService, Integer page, StateCarType type) {
-        int sizePage = 2;
+    public List<PartnerResponseDTO> readListPartners(StateCarType type, String name, Long id, Integer page) {
+        int sizePage = SIZE_PAGE;
         int numberPage = page == null ? 0 : page;
         Sort sort = Sort.by(Sort.Order.desc("rank"), Sort.Order.asc("name"));
         Pageable pageable = PageRequest.of(numberPage, sizePage, sort);
 
-        Page<Partner> pagePartners = partnerRepository.findAll(pageable);
-//        List<Partner> partners_1 = partnerRepository.findAll();
-//        List<Partner> partners_2 = partnerRepository.findAll("Мон");
-//        List<Partner> partners_3 = partnerRepository.findAll("Дем");
-
-        List<PartnerResponseDTO> dtoEntity = pagePartners.getContent().stream().map(PartnerResponseDTO::of).collect(Collectors.toList());
+        Page<Partner> pagePartners = repository.findAll(PartnerSpecification.readPartnersByFilter(type, name, id), pageable);
+        List<Partner> partners = pagePartners.getContent();
+//        List<PartnerNew> partners = partnerNewRepository.findAll(PartnerSpecification.readPartnersByFilter(type, name, id));
+        List<PartnerResponseDTO> dtoEntity = partners.stream().map(PartnerResponseDTO::fromEntity).collect(Collectors.toList());
         return dtoEntity;
     }
 
     @Override
-    public List<PartnerResponseDTO> readListPartners(String nameService, Integer page, StateCarType type) {
-//        int sizePage = 2;
-//        int numberPage = page == null ? 0 : page;
-//        Sort sort = Sort.by(Sort.Order.desc("rank"), Sort.Order.asc("name"));
-//        Pageable pageable = PageRequest.of(numberPage, sizePage, sort);
-
-//        Page<Partner> pagePartners = partnerNewRepository.findAll(pageable);
-        List<PartnerNew> partners_1 = partnerNewRepository.findAll();
-//        List<Partner> partners_2 = partnerRepository.findAll("Мон");
-//        List<Partner> partners_3 = partnerRepository.findAll("Дем");
-
-//        List<PartnerResponseDTO> dtoEntity = pagePartners.getContent().stream().map(PartnerResponseDTO::of).collect(Collectors.toList());
-        List<PartnerResponseDTO> dtoEntity = partners_1.stream().map(PartnerResponseDTO::of).collect(Collectors.toList());
-        return dtoEntity;
+    public StartInfoDTO readStartInfo() {
+        List<StateCarType> types = StateCarType.getListStatuses();
+        List<PartnerResponseDTO> partners = readListPartners(null, null, null, null);
+        List<WorkResponseDTO> works = workService.readListWorks();
+        StartInfoDTO startInfo = new StartInfoDTO(types, works, partners);
+        return startInfo;
     }
 
     @Override
+    @Transactional
     public PartnerWithWorksResponseDTO readPartnerWithWorks(Long id) {
-        Optional<PartnerNew> optional = partnerNewRepository.findById(id);
-        if (optional.isPresent()) {
-            PartnerNew partner = optional.get();
-            return PartnerWithWorksResponseDTO.of(partner);
-        }
-        return null;
+        Partner partner = findById(id);
+        return PartnerWithWorksResponseDTO.fromEntity(partner);
     }
 
     @Override
-    public PartnerWithWorksResponseDTO createPartnerWithWorks(PartnerRequestDTO partnerRequestDTO) {
-        PartnerNew partner = PartnerRequestDTO.onCreate(partnerRequestDTO);
-        partner = partnerNewRepository.save(partner);
-        return PartnerWithWorksResponseDTO.of(partner);
+    public PartnerWithWorksResponseDTO createPartner(PartnerRequestDTO partnerRequest) {
+        Partner partner = PartnerRequestDTO.onCreate(partnerRequest);
+        partner = repository.save(partner);
+        return PartnerWithWorksResponseDTO.fromEntity(partner);
     }
 
     @Override
-    public PartnerWithWorksResponseDTO updatePartnerWithWorks(Long id, PartnerRequestDTO partnerRequestDTO) {
-        return null;
+    @Transactional
+    public PartnerWithWorksResponseDTO updatePartner(Long id, PartnerRequestDTO partnerRequest) {
+        Partner partner = findById(id);
+        PartnerRequestDTO.onUpdate(partner, partnerRequest);
+        return PartnerWithWorksResponseDTO.fromEntity(partner);
+    }
+
+    private Partner findById(Long id) {
+        Optional<Partner> optional = repository.findById(id);
+        return optional.orElseThrow(RuntimeException::new);
     }
 }

@@ -2,7 +2,7 @@ package ru.tyreservice.aggregator.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.tyreservice.aggregator.domain.enums.StateWheelType;
+import ru.tyreservice.aggregator.enums.StateWheelType;
 
 import javax.persistence.*;
 

@@ -2,7 +2,7 @@ package ru.tyreservice.aggregator.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.tyreservice.aggregator.domain.enums.StateStatus;
+import ru.tyreservice.aggregator.enums.StateStatus;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "orderss")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "partner_id")
-    private PartnerNew partner;
+    private Partner partner;
 
     @Column(nullable = false, name = "create_date")
     private Date createDate;
@@ -37,8 +37,6 @@ public class Order {
     @Column(name = "auto")
     private String auto;
 
-    @Column(name = "price")
-    private int fullPrice;
     @ElementCollection
     @CollectionTable(name = "lines_order",
             joinColumns = @JoinColumn(name = "order_id", nullable = false))
