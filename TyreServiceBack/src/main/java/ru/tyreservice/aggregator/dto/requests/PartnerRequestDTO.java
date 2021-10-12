@@ -4,12 +4,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import ru.tyreservice.aggregator.domain.enums.StateCarType;
 import ru.tyreservice.aggregator.entities.CostWork;
-import ru.tyreservice.aggregator.entities.PartnerNew;
+import ru.tyreservice.aggregator.entities.Partner;
+import ru.tyreservice.aggregator.enums.StateCarType;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -39,8 +38,8 @@ public class PartnerRequestDTO {
     @Schema(description = "Списк оказываемых услуг")
     private Set<CostWorkRequestDTO> works;
 
-    public static PartnerNew onCreate(PartnerRequestDTO partnerRequest) {
-        PartnerNew partnerNew = new PartnerNew();
+    public static Partner onCreate(PartnerRequestDTO partnerRequest) {
+        Partner partnerNew = new Partner();
         partnerNew.setName(partnerRequest.name);
         partnerNew.setAddress(partnerRequest.address);
         partnerNew.setEmail(partnerRequest.email);
@@ -51,7 +50,7 @@ public class PartnerRequestDTO {
         return partnerNew;
     }
 
-    public static PartnerNew onUpdate(PartnerNew partner, PartnerRequestDTO partnerRequest) {
+    public static Partner onUpdate(Partner partner, PartnerRequestDTO partnerRequest) {
         partner.setName(partnerRequest.name);
         partner.setAddress(partnerRequest.address);
         partner.setEmail(partnerRequest.email);

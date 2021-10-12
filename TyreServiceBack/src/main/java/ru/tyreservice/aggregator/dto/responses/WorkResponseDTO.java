@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import ru.tyreservice.aggregator.entities.LineOrder;
 import ru.tyreservice.aggregator.entities.Work;
 
 @Getter

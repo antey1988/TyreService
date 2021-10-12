@@ -7,13 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.tyreservice.aggregator.dto.requests.CostWorkRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.CostWorkResponseDTO;
 import ru.tyreservice.aggregator.entities.CostWork;
-import ru.tyreservice.aggregator.entities.PartnerNew;
-import ru.tyreservice.aggregator.entities.Work;
 import ru.tyreservice.aggregator.repositories.CostWorkRepository;
-import ru.tyreservice.aggregator.repositories.PartnerNewRepository;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j

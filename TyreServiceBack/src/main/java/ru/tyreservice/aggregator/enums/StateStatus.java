@@ -1,4 +1,4 @@
-package ru.tyreservice.aggregator.domain.enums;
+package ru.tyreservice.aggregator.enums;
 
 public enum StateStatus {
     CANCEL, DONE, WAITING

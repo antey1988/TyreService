@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import ru.tyreservice.aggregator.domain.enums.StateCarType;
-import ru.tyreservice.aggregator.entities.PartnerNew;
+import ru.tyreservice.aggregator.entities.Partner;
+import ru.tyreservice.aggregator.enums.StateCarType;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,7 +42,7 @@ public class PartnerWithWorksResponseDTO {
     @Schema(description = "Список оказываемых услуг со стоимостью")
     private Set<CostWorkResponseDTO> works;
 
-    public static PartnerWithWorksResponseDTO fromEntity(PartnerNew partner) {
+    public static PartnerWithWorksResponseDTO fromEntity(Partner partner) {
         return new PartnerWithWorksResponseDTO(
                 partner.getId(),
                 partner.getName(),

@@ -1,6 +1,6 @@
 package ru.tyreservice.aggregator.services;
 
-import ru.tyreservice.aggregator.domain.enums.StateCarType;
+import ru.tyreservice.aggregator.enums.StateCarType;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;

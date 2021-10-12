@@ -15,13 +15,13 @@ public class CostWork {
     private Id id = new Id();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "partner_id", nullable = false, insertable = false, updatable = false)
-    private PartnerNew partner;
+    private Partner partner;
     @ManyToOne
     @JoinColumn(name = "work_id", nullable = false, insertable = false, updatable = false)
     private Work work;
     private Long price;
 
-    public CostWork(PartnerNew partner, Work work, Long price) {
+    public CostWork(Partner partner, Work work, Long price) {
         this.id.partnerId = partner.getId();
         this.id.workId = work.getId();
         this.partner = partner;
