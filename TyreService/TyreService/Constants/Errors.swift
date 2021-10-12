@@ -19,4 +19,6 @@ class Errors {
     static let passwordDiscrepancy = "Пароли не совпадают"
     static let somethingWentWrong = "Что-то пошло не так"
     static let smallPassword = "Пароль должен содержать не менее шести символов"
+    static let emptyOrIncorrectEmail = "Введите email или проверьте его корректность"
+    static let correctEmail = "correctEmail"
 }
