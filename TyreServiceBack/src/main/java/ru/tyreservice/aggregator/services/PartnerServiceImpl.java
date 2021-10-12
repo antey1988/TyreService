@@ -9,10 +9,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
+import ru.tyreservice.aggregator.dto.responses.StartInfoDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;
+import ru.tyreservice.aggregator.dto.responses.WorkResponseDTO;
 import ru.tyreservice.aggregator.entities.Partner;
 import ru.tyreservice.aggregator.enums.StateCarType;
+import ru.tyreservice.aggregator.enums.StateStatus;
 import ru.tyreservice.aggregator.repositories.PartnerRepository;
 import ru.tyreservice.aggregator.repositories.PartnerSpecification;
 
@@ -26,9 +29,11 @@ public class PartnerServiceImpl implements PartnerService {
     @Value(value = "${partners.sizepage}")
     private int SIZE_PAGE;
     private final PartnerRepository repository;
+    private final WorkService workService;
 
-    public PartnerServiceImpl(PartnerRepository repository) {
+    public PartnerServiceImpl(PartnerRepository repository, WorkService workService) {
         this.repository = repository;
+        this.workService = workService;
     }
 
     @Override
@@ -43,6 +48,15 @@ public class PartnerServiceImpl implements PartnerService {
 //        List<PartnerNew> partners = partnerNewRepository.findAll(PartnerSpecification.readPartnersByFilter(type, name, id));
         List<PartnerResponseDTO> dtoEntity = partners.stream().map(PartnerResponseDTO::fromEntity).collect(Collectors.toList());
         return dtoEntity;
+    }
+
+    @Override
+    public StartInfoDTO readStartInfo() {
+        List<StateCarType> types = StateCarType.getListStatuses();
+        List<PartnerResponseDTO> partners = readListPartners(null, null, null, null);
+        List<WorkResponseDTO> works = workService.readListWorks();
+        StartInfoDTO startInfo = new StartInfoDTO(types, works, partners);
+        return startInfo;
     }
 
     @Override

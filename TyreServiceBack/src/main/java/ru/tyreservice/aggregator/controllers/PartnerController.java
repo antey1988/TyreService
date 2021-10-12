@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import ru.tyreservice.aggregator.dto.responses.StartInfoDTO;
 import ru.tyreservice.aggregator.enums.StateCarType;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
@@ -35,6 +36,15 @@ public class PartnerController {
         String params = name != null ? "?name="+name : "";
         log.info(String.format(REQUEST, GET, params));
         return partnerService.readListPartners(type, name, id , page);
+    }
+
+    @GetMapping(value = "/start")
+    @Operation(summary = "Список партнеров", description = "Получение списка партнеров, списка всевозможных услуг и типов сервисов." +
+            "Первичный запрос при запуске приложения")
+    public StartInfoDTO readStartInfo() {
+        String params = "";
+        log.info(String.format("Request: %s http://localhost:8080/api/start", GET));
+        return partnerService.readStartInfo();
     }
 
     @GetMapping(value = "/partners/{id}")
