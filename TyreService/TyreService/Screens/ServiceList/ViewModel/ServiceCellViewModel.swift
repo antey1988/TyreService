@@ -7,10 +7,10 @@
 
 import Foundation
 
-class PartnerCellViewModel {
-    var partner: Partner
+class ServiceCellViewModel {
+    var service: Service
     
-    required init(partnerInfo: Partner) {
-        self.partner = partnerInfo
+    required init(service: Service) {
+        self.service = service
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PartnerTableViewCell: UITableViewCell {
+class ServiceViewCell: UITableViewCell {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -20,7 +20,7 @@ class PartnerTableViewCell: UITableViewCell {
     @IBOutlet weak var distanceView: UIView!
     @IBOutlet weak var distanceLabel: UILabel!
     
-    static let cellIdentifier = "PartnerTableViewCell"
+    static let cellIdentifier = "ServiceViewCell"
 
     static func nib() -> UINib {
         return UINib(nibName: cellIdentifier, bundle: nil)
@@ -50,7 +50,10 @@ class PartnerTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    public func configure(viewModel: PartnerCellViewModel) {
-       
+    public func configure(viewModel: ServiceCellViewModel) {
+        nameLabel.text = viewModel.service.name
+        ratingLabel.text = viewModel.service.rank.description
+        descriptionLabel.text = viewModel.service.description
+        addressLabel.text = viewModel.service.address
     }
 }

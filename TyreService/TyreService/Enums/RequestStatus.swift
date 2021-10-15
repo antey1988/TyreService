@@ -8,6 +8,6 @@
 import Foundation
 
 enum RequestStatus: String {
-    case OK = "OK"
-    case ERROR = "ERROR"
+    case ok
+    case error
 }
