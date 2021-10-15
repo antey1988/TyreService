@@ -7,22 +7,27 @@
 
 import UIKit
 
-class PartnersViewController: UIViewController {
+class ServicesListViewController: UIViewController {
 
     @IBOutlet weak var filterCollectionView: UICollectionView!
     @IBOutlet weak var partnersTableView: UITableView!
     
     var activityIndicator: UIActivityIndicatorView?
     
-    lazy var viewModel: PartnersListViewModel = {
-        return PartnersListViewModel()
+    lazy var viewModel: ServiceListViewModel = {
+        return ServiceListViewModel()
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = ""
         initCollectionView()
         initTableView()
         createActivityIndicator()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     func initCollectionView() {
@@ -35,7 +40,7 @@ class PartnersViewController: UIViewController {
     }
     
     func initTableView() {
-        partnersTableView.register(PartnerTableViewCell.nib(), forCellReuseIdentifier: PartnerTableViewCell.cellIdentifier)
+        partnersTableView.register(ServiceViewCell.nib(), forCellReuseIdentifier: ServiceViewCell.cellIdentifier)
         partnersTableView.delegate = self
         partnersTableView.dataSource = self
         viewModel.reloadPartners = { [weak self] in
@@ -43,6 +48,13 @@ class PartnersViewController: UIViewController {
             self?.stopActivityIndicator()
         }
         
+        viewModel.stopLoadIndicator = { [weak self] in
+            self?.stopActivityIndicator()
+        }
+        
+        viewModel.startLoadIndicator = { [weak self] in
+            self?.startActivityIndicator()
+        }
     }
 
     func createActivityIndicator() {
@@ -63,7 +75,7 @@ class PartnersViewController: UIViewController {
     }
 }
 
-extension PartnersViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ServicesListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.getNumberGroupsCell()
     }
@@ -90,13 +102,13 @@ extension PartnersViewController: UICollectionViewDelegate, UICollectionViewData
     }
 }
 
-extension PartnersViewController: UITableViewDelegate, UITableViewDataSource {
+extension ServicesListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.getNumberPartnerCell()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PartnerTableViewCell.cellIdentifier, for: indexPath) as! PartnerTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ServiceViewCell.cellIdentifier, for: indexPath) as! ServiceViewCell
         cell.configure(viewModel: viewModel.getPartnerViewModelById(id: indexPath.row))
         return cell
     }
@@ -110,7 +122,14 @@ extension PartnersViewController: UITableViewDelegate, UITableViewDataSource {
        let lastRowIndex = tableView.numberOfRows(inSection: lastSectionIndex) - 1
        if indexPath.section == lastSectionIndex && indexPath.row == lastRowIndex {
            viewModel.loadMoreData()
-           startActivityIndicator()
        }
    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "ServiceInfo", bundle:nil)
+        let serviceInfoVC = storyBoard.instantiateViewController(withIdentifier: "ServiceInfoVC") as! ServiceInfoViewController
+        serviceInfoVC.viewModel = viewModel.getServiceInfoViewModel(index: indexPath.row)
+        self.navigationController?.pushViewController(serviceInfoVC, animated: true)
+    }
 }

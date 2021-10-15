@@ -7,14 +7,15 @@
 
 import Foundation
 
-class PartnersListViewModel {
-    private var partnersCellViewModel: [PartnerCellViewModel] = []
+class ServiceListViewModel {
+    private var servicesCellViewModel: [ServiceCellViewModel] = []
     private var filtersCellViewModel: [FilterCellViewModel] = []
     private var networkManager: NetworkManager!
     private var selectedFilterId = 0
     private var allServices = false
     private var pageNumber = 1 {
         didSet {
+            startLoadIndicator?()
             if pageNumber == 1 {
                 allServices = false
             }
@@ -22,8 +23,12 @@ class PartnersListViewModel {
         }
     }
     
+    private var serviceInfoViewModel: ServiceInfoViewModel!
+    
     var reloadPartners: (()->())?
     var reloadFilter: (()->())?
+    var startLoadIndicator: (()->())?
+    var stopLoadIndicator: (()->())?
 
     required init() {
         networkManager = NetworkManager()
@@ -31,7 +36,7 @@ class PartnersListViewModel {
     }
     
     private func initPartnersAndGroups() {
-        networkManager.getPartners(lat: 55.751244, lon: 37.618423, filterId: selectedFilterId, pageNumber: pageNumber) { [weak self] status, partners, filters in
+        networkManager.getServicesAndFilters() { [weak self] status, partners, filters in
             switch status {
             case .OK:
                 if let partners = partners {
@@ -50,9 +55,10 @@ class PartnersListViewModel {
     }
     
     private func updatePartners() {
-        networkManager.getPartners(lat: 55.751244, lon: 37.618423, filterId: selectedFilterId, pageNumber: pageNumber) { [weak self] status, partners, filters in
+        networkManager.getPartners(lat: 55.751244, lon: 37.618423, filterId: selectedFilterId, pageNumber: pageNumber) { [weak self] status, partners in
             switch status {
             case .OK:
+                self?.stopLoadIndicator?()
                 self?.allServices = partners?.count == 0
                 if let partners = partners {
                     self?.initPartnersViewModel(partners: partners)
@@ -74,12 +80,12 @@ class PartnersListViewModel {
         }
     }
     
-    private func initPartnersViewModel(partners: [Partner]) {
+    private func initPartnersViewModel(partners: [Service]) {
         if pageNumber == 1 {
-            partnersCellViewModel = []
+            servicesCellViewModel = []
         }
         partners.forEach { partner in
-            partnersCellViewModel.append(PartnerCellViewModel(partnerInfo: partner))
+            servicesCellViewModel.append(ServiceCellViewModel(service: partner))
         }
     }
     
@@ -88,15 +94,15 @@ class PartnersListViewModel {
     }
     
     public func getNumberPartnerCell() -> Int {
-        return partnersCellViewModel.count
+        return servicesCellViewModel.count
     }
     
     public func getGroupViewModelById(id: Int) -> FilterCellViewModel {
         return filtersCellViewModel[id]
     }
     
-    public func getPartnerViewModelById(id: Int) -> PartnerCellViewModel {
-        return partnersCellViewModel[id]
+    public func getPartnerViewModelById(id: Int) -> ServiceCellViewModel {
+        return servicesCellViewModel[id]
     }
     
     public func changeSelectedFilterId(index: Int) {
@@ -115,5 +121,10 @@ class PartnersListViewModel {
         if !allServices {
             pageNumber += 1
         }
+    }
+    
+    public func getServiceInfoViewModel(index: Int) -> ServiceInfoViewModel {
+        serviceInfoViewModel = ServiceInfoViewModel(partner: servicesCellViewModel[index].service)
+        return serviceInfoViewModel
     }
 }

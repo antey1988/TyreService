@@ -8,6 +8,6 @@
 import Foundation
 
 struct FilterModel {
-    var id: Int
-    var name: String
+    let id: Int
+    let name: String
 }
