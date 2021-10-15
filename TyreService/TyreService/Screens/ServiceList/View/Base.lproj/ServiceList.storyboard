@@ -15,6 +15,7 @@
         <scene sceneID="5gX-Nc-yMw">
             <objects>
                 <navigationController navigationBarHidden="YES" id="BaA-zY-kpu" sceneMemberID="viewController">
+                    <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="j88-PT-hR4">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -46,14 +47,13 @@
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" systemColor="systemBackgroundColor"/>
-                                            <imageReference key="image" image="line.3.horizontal" catalog="system" symbolScale="large"/>
+                                            <imageReference key="image" image="line.horizontal.3" catalog="system" symbolScale="large"/>
                                         </state>
                                     </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Поиск по услугам" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qqf-wd-VhY">
+                                    <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="PFZ-1a-SlY">
                                         <rect key="frame" x="73" y="8" width="248" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
-                                    </textField>
+                                    </searchBar>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSW-ky-ECc">
                                         <rect key="frame" x="336" y="8" width="50" height="50"/>
                                         <constraints>
@@ -119,6 +119,7 @@
                     <connections>
                         <outlet property="filterCollectionView" destination="UEz-uQ-6QB" id="2os-fd-ITX"/>
                         <outlet property="partnersTableView" destination="ypa-nw-YQZ" id="cyq-Co-dRd"/>
+                        <outlet property="searchBar" destination="PFZ-1a-SlY" id="69Y-e6-Ah6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -129,7 +130,7 @@
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
         <image name="arrow.up.arrow.down" catalog="system" width="128" height="98"/>
-        <image name="line.3.horizontal" catalog="system" width="128" height="64"/>
+        <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
         <namedColor name="buttonColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>

@@ -7,12 +7,14 @@
 
 import Foundation
 
-class FilterCellViewModel {
-    var filter: FilterModel
+class CarTypeCellViewModel {
+    let key: String
+    let name: String
     var isSelected: Bool
     
-    required init(filter: FilterModel, isSelected: Bool) {
-        self.filter = filter
+    required init(key: String, name: String, isSelected: Bool) {
+        self.key = key
+        self.name = name
         self.isSelected = isSelected
     }
 }

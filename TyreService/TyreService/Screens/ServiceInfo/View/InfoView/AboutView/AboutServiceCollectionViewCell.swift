@@ -7,9 +7,9 @@
 
 import UIKit
 
-class ServicesCollectionViewCell: UICollectionViewCell {
+class AboutServiceCollectionViewCell: UICollectionViewCell {
 
-    static let cellIdentifier = "ServicesCollectionViewCell"
+    static let cellIdentifier = "AboutServiceCollectionViewCell"
     @IBOutlet weak var buttonRegistrationService: UIButton!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var servicesLabel: UILabel!
@@ -30,9 +30,9 @@ class ServicesCollectionViewCell: UICollectionViewCell {
         return UINib(nibName: cellIdentifier, bundle: nil)
     }
     
-    public func configure(viewModel: ServicesCellViewModel) {
+    public func configure(viewModel: AboutCellViewModel) {
         descriptionLabel.text = viewModel.description
-        servicesLabel.text = ""
+        servicesLabel.text = viewModel.works
     }
 
     @IBAction func actionRegistrationService(_ sender: Any) {

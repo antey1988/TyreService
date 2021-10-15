@@ -11,6 +11,7 @@ class ServicesListViewController: UIViewController {
 
     @IBOutlet weak var filterCollectionView: UICollectionView!
     @IBOutlet weak var partnersTableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var activityIndicator: UIActivityIndicatorView?
     
@@ -20,18 +21,25 @@ class ServicesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = ""
-        initCollectionView()
-        initTableView()
-        createActivityIndicator()
+        initView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
+    func initView() {
+        title = ""
+        searchBar.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        initCollectionView()
+        initTableView()
+        createActivityIndicator()
+    }
+    
     func initCollectionView() {
-        filterCollectionView.register(FilterCollectionViewCell.nib(), forCellWithReuseIdentifier: FilterCollectionViewCell.cellIdentifier)
+        filterCollectionView.register(CarTypeCollectionViewCell.nib(), forCellWithReuseIdentifier: CarTypeCollectionViewCell.cellIdentifier)
         filterCollectionView.delegate = self
         filterCollectionView.dataSource = self
         viewModel.reloadFilter = { [weak self] in
@@ -73,6 +81,23 @@ class ServicesListViewController: UIViewController {
         activityIndicator?.stopAnimating()
         partnersTableView.tableFooterView?.isHidden = true
     }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            self.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - keyboardSize.height)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if touches.first != nil{
+            view.endEditing(true)
+        }
+        super.touchesBegan(touches, with: event)
+    }
 }
 
 extension ServicesListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -81,14 +106,14 @@ extension ServicesListViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterCollectionViewCell.cellIdentifier, for: indexPath) as! FilterCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarTypeCollectionViewCell.cellIdentifier, for: indexPath) as! CarTypeCollectionViewCell
         cell.configure(viewModel: viewModel.getGroupViewModelById(id: indexPath.row))
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellViewModel = viewModel.getGroupViewModelById(id: indexPath.row)
-        let width = cellViewModel.filter.name.widthOfString(font: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body))
+        let width = cellViewModel.name.widthOfString(font: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body))
         return CGSize(width: width + 40, height: collectionView.frame.height)
     }
 
@@ -98,7 +123,8 @@ extension ServicesListViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.changeSelectedFilterId(index: indexPath.row)
-        self.filterCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        filterCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        searchBar.endEditing(true)
     }
 }
 
@@ -130,6 +156,18 @@ extension ServicesListViewController: UITableViewDelegate, UITableViewDataSource
         let storyBoard : UIStoryboard = UIStoryboard(name: "ServiceInfo", bundle:nil)
         let serviceInfoVC = storyBoard.instantiateViewController(withIdentifier: "ServiceInfoVC") as! ServiceInfoViewController
         serviceInfoVC.viewModel = viewModel.getServiceInfoViewModel(index: indexPath.row)
-        self.navigationController?.pushViewController(serviceInfoVC, animated: true)
+        navigationController?.pushViewController(serviceInfoVC, animated: true)
+        searchBar.endEditing(true)
     }
+}
+
+extension ServicesListViewController: UISearchBarDelegate{
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.keyupSearchBar(text: searchText)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
+    
 }

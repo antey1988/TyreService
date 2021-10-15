@@ -8,9 +8,9 @@
 import UIKit
 import MapKit
 
-class ContacntsCollectionViewCell: UICollectionViewCell {
+class ContactsCollectionViewCell: UICollectionViewCell {
 
-    static let cellIdentifier = "ContacntsCollectionViewCell"
+    static let cellIdentifier = "ContactsCollectionViewCell"
     @IBOutlet weak var buttonMakeCall: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var addressLabel: UILabel!

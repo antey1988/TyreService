@@ -9,21 +9,28 @@ import Foundation
 
 class ServiceListViewModel {
     private var servicesCellViewModel: [ServiceCellViewModel] = []
-    private var filtersCellViewModel: [FilterCellViewModel] = []
+    private var filtersCellViewModel: [CarTypeCellViewModel] = []
+    private var serviceInfoViewModel: ServiceInfoViewModel!
     private var networkManager: NetworkManager!
-    private var selectedFilterId = 0
+    private var selectedFilterId = ""
     private var allServices = false
-    private var pageNumber = 1 {
+    private var debounce_timer:Timer?
+    private var searchText = "" {
+        didSet {
+            debounce_timer?.invalidate()
+            debounce_timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
+                self?.updatePartners(page: 0)
+            }
+        }
+    }
+    private var pageNumber = 0 {
         didSet {
             startLoadIndicator?()
-            if pageNumber == 1 {
-                allServices = false
-            }
-            updatePartners()
+            allServices = pageNumber != 0
+            updatePartners(page: pageNumber)
         }
     }
     
-    private var serviceInfoViewModel: ServiceInfoViewModel!
     
     var reloadPartners: (()->())?
     var reloadFilter: (()->())?
@@ -36,56 +43,54 @@ class ServiceListViewModel {
     }
     
     private func initPartnersAndGroups() {
-        networkManager.getServicesAndFilters() { [weak self] status, partners, filters in
+        networkManager.getServicesAndFilters() { [weak self] (status, services, filters) in
             switch status {
-            case .OK:
-                if let partners = partners {
-                    self?.initPartnersViewModel(partners: partners)
+            case .ok:
+                if let services = services {
+                    self?.initPartnersViewModel(services: services)
                 }
                 if let filters = filters {
-                    self?.initGroupsViewModel(filters: filters)
+                    self?.initGroupsViewModel(carTypes: filters)
                 }
                 self?.reloadPartners?()
                 self?.reloadFilter?()
                 break
-            case .ERROR:
+            case .error:
                 break
             }
         }
     }
     
-    private func updatePartners() {
-        networkManager.getPartners(lat: 55.751244, lon: 37.618423, filterId: selectedFilterId, pageNumber: pageNumber) { [weak self] status, partners in
+    private func updatePartners(page: Int) {
+        networkManager.getServices(filterCarType: selectedFilterId, pageNumber: page, search: searchText) { [weak self] (status, services) in
             switch status {
-            case .OK:
+            case .ok:
                 self?.stopLoadIndicator?()
-                self?.allServices = partners?.count == 0
-                if let partners = partners {
-                    self?.initPartnersViewModel(partners: partners)
+                self?.allServices = services?.count == 0
+                if let services = services {
+                    if page == 0 {
+                        self?.servicesCellViewModel = []
+                    }
+                    self?.initPartnersViewModel(services: services)
                 }
                 self?.reloadPartners?()
                 break
-            case .ERROR:
+            case .error:
                 break
             }
         }
     }
     
-    private func initGroupsViewModel(filters: [FilterModel]) {
-        if pageNumber == 1 {
-            filtersCellViewModel = []
-        }
-        filters.forEach { filter in
-            filtersCellViewModel.append(FilterCellViewModel(filter: filter, isSelected: filter.id == selectedFilterId))
+    private func initGroupsViewModel(carTypes: [CarType]) {
+        filtersCellViewModel = [CarTypeCellViewModel(key: "", name: "Все", isSelected: true)]
+        carTypes.forEach { type in
+            filtersCellViewModel.append(CarTypeCellViewModel(key: type.key, name: type.name, isSelected: false))
         }
     }
     
-    private func initPartnersViewModel(partners: [Service]) {
-        if pageNumber == 1 {
-            servicesCellViewModel = []
-        }
-        partners.forEach { partner in
-            servicesCellViewModel.append(ServiceCellViewModel(service: partner))
+    private func initPartnersViewModel(services: [Service]) {
+        services.forEach { service in
+            servicesCellViewModel.append(ServiceCellViewModel(service: service))
         }
     }
     
@@ -97,7 +102,7 @@ class ServiceListViewModel {
         return servicesCellViewModel.count
     }
     
-    public func getGroupViewModelById(id: Int) -> FilterCellViewModel {
+    public func getGroupViewModelById(id: Int) -> CarTypeCellViewModel {
         return filtersCellViewModel[id]
     }
     
@@ -106,13 +111,13 @@ class ServiceListViewModel {
     }
     
     public func changeSelectedFilterId(index: Int) {
-        let selectedId = filtersCellViewModel[index].filter.id
+        let selectedId = filtersCellViewModel[index].key
         if selectedId != selectedFilterId {
             selectedFilterId = selectedId
             filtersCellViewModel.forEach { filterViewModel in
-                filterViewModel.isSelected = filterViewModel.filter.id == selectedId
+                filterViewModel.isSelected = filterViewModel.key == selectedId
             }
-            pageNumber = 1
+            pageNumber = 0
             reloadFilter?()
         }
     }
@@ -124,7 +129,11 @@ class ServiceListViewModel {
     }
     
     public func getServiceInfoViewModel(index: Int) -> ServiceInfoViewModel {
-        serviceInfoViewModel = ServiceInfoViewModel(partner: servicesCellViewModel[index].service)
+        serviceInfoViewModel = ServiceInfoViewModel(service: servicesCellViewModel[index].service)
         return serviceInfoViewModel
+    }
+    
+    public func keyupSearchBar(text: String) {
+        searchText = text
     }
 }

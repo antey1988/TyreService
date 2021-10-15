@@ -8,15 +8,21 @@
 import Foundation
 
 struct ServiceInitData: Decodable {
-    //let types: [String]
+    let types: [CarType]
     let works: [TypeService]
     let partners: [Service]
+}
+
+struct CarType: Decodable {
+    let key: String
+    let name: String
 }
 
 struct TypeService: Decodable {
     let id: Int
     let name: String
-    let description: String
+    let price: Int?
+    let description: String?
 }
 
 struct Service: Decodable {
@@ -31,4 +37,5 @@ struct Service: Decodable {
     let phone: String
     let rank: Double
     let carType: String
+    let works: [TypeService]?
 }

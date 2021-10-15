@@ -8,10 +8,11 @@
 import Foundation
 
 class ServiceInfoViewModel {
-    private var partner: Service
+    private var service: Service?
     private var menuListCellViewModel: [MenuCellServiceInfoViewModel] = []
     private var contactsCellViewModel: ContactsCellViewModel
-    private var servicesCellViewModel: ServicesCellViewModel
+    private var aboutServiceCellViewModel: AboutCellViewModel
+    private var networkManager: NetworkManager
     private var selectedMenuItem: Int = 0 {
         didSet {
             menuListCellViewModel.forEach { menuItemViewModel in
@@ -22,20 +23,43 @@ class ServiceInfoViewModel {
     }
     
     var reloadMenu: (()->())?
+    var reloadInfo: (()->())?
     
-    required init(partner: Service) {
-        self.partner = partner
-        self.servicesCellViewModel = ServicesCellViewModel(description: partner.description)
-        self.contactsCellViewModel = ContactsCellViewModel(longitude: partner.longitude,
-                                                           latitude: partner.latitude,
-                                                           address: partner.address,
-                                                           workTime: partner.schedule,
-                                                           phone: partner.phone)
+    required init(service: Service) {
+        self.service = service
+        networkManager = NetworkManager()
+        aboutServiceCellViewModel = AboutCellViewModel(viewModel: service)
+        contactsCellViewModel = ContactsCellViewModel(longitude: service.longitude,
+                                                           latitude: service.latitude,
+                                                           address: service.address,
+                                                           workTime: service.schedule,
+                                                           phone: service.phone)
+        getFullInfoService(idService: service.id)
         createMenu()
     }
     
+    private func getFullInfoService(idService: Int) {
+        networkManager.getFullInfoService(id: idService) { [weak self] (status, service) in
+            switch status {
+            case .ok:
+                guard let service = service else { return }
+                self?.service = service
+                self?.aboutServiceCellViewModel = AboutCellViewModel(viewModel: service)
+                self?.contactsCellViewModel = ContactsCellViewModel(longitude: service.longitude,
+                                                                   latitude: service.latitude,
+                                                                   address: service.address,
+                                                                   workTime: service.schedule,
+                                                                   phone: service.phone)
+                self?.reloadInfo?()
+                break
+            case .error:
+                break
+            }
+        }
+    }
+    
     private func createMenu() {
-        menuListCellViewModel.append(MenuCellServiceInfoViewModel(id: 0, title: "Услуги", isSelected: true))
+        menuListCellViewModel.append(MenuCellServiceInfoViewModel(id: 0, title: "О сервисе", isSelected: true))
         menuListCellViewModel.append(MenuCellServiceInfoViewModel(id: 1, title: "Контакты", isSelected: false))
         menuListCellViewModel.append(MenuCellServiceInfoViewModel(id: 2, title: "Отзывы", isSelected: false))
     }
@@ -52,8 +76,8 @@ class ServiceInfoViewModel {
        selectedMenuItem = index
     }
     
-    public func getServicesCellViewModel() -> ServicesCellViewModel {
-        return servicesCellViewModel
+    public func getAboutServiceCellViewModel() -> AboutCellViewModel {
+        return aboutServiceCellViewModel
     }
     
     public func getContactsCellViewModel() -> ContactsCellViewModel {
@@ -61,6 +85,9 @@ class ServiceInfoViewModel {
     }
     
     public func getServiceName() -> String {
-        return partner.name
+        guard let service = service else {
+            return ""
+        }
+        return service.name
     }
 }

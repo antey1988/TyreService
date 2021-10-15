@@ -7,11 +7,11 @@
 
 import UIKit
 
-class FilterCollectionViewCell: UICollectionViewCell {
+class CarTypeCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var text: UILabel!
     
-    static let cellIdentifier = "FilterCollectionViewCell"
+    static let cellIdentifier = "CarTypeCollectionViewCell"
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,8 +26,8 @@ class FilterCollectionViewCell: UICollectionViewCell {
         return UINib(nibName: cellIdentifier, bundle: nil)
     }
     
-    public func configure(viewModel: FilterCellViewModel) {
-        self.text.text = viewModel.filter.name
+    public func configure(viewModel: CarTypeCellViewModel) {
+        self.text.text = viewModel.name
         if viewModel.isSelected {
             self.backgroundColor = UIColor.systemGray.withAlphaComponent(0.3)
         } else {

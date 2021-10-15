@@ -10,26 +10,36 @@ import Alamofire
 
 class NetworkManager {
     
-    func getServicesAndFilters(complition: @escaping ((RequestStatus, [Service]?, [FilterModel]?) -> Void)) {
-        let filter = [
-            FilterModel(id: 0, name: "Все"),
-            FilterModel(id: 1, name: "Грузовые"),
-            FilterModel(id: 2, name: "Легковые"),
-            FilterModel(id: 3, name: "Фуры")
-        ]
-        
+    func getServicesAndFilters(complition: @escaping ((RequestStatus, [Service]?, [CarType]?) -> Void)) {
         AF.request("http://194.67.91.182:8081/api").validate().responseDecodable(of: ServiceInitData.self) { (response) in
-            guard let data = response.value else { return }
-            complition(.OK, data.partners, filter)
+            guard let data = response.value else {
+                complition(.error, nil, nil)
+                return
+            }
+            complition(.ok, data.partners, data.types)
         }
     }
     
-    func getPartners(lat: Double, lon: Double, filterId: Int, pageNumber: Int, complition: @escaping ((RequestStatus, [Service]?) -> Void)) {
-        DispatchQueue.global().async {
-            usleep(700000)
-            DispatchQueue.main.async {
-                complition(.OK, [])
+    func getServices(filterCarType: String, pageNumber: Int, search: String, complition: @escaping ((RequestStatus, [Service]?) -> Void)) {
+        let searchString = search.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+        let url = "http://194.67.91.182:8081/api/partners?type=\(filterCarType)&name=\(searchString)&page=\(pageNumber)"
+        AF.request(url).validate().responseDecodable(of: [Service].self) { (response) in
+            guard let data = response.value else {
+                complition(.error, nil)
+                return
             }
+            complition(.ok, data)
+        }
+    }
+    
+    func getFullInfoService(id: Int, complition: @escaping ((RequestStatus, Service?) -> Void)) {
+        let url = "http://194.67.91.182:8081/api/partners/\(id)";
+        AF.request(url).validate().responseDecodable(of: Service.self) { (response) in
+            guard let data = response.value else {
+                complition(.error, nil)
+                return
+            }
+            complition(.ok, data)
         }
     }
 }

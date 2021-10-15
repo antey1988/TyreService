@@ -23,10 +23,14 @@ class ServiceInfoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     func initView() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.view.backgroundColor = .clear
         serviceNameView.layer.cornerRadius = 8
         serviceNameLabel.text = viewModel.getServiceName()
         initMenuCollectionView()
@@ -44,11 +48,14 @@ class ServiceInfoViewController: UIViewController {
     }
     
     func initInfoCollectionView() {
-        infoCollectionView.register(ServicesCollectionViewCell.nib(), forCellWithReuseIdentifier: ServicesCollectionViewCell.cellIdentifier)
-        infoCollectionView.register(ContacntsCollectionViewCell.nib(), forCellWithReuseIdentifier: ContacntsCollectionViewCell.cellIdentifier)
+        infoCollectionView.register(AboutServiceCollectionViewCell.nib(), forCellWithReuseIdentifier: AboutServiceCollectionViewCell.cellIdentifier)
+        infoCollectionView.register(ContactsCollectionViewCell.nib(), forCellWithReuseIdentifier: ContactsCollectionViewCell.cellIdentifier)
         infoCollectionView.register(ReviewsCollectionViewCell.nib(), forCellWithReuseIdentifier: ReviewsCollectionViewCell.cellIdentifier)
         infoCollectionView.delegate = self
         infoCollectionView.dataSource = self
+        viewModel.reloadInfo = { [weak self] in
+            self?.infoCollectionView.reloadData()
+        }
     }
 }
 
@@ -61,11 +68,11 @@ extension ServiceInfoViewController: UICollectionViewDelegate, UICollectionViewD
         if collectionView == infoCollectionView {
             switch indexPath.row {
             case 0:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ServicesCollectionViewCell.cellIdentifier, for: indexPath) as! ServicesCollectionViewCell
-                cell.configure(viewModel: viewModel.getServicesCellViewModel())
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AboutServiceCollectionViewCell.cellIdentifier, for: indexPath) as! AboutServiceCollectionViewCell
+                cell.configure(viewModel: viewModel.getAboutServiceCellViewModel())
                 return cell
             case 1:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContacntsCollectionViewCell.cellIdentifier, for: indexPath) as! ContacntsCollectionViewCell
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ContactsCollectionViewCell.cellIdentifier, for: indexPath) as! ContactsCollectionViewCell
                 cell.configure(viewModel: viewModel.getContactsCellViewModel())
                 return cell
             default:
