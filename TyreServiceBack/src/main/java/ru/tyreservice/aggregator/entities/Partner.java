@@ -19,15 +19,11 @@ public class Partner {
     @Column(nullable = false)
     private String name;
     private String description;
-    @Column(nullable = false)
     private String address;
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
     private String phone;
-    @Column(nullable = false)
-    private String password;
-    @Column(nullable = false)
     private String schedule;
     private Double rank;
     private Double latitude;

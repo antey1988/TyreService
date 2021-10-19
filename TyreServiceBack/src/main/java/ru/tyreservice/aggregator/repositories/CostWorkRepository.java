@@ -13,4 +13,8 @@ public interface CostWorkRepository extends JpaRepository<CostWork, Long> {
     List<CostWork> findAllByPartnerId(Long id);
 
     void deleteAllByPartnerIdAndWorkIdIn(Long id, List<Long> works);
+
+    @Query(value = "select cw.partner.id, count(cw) from CostWork cw where cw.work.id in :ids " +
+            "group by cw.partner.id having count(cw) = :size")
+    List<Long> getIds(List<Long> ids, Long size);
 }

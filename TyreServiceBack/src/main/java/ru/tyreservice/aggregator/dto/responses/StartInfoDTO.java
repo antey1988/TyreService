@@ -14,7 +14,8 @@ import java.util.List;
 @Getter
 @Schema
 public class StartInfoDTO {
-    private List<StateCarType> types;
+    private List<StateCarType.CarType> types;
+    private List<StateStatus> statuses;
     private List<WorkResponseDTO> works;
     private List<PartnerResponseDTO> partners;
 }

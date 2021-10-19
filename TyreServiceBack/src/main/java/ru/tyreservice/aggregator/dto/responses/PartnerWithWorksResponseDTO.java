@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
-@Setter
 @Slf4j
 @Schema(description = "ПОдробная информация о партнере с услугами")
 public class PartnerWithWorksResponseDTO {

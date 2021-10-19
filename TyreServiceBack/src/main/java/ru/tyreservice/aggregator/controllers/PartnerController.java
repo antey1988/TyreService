@@ -5,24 +5,22 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.tyreservice.aggregator.dto.responses.StartInfoDTO;
-import ru.tyreservice.aggregator.enums.StateCarType;
-import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;
+import ru.tyreservice.aggregator.enums.StateCarType;
 import ru.tyreservice.aggregator.services.PartnerService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "api")
-@Tag(name = "Обработка запросов по партнерам", description = "Создание партнера, обновление и просмотр информации о партнере")
+@Tag(name = "Запросы, не требующие авторизации")
 public class PartnerController {
-    private static final String REQUEST = "Request: %s http://localhost:8080/api/partners%s";
-    private static final String GET = "GET";
-    private static final String POST = "POST";
+    private static final String REQUEST = "Request: GET http://localhost:8080/api/partners%s";
 
     private final PartnerService partnerService;
 
@@ -31,47 +29,27 @@ public class PartnerController {
     public List<PartnerResponseDTO> readListPartnersByFilter(
             @RequestParam(required = false) StateCarType type,
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Long id,
-            @RequestParam(required = false) Integer page) {
-        String params = name != null ? "?name="+name : "";
-        log.info(String.format(REQUEST, GET, params));
-        return partnerService.readListPartners(type, name, id , page);
-    }
-
-    @GetMapping(value = "/start")
-    @Operation(summary = "Список партнеров", description = "Получение списка партнеров, списка всевозможных услуг и типов сервисов." +
-            "Первичный запрос при запуске приложения")
-    public StartInfoDTO readStartInfo() {
-        String params = "";
-        log.info(String.format("Request: %s http://localhost:8080/api/start", GET));
-        return partnerService.readStartInfo();
+            @RequestParam(required = false) List<Long> id,
+            @RequestParam(required = false) Integer page,
+            @RequestParam Double latitude,
+            @RequestParam Double longitude) {
+        List<String> params = new ArrayList<>(6);
+        params.add("latitude="+latitude);
+        params.add("longitude="+longitude);
+        if (type != null) params.add("type="+type);
+        if (name != null) params.add("name="+name);
+        if (id != null) params.add(id.stream().map(i ->"id="+i).collect(Collectors.joining("&", "", "")));
+        if (page != null) params.add("page="+page);
+        log.info(String.format(REQUEST, params.stream().collect(Collectors.joining("&", "?", ""))));
+        return partnerService.readListPartners(type, name, id , page, latitude, longitude);
     }
 
     @GetMapping(value = "/partners/{id}")
     @Operation(summary = "Информация о партнере", description = "Подробная информация об одном партнере, в том числе со списком информации об оказываемых услугах с их стоимостью")
     public PartnerWithWorksResponseDTO readPartnerWithWorks(
             @PathVariable(name = "id") Long id) {
-        String params = "/"+id;
-        log.info(String.format(REQUEST, GET, params));
-        return partnerService.readPartnerWithWorks(id);
-    }
-
-    @PostMapping(value = "/partners")
-    @Operation(summary = "Создание партнера", description = "Создание инфомации о партнере")
-    public PartnerWithWorksResponseDTO createPartner(
-            @RequestBody PartnerRequestDTO requestDTO) {
-        String params = "";
-        log.info(String.format(REQUEST, POST, params));
-        return partnerService.createPartner(requestDTO);
-    }
-
-    @PostMapping(value = "/partners/{id}")
-    @Operation(summary = "Обновление информации о партнера", description = "Обновление инфомации о партнере со списком оказывавемых услуг")
-    public PartnerWithWorksResponseDTO updatePartner(
-            @PathVariable Long id,
-            @RequestBody PartnerRequestDTO requestDTO) {
-        String params = "/"+id;
-        log.info(String.format(REQUEST, POST, params));
-        return partnerService.updatePartner(id, requestDTO);
+        log.info(String.format(REQUEST, "/" + id));
+        PartnerWithWorksResponseDTO partner = partnerService.readPartnerWithWorks(id);
+        return partner;
     }
 }
