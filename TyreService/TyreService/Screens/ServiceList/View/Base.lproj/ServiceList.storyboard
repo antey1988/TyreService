@@ -14,7 +14,7 @@
         <!--Navigation Controller-->
         <scene sceneID="5gX-Nc-yMw">
             <objects>
-                <navigationController navigationBarHidden="YES" id="BaA-zY-kpu" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ServicesListNavVC" navigationBarHidden="YES" id="BaA-zY-kpu" sceneMemberID="viewController">
                     <nil key="simulatedTopBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="j88-PT-hR4">
                         <autoresizingMask key="autoresizingMask"/>
@@ -30,7 +30,7 @@
         <!--Services List View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ServicesListViewController" customModule="TyreService" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ServicesListVC" id="BYZ-38-t0r" customClass="ServicesListViewController" customModule="TyreService" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -49,6 +49,9 @@
                                             <color key="titleShadowColor" systemColor="systemBackgroundColor"/>
                                             <imageReference key="image" image="line.horizontal.3" catalog="system" symbolScale="large"/>
                                         </state>
+                                        <connections>
+                                            <action selector="showLeftMenu:" destination="BYZ-38-t0r" eventType="touchUpInside" id="B6f-bD-rja"/>
+                                        </connections>
                                     </button>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="PFZ-1a-SlY">
                                         <rect key="frame" x="73" y="8" width="248" height="50"/>
@@ -63,9 +66,12 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                         <color key="tintColor" name="buttonColor"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal">
-                                            <imageReference key="image" image="arrow.up.arrow.down" catalog="system" symbolScale="large"/>
+                                        <state key="normal" image="filter">
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                         </state>
+                                        <connections>
+                                            <action selector="showFilterMenu:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Qhh-Ib-uu6"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -129,7 +135,7 @@
     </scenes>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
-        <image name="arrow.up.arrow.down" catalog="system" width="128" height="98"/>
+        <image name="filter" width="32" height="32"/>
         <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
         <namedColor name="buttonColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
