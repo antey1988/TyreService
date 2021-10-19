@@ -11,6 +11,8 @@ class SignUpViewModel {
     
     var showErrorMessage: ((String) -> ())?
     
+    //MARK: - Registration
+    
     func registration(name: String, phone: String, email: String, passwordOne: String, passwordTho: String, completion: @escaping ((Error?) -> Void)) {
         
         let nameText = name.trimmingCharacters(in: .whitespaces)
@@ -47,18 +49,10 @@ class SignUpViewModel {
             return
         }
         
-        let userObject = UserModel(name: nameText, phone: phoneText, email: emailText, password: passwordThoText)
-        
-        UserManager.nameOrganization = nameText
-        UserManager.phoneOrganization = phoneText
-        UserManager.emailOrganization = emailText
-        UserManager.password = passwordThoText
-        UserManager.userModel = userObject
-        
         return
     }
     
-    //return сложность пароля я передаю пароль,он возвращает значение
+    //MARK: - CheckPasswordStrength
     
     func checkPasswordStrength(password: String) -> Int {
         var strengthPassword = 0

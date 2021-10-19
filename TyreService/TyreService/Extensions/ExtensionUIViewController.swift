@@ -12,10 +12,20 @@ extension UIViewController {
     func showErrorAlert(with title: String = NSLocalizedString("Ошибка", comment: ""), and message: String) {
         
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: NSLocalizedString("Понятно", comment: ""), style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: NSLocalizedString("ОК", comment: ""), style: .cancel, handler: nil)
         
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
 }
