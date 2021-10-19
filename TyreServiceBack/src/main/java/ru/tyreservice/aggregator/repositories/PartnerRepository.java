@@ -13,8 +13,6 @@ import java.util.List;
 
 @Repository
 public interface PartnerRepository extends JpaRepository<Partner, Long>, JpaSpecificationExecutor<Partner> {
-//    @Query(value = "select p from PartnerNew p left join fetch p.costsWorks cw join fetch cw.work where p.id = :id")
-//    Optional<PartnerNew> findById(Long id);
     @Query(value = "select p from Partner p left join p.costsWorks cw where " +
             "((p.carType = :type or :type is null) and " +
             "(lower(p.name) like lower('%'||:name||'%') or :name is null) and " +

@@ -1,11 +1,19 @@
 package ru.tyreservice.aggregator.enums;
 
-import java.util.List;
 
-public enum StateStatus {
-    CANCEL, DONE, WAITING;
+public enum StateStatus implements Nameable {
+    CANCEL("Отменен"),
+    DONE("Выполнен"),
+    WAITING("Создан");
 
-    public static List<StateStatus> getListStatus() {
-        return List.of(values());
+    private String name;
+
+    StateStatus(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

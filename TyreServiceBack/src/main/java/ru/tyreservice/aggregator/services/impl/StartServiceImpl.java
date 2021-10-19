@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
 import ru.tyreservice.aggregator.dto.responses.StartInfoDTO;
+import ru.tyreservice.aggregator.dto.responses.StatusResponse;
 import ru.tyreservice.aggregator.dto.responses.WorkResponseDTO;
+import ru.tyreservice.aggregator.enums.EnumUtil;
+import ru.tyreservice.aggregator.enums.Role;
 import ru.tyreservice.aggregator.enums.StateCarType;
 import ru.tyreservice.aggregator.enums.StateStatus;
 import ru.tyreservice.aggregator.services.PartnerService;
@@ -23,10 +26,11 @@ public class StartServiceImpl implements StartService {
 
     @Override
     public StartInfoDTO readStartInfo() {
-        List<StateCarType.CarType> types = StateCarType.getListType();
-        List<StateStatus> statuses = StateStatus.getListStatus();
+        List<EnumUtil.KeyValue> statuses = EnumUtil.getListKeyValue(StateStatus.values());
+        List<EnumUtil.KeyValue> types = EnumUtil.getListKeyValue(StateCarType.values());
+        List<EnumUtil.KeyValue> lks = EnumUtil.getListKeyValue(new Role[]{Role.PARTNER, Role.CLIENT});
         List<PartnerResponseDTO> partners = partnerService.readListPartners(null, null, null, null, 0.0, 0.0);
         List<WorkResponseDTO> works = workService.readListWorks();
-        return new StartInfoDTO(types, statuses, works, partners);
+        return new StartInfoDTO(types, statuses, lks, works, partners);
     }
 }

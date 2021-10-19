@@ -10,7 +10,7 @@ public class SecurityUtil {
     }
 
     public static boolean isAnonymous() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();String name = authentication.getName();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName().equals("anonymousUser");
     }
 }
