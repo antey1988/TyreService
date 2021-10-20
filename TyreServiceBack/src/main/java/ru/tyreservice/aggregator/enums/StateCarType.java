@@ -1,12 +1,26 @@
 package ru.tyreservice.aggregator.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public enum StateCarType {
-    PASSENGER, OFFROAD, COMMERCIAL;
+public enum StateCarType implements Nameable {
+    PASSENGER( "Легковые"),
+    OFFROAD("Внедорожники"),
+    TRUCK("Грузовые");
 
-    public static List<StateCarType> getListStatuses() {
-        return Arrays.asList(values());
+    private String name;
+
+    StateCarType(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

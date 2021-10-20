@@ -11,6 +11,8 @@ class ServiceListViewModel {
     private var servicesCellViewModel: [ServiceCellViewModel] = []
     private var filtersCellViewModel: [CarTypeCellViewModel] = []
     private var serviceInfoViewModel: ServiceInfoViewModel!
+    private var worksType: [TypeService] = []
+    private var selectedWorksType: [TypeService] = []
     private var networkManager: NetworkManager!
     private var selectedFilterId = ""
     private var allServices = false
@@ -43,7 +45,7 @@ class ServiceListViewModel {
     }
     
     private func initPartnersAndGroups() {
-        networkManager.getServicesAndFilters() { [weak self] (status, services, filters) in
+        networkManager.getServicesAndFilters() { [weak self] (status, services, filters, works) in
             switch status {
             case .ok:
                 if let services = services {
@@ -52,6 +54,7 @@ class ServiceListViewModel {
                 if let filters = filters {
                     self?.initGroupsViewModel(carTypes: filters)
                 }
+                self?.worksType = works ?? []
                 self?.reloadPartners?()
                 self?.reloadFilter?()
                 break
@@ -62,7 +65,10 @@ class ServiceListViewModel {
     }
     
     private func updatePartners(page: Int) {
-        networkManager.getServices(filterCarType: selectedFilterId, pageNumber: page, search: searchText) { [weak self] (status, services) in
+        let filterWorksType = selectedWorksType.map { workType in
+            return workType.id.description
+        }
+        networkManager.getServices(filterCarType: selectedFilterId, pageNumber: page, search: searchText, latitude: 55.751244, longitude: 37.618423, filterWorksType: filterWorksType) { [weak self] (status, services) in
             switch status {
             case .ok:
                 self?.stopLoadIndicator?()
@@ -135,5 +141,18 @@ class ServiceListViewModel {
     
     public func keyupSearchBar(text: String) {
         searchText = text
+    }
+    
+    public func getWorksType() -> [TypeService] {
+        return worksType
+    }
+    
+    public func getSelectedWorksType() -> [TypeService] {
+        return selectedWorksType
+    }
+    
+    public func updateSelectedWorksType(selectedWorksType: [TypeService]) {
+        self.selectedWorksType = selectedWorksType
+        updatePartners(page: 0)
     }
 }

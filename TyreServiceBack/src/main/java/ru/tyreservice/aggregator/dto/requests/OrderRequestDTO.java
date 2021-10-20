@@ -30,7 +30,7 @@ public class OrderRequestDTO {
     @Schema(description = "Номер телефона клиента")
     private String clientPhone;
     @Schema(description = "Автомобиль")
-    private String auto;
+    private String clientAuto;
     //табличная часть заказа, строки с наименованием услуги, стоимостью и количеством
     @Schema(description = "Список необходимых услуг")
     Set<LineOrderRequestDTO> lines;
@@ -45,7 +45,7 @@ public class OrderRequestDTO {
         order.setStatus(StateStatus.WAITING);
         order.setClientName(orderRequest.getClientName());
         order.setClientPhone(orderRequest.getClientPhone());
-        order.setAuto(orderRequest.getAuto());
+        order.setClientAuto(orderRequest.getClientAuto());
         order.setLines(orderRequest.getLines().stream().map(LineOrderRequestDTO::toEntity).collect(Collectors.toSet()));
         return order;
     }

@@ -11,6 +11,4 @@ import java.util.List;
 public interface CostWorkRepository extends JpaRepository<CostWork, Long> {
     @Query(value = "select cw from CostWork cw join fetch cw.work where cw.partner.id = :id")
     List<CostWork> findAllByPartnerId(Long id);
-
-    void deleteAllByPartnerIdAndWorkIdIn(Long id, List<Long> works);
 }

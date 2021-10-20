@@ -30,12 +30,15 @@ public class Order {
     private StateStatus status;
 
 
-    @Column(name = "client")
+
+    @Column(name = "client_id")
+    private Long clientId;
+    @Column(name = "name")
     private String clientName;
     @Column(nullable = false, name = "phone")
     private String clientPhone;
     @Column(name = "auto")
-    private String auto;
+    private String clientAuto;
 
     @ElementCollection
     @CollectionTable(name = "lines_order",
