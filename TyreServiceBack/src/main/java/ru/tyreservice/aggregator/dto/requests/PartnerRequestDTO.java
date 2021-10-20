@@ -25,8 +25,6 @@ public class PartnerRequestDTO {
     private String schedule;
     @Schema(description = "Номер телефона")
     private String phone;
-    @Schema(description = "Пароль")
-    private String password;
     @Schema(description = "Адрес")
     private String address;
     @Schema(description = "Координаты. Широта")
@@ -37,31 +35,4 @@ public class PartnerRequestDTO {
     private StateCarType carType;
     @Schema(description = "Списк оказываемых услуг")
     private Set<CostWorkRequestDTO> works;
-
-    public static Partner onCreate(PartnerRequestDTO partnerRequest) {
-        Partner partnerNew = new Partner();
-        partnerNew.setName(partnerRequest.name);
-        partnerNew.setAddress(partnerRequest.address);
-        partnerNew.setEmail(partnerRequest.email);
-        partnerNew.setPhone(partnerRequest.phone);
-        partnerNew.setSchedule(partnerRequest.schedule);
-        partnerNew.setPassword(partnerRequest.password);
-        partnerNew.setCarType(partnerRequest.carType);
-        return partnerNew;
-    }
-
-    public static Partner onUpdate(Partner partner, PartnerRequestDTO partnerRequest) {
-        partner.setName(partnerRequest.name);
-        partner.setAddress(partnerRequest.address);
-        partner.setEmail(partnerRequest.email);
-        partner.setPhone(partnerRequest.phone);
-        partner.setSchedule(partnerRequest.schedule);
-        partner.setPassword(partnerRequest.password);
-        partner.setCarType(partnerRequest.carType);
-        Long id = partner.getId();
-        Set<CostWork> costWorks = partner.getCostsWorks();
-        costWorks.clear();
-        partnerRequest.getWorks().forEach(cw -> costWorks.add(CostWorkRequestDTO.toEntity(id, cw)));
-        return partner;
-    }
 }

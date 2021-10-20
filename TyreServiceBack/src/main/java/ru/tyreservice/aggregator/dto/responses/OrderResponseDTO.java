@@ -49,7 +49,7 @@ public class OrderResponseDTO {
         orderResponse.setStatus(order.getStatus());
         orderResponse.setClientName(order.getClientName());
         orderResponse.setClientPhone(order.getClientPhone());
-        orderResponse.setAuto(order.getAuto());
+        orderResponse.setAuto(order.getClientAuto());
         orderResponse.setFullPrice(orderResponse.getFullPrice());
         orderResponse.setFullPrice(order.getLines().stream().mapToInt(l -> l.getPrice() * l.getCount()).sum());
         orderResponse.setLines(order.getLines().stream().map(LineOrderResponseDTO::fromEntity).collect(Collectors.toSet()));

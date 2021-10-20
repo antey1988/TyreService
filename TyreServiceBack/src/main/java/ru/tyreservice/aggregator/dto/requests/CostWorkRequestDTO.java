@@ -20,13 +20,9 @@ public class CostWorkRequestDTO {
     @Schema(description = "Стоимость услуги")
     private Long price;
 
-    public static CostWork toEntity(Long partnerId, CostWorkRequestDTO costWorkRequestDTO) {
+    public static CostWork toEntity(Partner partner, CostWorkRequestDTO costWorkRequestDTO) {
         Work work = new Work();
         work.setId(costWorkRequestDTO.id);
-        Partner partner = new Partner();
-        partner.setId(partnerId);
-        CostWork costWork = new CostWork(partner, work, costWorkRequestDTO.getPrice());
-        costWork.setPrice(costWorkRequestDTO.getPrice());
-        return costWork;
+        return new CostWork(partner, work, costWorkRequestDTO.getPrice());
     }
 }

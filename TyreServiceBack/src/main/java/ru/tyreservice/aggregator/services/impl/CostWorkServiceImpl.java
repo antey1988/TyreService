@@ -1,4 +1,4 @@
-package ru.tyreservice.aggregator.services;
+package ru.tyreservice.aggregator.services.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.tyreservice.aggregator.dto.requests.CostWorkRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.CostWorkResponseDTO;
 import ru.tyreservice.aggregator.entities.CostWork;
+import ru.tyreservice.aggregator.entities.Partner;
 import ru.tyreservice.aggregator.repositories.CostWorkRepository;
+import ru.tyreservice.aggregator.services.CostWorkService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,24 +23,18 @@ public class CostWorkServiceImpl implements CostWorkService {
     @Override
     public List<CostWorkResponseDTO> readCostsWorks(Long id) {
         List<CostWork> listEntities = costWorkRepository.findAllByPartnerId(id);
-        List<CostWorkResponseDTO> listResponse = listEntities.stream()
-                .map(CostWorkResponseDTO::fromEntity).collect(Collectors.toList());
-        return listResponse;
-    }
-
-    @Override
-    public List<CostWorkResponseDTO> createAndUpdateCostsWorks(Long id, List<CostWorkRequestDTO> costWorkRequestDTOs) {
-        List<CostWork> costsWorks = costWorkRequestDTOs.stream()
-                .map(cw -> CostWorkRequestDTO.toEntity(id, cw)).collect(Collectors.toList());
-        return costWorkRepository.saveAll(costsWorks).stream()
+        return listEntities.stream()
                 .map(CostWorkResponseDTO::fromEntity).collect(Collectors.toList());
     }
-
 
     @Override
     @Transactional
-    public void deleteCostsWorks(Long id, List<Long> works) {
-        costWorkRepository.deleteAllByPartnerIdAndWorkIdIn(id, works);
+    public List<CostWorkResponseDTO> createAndUpdateCostsWorks(Long id, List<CostWorkRequestDTO> costWorkRequestDTOs) {
+        Partner partner = new Partner();
+        partner.setId(id);
+        List<CostWork> deleteWorks = costWorkRequestDTOs.stream().filter(cw -> cw.getPrice() < 0).map(cw -> CostWorkRequestDTO.toEntity(partner, cw)).collect(Collectors.toList());
+        List<CostWork> updateWorks = costWorkRequestDTOs.stream().filter(cw -> cw.getPrice() >= 0).map(cw -> CostWorkRequestDTO.toEntity(partner, cw)).collect(Collectors.toList());
+        costWorkRepository.deleteAllInBatch(deleteWorks);
+        return costWorkRepository.saveAll(updateWorks).stream().map(CostWorkResponseDTO::fromEntity).collect(Collectors.toList());
     }
-
 }

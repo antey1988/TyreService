@@ -1,4 +1,4 @@
-package ru.tyreservice.aggregator.services;
+package ru.tyreservice.aggregator.services.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +7,7 @@ import ru.tyreservice.aggregator.dto.requests.WorkRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.WorkResponseDTO;
 import ru.tyreservice.aggregator.entities.Work;
 import ru.tyreservice.aggregator.repositories.WorkRepository;
+import ru.tyreservice.aggregator.services.WorkService;
 
 import java.util.List;
 import java.util.stream.Collectors;
