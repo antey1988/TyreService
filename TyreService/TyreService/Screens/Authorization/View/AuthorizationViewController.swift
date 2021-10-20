@@ -28,18 +28,18 @@ class AuthorizationViewController: UIViewController {
     
     @IBAction func passwordTextField(_ sender: UITextField) {
         if viewModel.checkEmptyPassword(password: passwordTF.text ?? "") {
-            self.signInButtonTrue()
+            signInButtonTrue()
         } else {
-            self.signInButtonFalse()
+            signInButtonFalse()
         }
     }
     
     @IBAction func signInButtonPressed(_ sender: UIButton) {
-        //authorization and prepare
+        //TODO: checking API data and logging in to the start page
     }
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
-        //prepare
+        //TODO: go to the registration screen
     }
     
     private func signInButtonTrue() {
@@ -52,8 +52,8 @@ class AuthorizationViewController: UIViewController {
     
     private func setUpViewModel() {
         viewModel = AuthorizationViewModel()
-        viewModel.showErrorMessage = { errorMessage in
-            self.showErrorAlert(and: errorMessage)
+        viewModel.showErrorMessage = { [weak self] errorMessage in
+            self?.showErrorAlert(and: errorMessage)
         }
     }
     

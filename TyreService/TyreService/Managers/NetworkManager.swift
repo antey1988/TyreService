@@ -45,6 +45,7 @@ class NetworkManager {
     func getFullInfoService(id: Int, complition: @escaping ((RequestStatus, Service?) -> Void)) {
         let url = "http://194.67.91.182:8081/api/partners/\(id)"
         AF.request(url).validate().responseDecodable(of: Service.self) { (response) in
+            print(response)
             guard let data = response.value else {
                 complition(.error, nil)
                 return

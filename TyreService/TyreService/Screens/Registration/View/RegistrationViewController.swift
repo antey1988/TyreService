@@ -27,8 +27,10 @@ class RegistrationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViewModel()
-        setUpUI()
+        setUpStartColors()
     }
+    
+    //MARK: - Actions
     
     @IBAction func passwordOneTFChanged(_ sender: UITextField) {
         if let password = passwordOneTF.text {
@@ -65,23 +67,24 @@ class RegistrationViewController: UIViewController {
     }
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
-        viewModel.registration(name: nameOrganization.text ?? "", phone: phoneOrganization.text ?? "", email: emailOrganization.text ?? "", passwordOne: passwordOneTF.text ?? "", passwordTho: passwordTwoTF.text ?? "") { (error) in
+        viewModel.registration(name: nameOrganization.text ?? "", phone: phoneOrganization.text ?? "", email: emailOrganization.text ?? "", passwordOne: passwordOneTF.text ?? "", passwordTho: passwordTwoTF.text ?? "") { [weak self] (error) in
             if error != nil {
-                self.showErrorAlert(and: Errors.somethingWentWrong)
+                self?.showErrorAlert(and: Errors.somethingWentWrong)
             } else {
-                self.performSegue(withIdentifier: Segues.goToAuthorizationVC, sender: nil)
+                //TODO: saving data to the database and switching to your personal account
+                print("That's ok")
             }
         }
     }
     
     private func setUpViewModel() {
         viewModel = SignUpViewModel()
-        viewModel.showErrorMessage =  { errorMessage in
-            self.showErrorAlert(and: errorMessage)
+        viewModel.showErrorMessage =  { [weak self] errorMessage in
+            self?.showErrorAlert(and: errorMessage)
         }
     }
     
-    private func setUpUI() {
+    private func setUpStartColors() {
         redView.backgroundColor = .lightGray
         orangeView.backgroundColor = .lightGray
         yellowView.backgroundColor = .lightGray

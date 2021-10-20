@@ -9,8 +9,6 @@ import Foundation
 
 class AuthorizationViewModel {
     
-    static let shared = AuthorizationViewModel()
-    
     var showErrorMessage: ((String) -> ())?
     
     func checkEmptyEmail(email: String) {

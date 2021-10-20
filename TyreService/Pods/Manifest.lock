@@ -1,0 +1,24 @@
+PODS:
+  - Alamofire (5.4.4)
+  - RSSelectionMenu (7.1.3)
+  - SideMenu (6.5.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 5.4)
+  - RSSelectionMenu (~> 7.1)
+  - SideMenu (~> 6.5)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - RSSelectionMenu
+    - SideMenu
+
+SPEC CHECKSUMS:
+  Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  RSSelectionMenu: 873d62ebbaef138519f6cf3f073412c2b5d94c2c
+  SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
+
+PODFILE CHECKSUM: 379cff0b4460b132be78fcad405534ead3fbc3bb
+
+COCOAPODS: 1.11.2

@@ -1,15 +1,13 @@
 //
-//  Errors.swift
+//  Localization.swift
 //  TyreService
 //
-//  Created by Kirill Severin on 6.10.21.
+//  Created by Kirill Severin on 15.10.21.
 //
 
 import Foundation
 
-class Errors {
-    
-    static let shared = Errors()
+enum Errors {
     
     static let emptyName = "Введите имя"
     static let emptyPhone = "Введите номер телефона"
@@ -21,4 +19,5 @@ class Errors {
     static let smallPassword = "Пароль должен содержать не менее шести символов"
     static let emptyOrIncorrectEmail = "Введите email или проверьте его корректность"
     static let correctEmail = "correctEmail"
+    
 }
