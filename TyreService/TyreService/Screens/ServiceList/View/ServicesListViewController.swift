@@ -6,6 +6,14 @@
 //
 
 import UIKit
+import SideMenu
+import RSSelectionMenu
+
+struct Employee: Equatable {
+    
+    let empId: Int?
+    let name: String?
+}
 
 class ServicesListViewController: UIViewController {
 
@@ -90,6 +98,38 @@ class ServicesListViewController: UIViewController {
     
     @objc func keyboardWillHide(notification: NSNotification) {
         self.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+    }
+    
+    @IBAction func showLeftMenu(_ sender: Any) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "SideMenu", bundle:nil)
+        let menu = storyBoard.instantiateViewController(withIdentifier: "SideMenu") as! SideMenuNavigationController
+        menu.settings = createSettingsSideMenu()
+        SideMenuManager.default.leftMenuNavigationController = menu
+        if let navController = navigationController {
+            SideMenuManager.default.addPanGestureToPresent(toView: navController.navigationBar)
+            SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: navController.view)
+        }
+        present(menu, animated: true, completion: nil)
+    }
+    
+    @IBAction func showFilterMenu(_ sender: Any) {
+        let selectionMenu = RSSelectionMenu(selectionStyle: .multiple, dataSource: viewModel.getWorksType()) { (cell, workType, indexPath) in
+            cell.textLabel?.text = workType.name
+        }
+        selectionMenu.onDismiss = { [weak self] items in
+            self?.viewModel.updateSelectedWorksType(selectedWorksType: items)
+        }
+        selectionMenu.setSelectedItems(items: viewModel.getSelectedWorksType()) { (text, index, isSelected, selectedItems) in }
+        selectionMenu.cellSelectionStyle = .checkbox
+        selectionMenu.show(style: .actionSheet(title: "Фильтр по услугам", action: "Применить", height: 210), from: self)
+    }
+    
+    func createSettingsSideMenu() -> SideMenuSettings {
+        var settings = SideMenuSettings()
+        settings.presentationStyle = .menuSlideIn
+        settings.statusBarEndAlpha = 0
+        settings.menuWidth = min(UIScreen.main.bounds.width - 50, 500);
+        return settings
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

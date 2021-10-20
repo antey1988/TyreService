@@ -11,6 +11,7 @@
 		8BF2216E93FACA5D7854E73D /* Pods_TyreService_TyreServiceUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A8AB9E556D9CC384F461D3 /* Pods_TyreService_TyreServiceUITests.framework */; };
 		CBA15F69B84D8BAEF54BAB40 /* Pods_TyreServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C320EC2D13FBA58C30D270F /* Pods_TyreServiceTests.framework */; };
 		ED17BA28270E01F200B8728E /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED17BA27270E01F200B8728E /* UserManager.swift */; };
+		ED2EC260271F3C9C00B67EBD /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED2EC25F271F3C9C00B67EBD /* MenuTableViewController.swift */; };
 		ED32DC2827160D2600690C8C /* ServiceInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED32DC2727160D2600690C8C /* ServiceInfoViewModel.swift */; };
 		ED32DC2A27160D7700690C8C /* ServiceInfo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED32DC2927160D7700690C8C /* ServiceInfo.storyboard */; };
 		ED32DC2C27160DFE00690C8C /* ServiceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED32DC2B27160DFE00690C8C /* ServiceInfoViewController.swift */; };
@@ -40,6 +41,7 @@
 		ED4451B6270D01B200B24F2D /* Registration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED4451B2270D01B200B24F2D /* Registration.storyboard */; };
 		ED4451B7270D01B200B24F2D /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4451B3270D01B200B24F2D /* RegistrationViewController.swift */; };
 		ED4451B9270D026200B24F2D /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4451B8270D026200B24F2D /* Errors.swift */; };
+		ED952F66271DEBA50017B956 /* SideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED952F65271DEBA50017B956 /* SideMenu.storyboard */; };
 		ED984904271339DD00C924A1 /* Authorization.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED984903271339DD00C924A1 /* Authorization.storyboard */; };
 		ED98490827133AC800C924A1 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED98490727133AC800C924A1 /* AuthorizationViewController.swift */; };
 		ED98490A27133B7D00C924A1 /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED98490927133B7D00C924A1 /* AuthorizationViewModel.swift */; };
@@ -86,6 +88,7 @@
 		CC149C8C569A852DD2A2FB7C /* Pods_TyreService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TyreService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E04100B3999D80CEC3DAB730 /* Pods-TyreService-TyreServiceUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TyreService-TyreServiceUITests.debug.xcconfig"; path = "Target Support Files/Pods-TyreService-TyreServiceUITests/Pods-TyreService-TyreServiceUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED17BA27270E01F200B8728E /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		ED2EC25F271F3C9C00B67EBD /* MenuTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		ED32DC2727160D2600690C8C /* ServiceInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceInfoViewModel.swift; sourceTree = "<group>"; };
 		ED32DC2927160D7700690C8C /* ServiceInfo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ServiceInfo.storyboard; sourceTree = "<group>"; };
 		ED32DC2B27160DFE00690C8C /* ServiceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceInfoViewController.swift; sourceTree = "<group>"; };
@@ -119,6 +122,7 @@
 		ED4451B2270D01B200B24F2D /* Registration.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Registration.storyboard; sourceTree = "<group>"; };
 		ED4451B3270D01B200B24F2D /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		ED4451B8270D026200B24F2D /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		ED952F65271DEBA50017B956 /* SideMenu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SideMenu.storyboard; sourceTree = "<group>"; };
 		ED984903271339DD00C924A1 /* Authorization.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authorization.storyboard; sourceTree = "<group>"; };
 		ED98490727133AC800C924A1 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		ED98490927133B7D00C924A1 /* AuthorizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModel.swift; sourceTree = "<group>"; };
@@ -382,6 +386,23 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		ED765B45271DE82400BEBC1E /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				ED765B46271DE83400BEBC1E /* View */,
+			);
+			path = SideMenu;
+			sourceTree = "<group>";
+		};
+		ED765B46271DE83400BEBC1E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED952F65271DEBA50017B956 /* SideMenu.storyboard */,
+				ED2EC25F271F3C9C00B67EBD /* MenuTableViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		ED9848FF2713391500C924A1 /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,6 +479,7 @@
 		EDE667EE270B5E3E002DD027 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				ED765B45271DE82400BEBC1E /* SideMenu */,
 				ED4451AC270D01B200B24F2D /* Registration */,
 				ED9848FF2713391500C924A1 /* Authorization */,
 				EDE667EA270B5D51002DD027 /* ServiceList */,
@@ -627,6 +649,7 @@
 				EDE667FA270B5FFA002DD027 /* CarTypeCollectionViewCell.xib in Resources */,
 				FE8D590227195685000AB01F /* ReviewsCollectionViewCell.xib in Resources */,
 				ED984904271339DD00C924A1 /* Authorization.storyboard in Resources */,
+				ED952F66271DEBA50017B956 /* SideMenu.storyboard in Resources */,
 				ED32DC2A27160D7700690C8C /* ServiceInfo.storyboard in Resources */,
 				ED3F1CA82706189900385D28 /* ServiceList.storyboard in Resources */,
 				ED32DC31271613C600690C8C /* MenuServiceInfoCollectionViewCell.xib in Resources */,
@@ -778,6 +801,7 @@
 				ED98490A27133B7D00C924A1 /* AuthorizationViewModel.swift in Sources */,
 				EDE66808270B69AB002DD027 /* ServiceCellViewModel.swift in Sources */,
 				ED32DC3827161CCC00690C8C /* AboutServiceCollectionViewCell.swift in Sources */,
+				ED2EC260271F3C9C00B67EBD /* MenuTableViewController.swift in Sources */,
 				ED3F1CA52706189900385D28 /* ServicesListViewController.swift in Sources */,
 				EDE66806270B68AC002DD027 /* ServiceListViewModel.swift in Sources */,
 				EDE66801270B6530002DD027 /* ExtensionString.swift in Sources */,

@@ -18,7 +18,7 @@ struct CarType: Decodable {
     let name: String
 }
 
-struct TypeService: Decodable {
+struct TypeService: Decodable, Equatable {
     let id: Int
     let name: String
     let price: Int?
