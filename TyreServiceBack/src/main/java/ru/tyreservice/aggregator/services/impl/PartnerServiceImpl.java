@@ -1,8 +1,8 @@
 package ru.tyreservice.aggregator.services.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +18,7 @@ import ru.tyreservice.aggregator.enums.StateCarType;
 import ru.tyreservice.aggregator.exceptions.NotFoundException;
 import ru.tyreservice.aggregator.repositories.PartnerRepository;
 import ru.tyreservice.aggregator.services.PartnerService;
+import ru.tyreservice.aggregator.utils.GlobalConfig;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,20 +27,18 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class PartnerServiceImpl implements PartnerService {
-    @Value(value = "${partners.sizepage}")
-    private int sizePage;
     private final PartnerRepository repository;
-
-    public PartnerServiceImpl(PartnerRepository repository) {
-        this.repository = repository;
-    }
+    private final GlobalConfig config;
 
     @Override
     public List<PartnerResponseDTO> readListPartners(StateCarType type, String name, List<Long> ids, Integer page, Double latitude, Double longitude) {
         int numberPage = page == null ? 0 : page;
-        Pageable pageable = PageRequest.of(numberPage, sizePage);
+        Pageable pageable = PageRequest.of(numberPage, config.getSizePage());
         long count = ids == null ? 0 : ids.size();
+        latitude = latitude == null ? 0.0 : latitude;
+        longitude = longitude == null ? 0.0 : longitude;
         Page<Partner> pagePartners = repository.findAllByFilter(pageable, type, name, ids, count, latitude, longitude);
         List<Partner> partners = pagePartners.getContent();
         return partners.stream().map(PartnerResponseDTO::fromEntity).collect(Collectors.toList());
@@ -54,7 +53,7 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     @Transactional
-    public PartnerWithWorksResponseDTO updatePartner(Long id, PartnerRequestDTO partnerRequest) {
+    public void updatePartner(Long id, PartnerRequestDTO partnerRequest) {
         Partner partner = findById(id);
 
         String value = partnerRequest.getName();
@@ -85,14 +84,10 @@ public class PartnerServiceImpl implements PartnerService {
         Double coordinate = partnerRequest.getLatitude();
         if (coordinate != null) {
             partner.setLatitude(coordinate);
-        } else if (partner.getLatitude() == null) {
-            partner.setLatitude(2*90.0);
         }
         coordinate = partnerRequest.getLongitude();
         if (coordinate != null) {
             partner.setLongitude(coordinate);
-        } else if (partner.getLongitude() == null) {
-            partner.setLatitude(2*180.0);
         }
 
         StateCarType type = partnerRequest.getCarType();
@@ -108,8 +103,6 @@ public class PartnerServiceImpl implements PartnerService {
             oldWorks.removeAll(deleteNewWorks);
             oldWorks.addAll(updateNewWorks);
         }
-
-        return PartnerWithWorksResponseDTO.fromEntity(partner);
     }
 
     @Override

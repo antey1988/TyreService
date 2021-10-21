@@ -4,6 +4,6 @@ import ru.tyreservice.aggregator.dto.requests.ClientDTO;
 
 public interface ClientService {
     Long createNewClient(String email, String phone, String name);
-    Object readClient(Long id);
-    ClientDTO updateClient(Long id, ClientDTO clientDTO);
+    ClientDTO readClient(Long id);
+    void updateClient(Long id, ClientDTO clientDTO);
 }

@@ -4,17 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
-import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.tyreservice.aggregator.dto.responses.StartInfoDTO;
-import ru.tyreservice.aggregator.enums.StateCarType;
-import ru.tyreservice.aggregator.services.PartnerService;
 import ru.tyreservice.aggregator.services.StartService;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import ru.tyreservice.aggregator.utils.GlobalConfig;
 
 @Slf4j
 @AllArgsConstructor
@@ -24,12 +19,13 @@ import java.util.stream.Collectors;
 public class StartController {
 
     private final StartService startService;
+    private final GlobalConfig config;
 
     @GetMapping
     @Operation(summary = "Стартовая стракица", description = "Первичный запрос при запуске приложения. " +
             "Получение списка партнеров, списка всевозможных услуг, типов сервисов и типов учетных записей")
     public StartInfoDTO readStartInfo() {
-        log.info("Request: GET http://localhost:8080/api");
+        log.info("Request: GET http://localhost:" + config.getPort() + "/api");
         return startService.readStartInfo();
     }
 }

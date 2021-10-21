@@ -23,4 +23,14 @@ public class User {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public User(String login, String password, Long accountId, Role role) {
+        this.login = login;
+        this.password = password;
+        this.accountId = accountId;
+        this.role = role;
+    }
+
+    public User() {
+    }
 }

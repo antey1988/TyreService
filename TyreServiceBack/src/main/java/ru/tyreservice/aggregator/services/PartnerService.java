@@ -10,6 +10,6 @@ import java.util.List;
 public interface PartnerService {
     List<PartnerResponseDTO> readListPartners(StateCarType type, String name, List<Long> ids, Integer page, Double latitude, Double longitude);
     PartnerWithWorksResponseDTO readPartnerWithWorks(Long id);
-    PartnerWithWorksResponseDTO updatePartner(Long id, PartnerRequestDTO partnerRequestDTO);
+    void updatePartner(Long id, PartnerRequestDTO partnerRequestDTO);
     Long createNewPartner(String email, String phone, String name);
 }

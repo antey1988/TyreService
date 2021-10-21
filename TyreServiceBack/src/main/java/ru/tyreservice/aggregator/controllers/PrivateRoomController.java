@@ -11,10 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.tyreservice.aggregator.dto.requests.ClientDTO;
 import ru.tyreservice.aggregator.dto.requests.CostWorkRequestDTO;
-import ru.tyreservice.aggregator.dto.requests.OrderRequestDTO;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.CostWorkResponseDTO;
 import ru.tyreservice.aggregator.dto.responses.OrderResponseDTO;
+import ru.tyreservice.aggregator.dto.responses.StatusResponse;
 import ru.tyreservice.aggregator.enums.Role;
 import ru.tyreservice.aggregator.enums.StateStatus;
 import ru.tyreservice.aggregator.security.UserAccount;
@@ -22,6 +22,7 @@ import ru.tyreservice.aggregator.services.ClientService;
 import ru.tyreservice.aggregator.services.CostWorkService;
 import ru.tyreservice.aggregator.services.OrderService;
 import ru.tyreservice.aggregator.services.PartnerService;
+import ru.tyreservice.aggregator.utils.GlobalConfig;
 
 import java.util.List;
 
@@ -34,13 +35,13 @@ import static ru.tyreservice.aggregator.security.SecurityUtil.getAccount;
 @Tag(name = "Запросы, требующие авторизацию")
 @SecurityScheme(type = SecuritySchemeType.HTTP)
 public class PrivateRoomController {
-    private PartnerService partnerService;
-    private ClientService clientService;
-    private CostWorkService costWorkService;
-    private OrderService orderService;
-    private ObjectMapper mapper;
-
-
+    private final PartnerService partnerService;
+    private final ClientService clientService;
+    private final CostWorkService costWorkService;
+    private final OrderService orderService;
+    private final ObjectMapper mapper;
+    private final GlobalConfig config;
+    private final String request = "Request: %s http://localhost:%d/api/lk%s";
 
     @Operation(summary = "Главная страница личного кабинета",
             description = "Основная информация в личном кабинете",
@@ -48,6 +49,8 @@ public class PrivateRoomController {
     @GetMapping(value = "/lk")
     public Object login() {
         UserAccount account = getAccount();
+        log.info(String.format(request, "GET", config.getPort(),""));
+        log.info(String.format("User %s coming to private room", account.getUsername()));
         if (account.getRole() == Role.PARTNER) {
             return partnerService.readPartnerWithWorks(account.getAccountId());
         }
@@ -57,21 +60,40 @@ public class PrivateRoomController {
     @Operation(summary = "Обновление информации в личном кабинет",
             security = @SecurityRequirement(name = "basic"))
     @PostMapping(value = "/lk")
-    public Object updateAccount(@RequestBody Object accountData) {
+    public StatusResponse updateAccount(@RequestBody Object accountData) {
+        log.info(String.format(request, "POST", config.getPort(), ""));
         UserAccount account = getAccount();
         if (account.getRole() == Role.PARTNER) {
             PartnerRequestDTO requestDTO = mapper.convertValue(accountData, PartnerRequestDTO.class);
-            return partnerService.updatePartner(account.getAccountId(), requestDTO);
+            partnerService.updatePartner(account.getAccountId(), requestDTO);
+        } else {
+            ClientDTO requestDTO = mapper.convertValue(accountData, ClientDTO.class);
+            clientService.updateClient(account.getAccountId(), requestDTO);
         }
-        ClientDTO requestDTO = mapper.convertValue(accountData, ClientDTO.class);
-        return clientService.updateClient(account.getAccountId(), requestDTO);
+        log.info(String.format("User %s update info in private room", account.getUsername()));
+        return StatusResponse.getOk();
     }
 
     @Operation(summary = "Создание и обновление списка услуг с их стоимостью",
             security = @SecurityRequirement(name = "basic"))
     @PostMapping(value = "/lk/works")
-    public List<CostWorkResponseDTO> createAndUpdateCostWork(@RequestBody List<CostWorkRequestDTO> costWorks) {
-        return costWorkService.createAndUpdateCostsWorks(getAccount().getAccountId(), costWorks);
+    public StatusResponse createAndUpdateCostWork(@RequestBody List<CostWorkRequestDTO> costWorks) {
+        log.info(String.format(request, "POST", config.getPort(), "/works"));
+        UserAccount account = getAccount();
+        costWorkService.createAndUpdateCostsWorks(account.getAccountId(), costWorks);
+        log.info(String.format("User %s update cost of works", account.getUsername()));
+        return StatusResponse.getOk();
+    }
+
+    @Operation(summary = "Список услуг партнера",
+            description = "Просмотр списка оказываемы услуг со стоимостью",
+            security = @SecurityRequirement(name = "basic"))
+    @GetMapping(value = "/lk/works")
+    public List<CostWorkResponseDTO> readWorks() {
+        UserAccount account = getAccount();
+        log.info(String.format(request, "GET", config.getPort(), "/works"));
+        log.info(String.format("User %s read list of works", account.getUsername()));
+        return costWorkService.readCostsWorks(account.getAccountId());
     }
 
     @Operation(summary = "Список заказов",
@@ -81,23 +103,20 @@ public class PrivateRoomController {
     @GetMapping(value = "/lk/orders")
     public List<OrderResponseDTO> readOrders() {
         UserAccount account = getAccount();
-        return orderService.readListOrders(account.getAccountId(), (Role)account.getRole());
+        log.info(String.format(request, "GET", config.getPort(), "/orders"));
+        log.info(String.format("User %s read list of orders", account.getUsername()));
+        return orderService.readListOrders(account.getAccountId(), account.getRole());
     }
 
     @Operation(summary = "Изменение статуса заказа",
             description = "Изменение статуса заказа партнером из личного кабинета",
             security = @SecurityRequirement(name = "basic"))
     @PostMapping(value = "/lk/orders/{id}")
-    public void changeStatus(@PathVariable Long id, @RequestBody StateStatus status) {
-        orderService.changeStatus(getAccount().getAccountId(), id, status);
-    }
-
-    @Operation(summary = "Создание заказа",
-            description = "Создание нового заказа из кабинета клиента (будет сделано в дальнейшем)",
-            security = @SecurityRequirement(name = "basic"),
-            hidden = true)
-    @PostMapping(value = "/lk/orders")
-    public void createOrder(@RequestBody OrderRequestDTO orderRequest) {
-        orderService.createOrder(orderRequest);
+    public StatusResponse changeStatus(@PathVariable Long id, @RequestBody StateStatus status) {
+        UserAccount account = getAccount();
+        log.info(String.format(request, "POST", config.getPort(), "/orders/" + id));
+        orderService.changeStatus(account.getAccountId(), id, status);
+        log.info(String.format("User %s change status of order with id= %d", account.getUsername(), id));
+        return StatusResponse.getOk();
     }
 }

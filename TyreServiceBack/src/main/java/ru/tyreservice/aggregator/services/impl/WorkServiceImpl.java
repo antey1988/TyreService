@@ -24,8 +24,8 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public WorkResponseDTO createWork(WorkRequestDTO requestDTO) {
+    public Long createWork(WorkRequestDTO requestDTO) {
         Work work = WorkRequestDTO.toEntity(requestDTO);
-        return WorkResponseDTO.fromEntity(workRepository.save(work));
+        return workRepository.save(work).getId();
     }
 }
