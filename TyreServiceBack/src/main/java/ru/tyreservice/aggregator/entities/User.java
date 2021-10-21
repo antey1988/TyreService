@@ -18,7 +18,7 @@ public class User {
     private String login;
     @Column(nullable = false)
     private String password;
-    @Column(nullable = false)
+    @Column(nullable = false, name = "account")
     private Long accountId;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

@@ -33,4 +33,6 @@ public class Partner {
     private StateCarType carType;
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL)
     private Set<CostWork> costsWorks = new HashSet<>();
+    @Column(name = "image")
+    private String imagePath;
 }
