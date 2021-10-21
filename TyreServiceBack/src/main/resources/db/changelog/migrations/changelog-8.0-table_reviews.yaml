@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 01-create-table-reviews
+      author: ${author}
+      changes:
+        - createTable:
+            tableName: reviews
+            columns:
+              - column: {name: id, type: bigint, autoIncrement: true, constraints: {primaryKey: true}}
+              - column: {name: partnerId, type: bigint, constraints: {nullable: false}}
+              - column: {name: ball, type: smallint, constraints: {nullable: false}}
+              - column: {name: message, type: varchar, constraints: {nullable: false}}
+
+  - changeSet:
+      id: 02-add-comments-reviews
+      author: ${author}
+      changes:
+        - sql:
+            dbms: h2, postgresql, mysql
+            stripComments: true
+            sql: comment on table reviews is 'Таблица хранения отзывов';

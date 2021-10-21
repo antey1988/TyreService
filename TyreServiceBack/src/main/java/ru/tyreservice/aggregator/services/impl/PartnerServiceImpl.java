@@ -39,6 +39,7 @@ public class PartnerServiceImpl implements PartnerService {
         long count = ids == null ? 0 : ids.size();
         latitude = latitude == null ? 0.0 : latitude;
         longitude = longitude == null ? 0.0 : longitude;
+        name = name == null ? "" : name;
         Page<Partner> pagePartners = repository.findAllByFilter(pageable, type, name, ids, count, latitude, longitude);
         List<Partner> partners = pagePartners.getContent();
         return partners.stream().map(PartnerResponseDTO::fromEntity).collect(Collectors.toList());

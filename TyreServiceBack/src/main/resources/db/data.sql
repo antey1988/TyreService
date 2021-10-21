@@ -16,7 +16,7 @@ INSERT INTO CLIENTS(id, name, phone, email) VALUES
 ;
 
 --Пароль для всех партнеров 12345
-INSERT INTO USERS(id, login, password, role, account_id) VALUES
+INSERT INTO USERS(id, login, password, role, account) VALUES
     (1, 'Partner1', '{bcrypt}$2a$10$O/NH7f05JJhN7wpldZa3.OHRDfbgX7aRMxpN1DHfxbywF4BKrN.H6', 'PARTNER', 1),
     (2, 'Partner2', '{bcrypt}$2a$10$O/NH7f05JJhN7wpldZa3.OHRDfbgX7aRMxpN1DHfxbywF4BKrN.H6', 'PARTNER', 2),
     (3, 'Partner3', '{bcrypt}$2a$10$O/NH7f05JJhN7wpldZa3.OHRDfbgX7aRMxpN1DHfxbywF4BKrN.H6', 'PARTNER', 3),

@@ -15,7 +15,8 @@ import java.util.List;
 public interface PartnerRepository extends JpaRepository<Partner, Long>, JpaSpecificationExecutor<Partner> {
     @Query(value = "select p from Partner p left join p.costsWorks cw where " +
             "((p.carType = :type or :type is null) and " +
-            "(lower(p.name) like lower('%'||:name||'%') or :name is null) and " +
+//            "(lower(p.name) like lower('%'||:name||'%') or :name is null) and " +
+            "(:name = '' or lower(p.name) like lower(:name)) and " +
             "(cw.work.id in :ids or (:ids) is null)) " +
             "group by p having count(p) >= :count " +
             "order by sqrt((p.latitude-:latitude)*(p.latitude-:latitude) + (p.longitude-:longitude)*(p.longitude-:longitude)) NULLS LAST,  p.rank desc NULLS LAST,  p.name")
