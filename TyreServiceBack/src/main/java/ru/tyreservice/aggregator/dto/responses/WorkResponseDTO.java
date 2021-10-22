@@ -3,12 +3,10 @@ package ru.tyreservice.aggregator.dto.responses;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import ru.tyreservice.aggregator.entities.Work;
 
 @Getter
 @Setter
-@Slf4j
 @Schema(description = "Информация об услуге из общего справочника")
 public class WorkResponseDTO {
     //наименование услуги из общего справочника

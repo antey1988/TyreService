@@ -5,5 +5,5 @@ import ru.tyreservice.aggregator.entities.User;
 
 public interface UserService {
     User findUserByLogin(String login);
-    void createUser(String login, String password, Role role, Long accountId);
+    Long createUser(String login, String password, Role role, Long accountId);
 }

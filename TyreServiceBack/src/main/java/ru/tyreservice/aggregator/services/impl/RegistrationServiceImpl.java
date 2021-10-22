@@ -16,6 +16,7 @@ import ru.tyreservice.aggregator.services.RegistrationService;
 import ru.tyreservice.aggregator.services.UserService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -31,17 +32,16 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public StatusResponse register(RegDataRequest request) {
         String email = request.getEmail();
-        String password = request.getPassword();
-        String phone = request.getPhone();
-        String name = request.getName();
         Role role = request.getType() == null ? Role.PARTNER : request.getType();
         try {
             userService.findUserByLogin(email);
-            return StatusResponse.builder()
-                    .success(false).errors(List.of("Пользователь с указанным именем существует. Выберите другое имя")).build();
-
+            return StatusResponse.getBad(Collections.singletonList("Пользователь с указанным именем существует. Выберите другое имя"));
         } catch (RuntimeException e) {
+            String password = request.getPassword();
+            String phone = request.getPhone();
+            String name = request.getName();
             List<String> errors = new ArrayList<>(4);
+
             if (StringUtils.isBlank(email)) {
                 errors.add("Поле ЭЛЕКТРОНАЯ ПОЧТА должно быть заполнено");
             }
@@ -60,13 +60,15 @@ public class RegistrationServiceImpl implements RegistrationService {
             Long id;
             if (role == Role.PARTNER) {
                 id = partnerService.createNewPartner(email, phone, name);
+                log.info(String.format("Create partner's private room with id=%d ", id));
                 userService.createUser(email, passwordEncoder.encode(password), Role.PARTNER, id);
             } else {
                 id = clientService.createNewClient(email, phone, name);
+                log.info(String.format("Create client's private room with id=%d ", id));
                 userService.createUser(email, passwordEncoder.encode(password), Role.CLIENT, id);
             }
-            return StatusResponse.builder()
-                    .success(true).build();
+            log.info(String.format("Create user with name=%s ", name));
+            return StatusResponse.getOk();
         }
     }
 }

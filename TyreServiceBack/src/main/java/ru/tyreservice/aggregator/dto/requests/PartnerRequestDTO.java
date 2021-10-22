@@ -3,16 +3,11 @@ package ru.tyreservice.aggregator.dto.requests;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import ru.tyreservice.aggregator.entities.CostWork;
-import ru.tyreservice.aggregator.entities.Partner;
 import ru.tyreservice.aggregator.enums.StateCarType;
 
 import java.util.Set;
 
-@Getter
-@Setter
-@Slf4j
+@Getter@Setter
 @Schema(description = "Информация о партнере")
 public class PartnerRequestDTO {
     @Schema(description = "Наименование партнера")
@@ -33,6 +28,6 @@ public class PartnerRequestDTO {
     private Double longitude;
     @Schema(description = "Тип сервиса")
     private StateCarType carType;
-    @Schema(description = "Списк оказываемых услуг")
+    @Schema(description = "Список оказываемых услуг")
     private Set<CostWorkRequestDTO> works;
 }

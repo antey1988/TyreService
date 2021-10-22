@@ -23,18 +23,17 @@ public class CostWorkServiceImpl implements CostWorkService {
     @Override
     public List<CostWorkResponseDTO> readCostsWorks(Long id) {
         List<CostWork> listEntities = costWorkRepository.findAllByPartnerId(id);
-        return listEntities.stream()
-                .map(CostWorkResponseDTO::fromEntity).collect(Collectors.toList());
+        return listEntities.stream().map(CostWorkResponseDTO::fromEntity).collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public List<CostWorkResponseDTO> createAndUpdateCostsWorks(Long id, List<CostWorkRequestDTO> costWorkRequestDTOs) {
+    public void createAndUpdateCostsWorks(Long id, List<CostWorkRequestDTO> costWorkRequestDTOs) {
         Partner partner = new Partner();
         partner.setId(id);
         List<CostWork> deleteWorks = costWorkRequestDTOs.stream().filter(cw -> cw.getPrice() < 0).map(cw -> CostWorkRequestDTO.toEntity(partner, cw)).collect(Collectors.toList());
         List<CostWork> updateWorks = costWorkRequestDTOs.stream().filter(cw -> cw.getPrice() >= 0).map(cw -> CostWorkRequestDTO.toEntity(partner, cw)).collect(Collectors.toList());
         costWorkRepository.deleteAllInBatch(deleteWorks);
-        return costWorkRepository.saveAll(updateWorks).stream().map(CostWorkResponseDTO::fromEntity).collect(Collectors.toList());
+        costWorkRepository.saveAll(updateWorks);
     }
 }

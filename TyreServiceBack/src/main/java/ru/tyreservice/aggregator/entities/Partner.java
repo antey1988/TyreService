@@ -6,6 +6,7 @@ import ru.tyreservice.aggregator.enums.StateCarType;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -33,4 +34,9 @@ public class Partner {
     private StateCarType carType;
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL)
     private Set<CostWork> costsWorks = new HashSet<>();
+    @Column(name = "image")
+    private String imagePath;
+    @ElementCollection
+    @CollectionTable(name = "reviews", joinColumns = @JoinColumn(name = "partner_id", nullable = false))
+    List<Review> reviews;
 }

@@ -27,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void changeStatus(Long partner, Long id, StateStatus status) {
         Order order = readById(id);
-        if (order.getPartner().getId() != partner) {
+        if (!order.getPartner().getId().equals(partner)) {
             throw new NotFoundException(String.format("Исполнителем заказа с id=%d является другая организация. " +
                     "Отказано в изменении статуса", id));
         }
@@ -44,17 +44,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void createOrder(OrderRequestDTO orderRequest) {
-        Order order = OrderRequestDTO.toEntity(orderRequest);
-        orderRepository.save(order);
-    }
-
-    @Override
-    @Transactional
-    public void createOrder(OrderRequestDTO orderRequest, Long clientId) {
+    public Long createOrder(OrderRequestDTO orderRequest, Long clientId) {
         Order order = OrderRequestDTO.toEntity(orderRequest);
         order.setClientId(clientId);
-        orderRepository.save(order);
+        return orderRepository.save(order).getId();
     }
 
     private Order readById(Long id) {
