@@ -22,13 +22,15 @@ class ServiceInfoViewModel {
         }
     }
     
+    private var registrationWorksViewModel: RequestWorksViewModel?
+    var showRegistrationWorks: (()->())?
     var reloadMenu: (()->())?
     var reloadInfo: (()->())?
     
     required init(service: Service) {
         self.service = service
         networkManager = NetworkManager()
-        aboutServiceCellViewModel = AboutCellViewModel(viewModel: service)
+        aboutServiceCellViewModel = AboutCellViewModel(viewModel: service, actionRegistrationWorks:  {})
         contactsCellViewModel = ContactsCellViewModel(longitude: service.longitude,
                                                            latitude: service.latitude,
                                                            address: service.address,
@@ -44,7 +46,7 @@ class ServiceInfoViewModel {
             case .ok:
                 guard let service = service else { return }
                 self?.service = service
-                self?.aboutServiceCellViewModel = AboutCellViewModel(viewModel: service)
+                self?.aboutServiceCellViewModel = AboutCellViewModel(viewModel: service, actionRegistrationWorks: { self?.showRegistrationWorks?() })
                 self?.contactsCellViewModel = ContactsCellViewModel(longitude: service.longitude,
                                                                    latitude: service.latitude,
                                                                    address: service.address,
@@ -89,5 +91,14 @@ class ServiceInfoViewModel {
             return ""
         }
         return service.name
+    }
+    
+    public func getRegistrationWorksViewModel() -> RequestWorksViewModel? {
+        if let service = service {
+            registrationWorksViewModel = RequestWorksViewModel(service: service)
+            return registrationWorksViewModel
+        }
+        
+        return nil
     }
 }

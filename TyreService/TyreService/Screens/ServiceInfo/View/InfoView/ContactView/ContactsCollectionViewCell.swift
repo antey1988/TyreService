@@ -41,7 +41,8 @@ class ContactsCollectionViewCell: UICollectionViewCell {
         addressLabel.text = viewModel.address
         phoneLabel.text = viewModel.phone
         workTimeLabel.text = viewModel.workTime
-        showMapMarker(lat: viewModel.latitude, lon: viewModel.longitude)
+        guard let lat = viewModel.latitude, let lon = viewModel.longitude else { return }
+        showMapMarker(lat: lat, lon: lon)
     }
     
     private func showMapMarker(lat: Double, lon: Double) {
