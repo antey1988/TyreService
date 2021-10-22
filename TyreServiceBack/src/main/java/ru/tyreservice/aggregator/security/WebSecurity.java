@@ -30,6 +30,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET, "/api/lk/orders").hasAnyAuthority("CLIENT", "PARTNER", "MANAGER")
             .antMatchers(HttpMethod.POST, "/api/lk/orders/*").hasAnyAuthority("PARTNER", "MANAGER")
             .antMatchers("/api/lk").hasAnyAuthority("CLIENT", "PARTNER", "MANAGER")
+            .antMatchers(HttpMethod.GET, "/api/works").hasAnyAuthority("ADMIN", "PARTNER", "MANAGER")
+            .antMatchers(HttpMethod.POST, "/api/works").hasAnyAuthority("ADMIN")
             .antMatchers("/api/**").permitAll()
             .and().httpBasic();
     }

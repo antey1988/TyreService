@@ -19,3 +19,41 @@ databaseChangeLog:
             dbms: h2, postgresql, mysql
             stripComments: true
             sql: comment on table reviews is 'Таблица хранения отзывов';
+
+  - changeSet:
+      id: 03-add-column-name-to-reviews
+      author: ${author}
+      changes:
+        - addColumn:
+            tableName: reviews
+            columns:
+              - column:
+                  name: name
+                  type: varchar(50)
+  - changeSet:
+      id: 04-add-column-date-to-reviews
+      author: ${author}
+      changes:
+        - addColumn:
+            tableName: reviews
+            columns:
+              - column:
+                  name: date
+                  type: datetime
+  - changeSet:
+      id: 05-drop-column-id-reviews
+      author: ${author}
+      changes:
+      -  dropColumn:
+           columnName:  id
+           tableName:  reviews
+
+  - changeSet:
+      id: 06-rename-column-reviews
+      author: ${author}
+      changes:
+        - renameColumn:
+            columnDataType: bigint
+            newColumnName: partner_id
+            oldColumnName: partnerId
+            tableName: reviews
