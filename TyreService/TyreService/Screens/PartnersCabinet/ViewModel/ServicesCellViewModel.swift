@@ -17,4 +17,5 @@ class ServicesCellViewModel {
         self.price = price.description + "руб."
     }
     
+    //.....
 }

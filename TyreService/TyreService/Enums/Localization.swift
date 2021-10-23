@@ -8,16 +8,15 @@
 import Foundation
 
 enum Errors {
-    
-    static let emptyName = "Введите имя"
-    static let emptyPhone = "Введите номер телефона"
-    static let emptyEmail = "Введите email"
-    static let emptyPassword = "Введите пароль"
-    static let enterPasswordAgain = "Введите пароль ещё раз"
-    static let passwordDiscrepancy = "Пароли не совпадают"
-    static let somethingWentWrong = "Что-то пошло не так"
+    static let emptyName = "Введите ваше имя"
+    static let emptyOrIncorrectPhone = "Введите ваш номер телефона с кодом, или проверьте его корректность" // 74957556983 - 11 символов
+    static let emptyField = "Это поле не должно быть пустым"
+    static let emptyOrIncorrectEmail = "Введите ваш email или проверьте его корректность"
     static let smallPassword = "Пароль должен содержать не менее шести символов"
-    static let emptyOrIncorrectEmail = "Введите email или проверьте его корректность"
-    static let correctEmail = "correctEmail"
-    
+    static let emptyOrIncorrectAddress = "Введите ваш домашний адрес, с указанием города, улицы, дома и квартиры" //Уфа,ул.Лазо,д9,кв5 - 18 символов
+    static let emptyWorkingHours = "Введите время работы" //8.00-10.00 - 10 символов
+    static let emptyCoordinates = "Введите координаты" 
+    static let somethingWentWrong = "Что-то пошло не так"
+    static let registrationFailed = "Ошибка регистрации"
+    static let authorizationError = "Ошибка авторизации"
 }
