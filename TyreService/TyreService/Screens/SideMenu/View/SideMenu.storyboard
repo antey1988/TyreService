@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1Vh-6w-sQn">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -184,6 +184,26 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wos-Df-p6d" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="146" y="-21"/>
+        </scene>
+        <!--Authorization-->
+        <scene sceneID="lBx-ri-mUo">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Authorization" id="ysn-Ad-heO" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="3Mc-dA-RfX"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zZs-D8-aes" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="870" y="-183"/>
+        </scene>
+        <!--PartnerCabinet-->
+        <scene sceneID="RhY-1C-GPk">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PartnerCabinet" id="g1W-3C-QOx" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="W5t-uU-yQX"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vMe-gO-DZQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="870" y="-148"/>
         </scene>
         <!--Side Menu Navigation Controller-->
         <scene sceneID="qhE-9L-znP">

@@ -9,50 +9,51 @@ import Foundation
 
 class SignUpViewModel {
     
-    var showErrorMessage: ((String) -> ())?
+    private var authManager: AuthManager!
+    public var showErrorMessage: ((String) -> ())?
+    public var dismissController: (() -> ())?
+    public var registrationFailed: ((String) -> ())?
+    
+    required init() {
+        authManager = AuthManager()
+    }
     
     //MARK: - Registration
     
-    func registration(name: String, phone: String, email: String, passwordOne: String, passwordTho: String, completion: @escaping ((Error?) -> Void)) {
+    func registration(name: String, phone: String, email: String, password: String) {
         
-        let nameText = name.trimmingCharacters(in: .whitespaces)
-        let phoneText = phone.trimmingCharacters(in: .whitespaces)
-        let emailText = email.trimmingCharacters(in: .whitespaces)
-        let passwordOneText = passwordOne.trimmingCharacters(in: .whitespaces)
-        let passwordThoText = passwordTho.trimmingCharacters(in: .whitespaces)
+        let name = name.trimmingCharacters(in: .whitespaces)
+        let phone = phone.trimmingCharacters(in: .whitespaces)
+        let email = email.trimmingCharacters(in: .whitespaces)
+        let password = password.trimmingCharacters(in: .whitespaces)
         
-        if nameText == "" {
+        if name.count < 2 {
             self.showErrorMessage?(NSLocalizedString(Errors.emptyName, comment: ""))
             return
         }
-        if phoneText == "" {
-            self.showErrorMessage?(NSLocalizedString(Errors.emptyPhone, comment: ""))
+        if phone.count < 11 {
+            self.showErrorMessage?(NSLocalizedString(Errors.emptyOrIncorrectPhone, comment: ""))
             return
         }
-        if emailText == "" {
-            self.showErrorMessage?(NSLocalizedString(Errors.emptyEmail, comment: ""))
+        if !isValidEmail(email) {
+            self.showErrorMessage?(NSLocalizedString(Errors.emptyOrIncorrectEmail, comment: ""))
             return
         }
-        if passwordOneText == "" {
-            self.showErrorMessage?(NSLocalizedString(Errors.emptyPassword, comment: ""))
-            return
-        }
-        if passwordThoText == "" {
-            self.showErrorMessage?(NSLocalizedString(Errors.enterPasswordAgain, comment: ""))
-        }
-        if passwordOne.count < 6 {
+        if password.count < 6 {
             self.showErrorMessage?(NSLocalizedString(Errors.smallPassword, comment: ""))
             return
         }
-        if passwordOne != passwordTho {
-            self.showErrorMessage?(NSLocalizedString(Errors.passwordDiscrepancy, comment: ""))
-            return
+        let partner = Partner(name: name, phone: phone, email: email, password: password)
+        authManager.createPartner(parter: partner) { [weak self] (status, error) in
+            if status == .ok {
+                self?.dismissController?()
+            } else {
+                self?.registrationFailed?(error ?? NSLocalizedString(Errors.registrationFailed, comment: ""))
+            }
         }
-        
-        return
     }
     
-    //MARK: - CheckPasswordStrength
+    //MARK: - CheckValidFeilds
     
     func checkPasswordStrength(password: String) -> Int {
         var strengthPassword = 0
@@ -85,6 +86,12 @@ class SignUpViewModel {
             strengthPassword = 0
         }
         return strengthPassword
+    }
+    
+    private func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
     
 }

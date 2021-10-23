@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SideMenu
 
 class AuthorizationViewController: UIViewController {
     
@@ -20,10 +21,8 @@ class AuthorizationViewController: UIViewController {
         super.viewDidLoad()
         setUpViewModel()
         signInButton.isEnabled = false
-    }
-    
-    @IBAction func emailTextField(_ sender: UITextField) {
-        viewModel.checkEmptyEmail(email: emailTF.text ?? "")
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        hideKeyboardWhenTappedAround()
     }
     
     @IBAction func passwordTextField(_ sender: UITextField) {
@@ -34,12 +33,21 @@ class AuthorizationViewController: UIViewController {
         }
     }
     
-    @IBAction func signInButtonPressed(_ sender: UIButton) {
-        //TODO: checking API data and logging in to the start page
+    @IBAction func showSideMenu(_ sender: UIBarButtonItem) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "SideMenu", bundle:nil)
+        let menu = storyBoard.instantiateViewController(withIdentifier: "SideMenu") as! SideMenuNavigationController
+        menu.settings = createSettingsSideMenu()
+        SideMenuManager.default.leftMenuNavigationController = menu
+        if let navController = navigationController {
+            SideMenuManager.default.addPanGestureToPresent(toView: navController.navigationBar)
+            SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: navController.view)
+        }
+        present(menu, animated: true, completion: nil)
     }
     
-    @IBAction func signUpButtonPressed(_ sender: UIButton) {
-        //TODO: go to the registration screen
+    
+    @IBAction func signInButtonPressed(_ sender: UIButton) {
+        viewModel.authorization(email: emailTF.text ?? "", password: passwordTF.text ?? "")
     }
     
     private func signInButtonTrue() {
@@ -55,6 +63,19 @@ class AuthorizationViewController: UIViewController {
         viewModel.showErrorMessage = { [weak self] errorMessage in
             self?.showErrorAlert(and: errorMessage)
         }
+        viewModel.success = { [weak self] in
+            let storyBoard = UIStoryboard(name: "PartnerCabinet", bundle: nil)
+            let partnerCabinet = storyBoard.instantiateViewController(withIdentifier: "PartnerCabinetVC") as! PartnerCabinetViewController
+            self?.navigationController?.pushViewController(partnerCabinet, animated: true)
+        }
+    }
+    
+    private func createSettingsSideMenu() -> SideMenuSettings {
+        var settings = SideMenuSettings()
+        settings.presentationStyle = .menuSlideIn
+        settings.statusBarEndAlpha = 0
+        settings.menuWidth = min(UIScreen.main.bounds.width - 50, 500);
+        return settings
     }
     
 }

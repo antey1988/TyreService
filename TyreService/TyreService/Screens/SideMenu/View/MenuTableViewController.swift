@@ -9,13 +9,25 @@ import UIKit
 
 class MenuTableViewController: UITableViewController {
 
+    private var isAuth: Bool = UserDefaults.standard.string(forKey: "token") != nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // если не авторизован тогда 2,3,5 indexPath скрываем
-        return 80
+        switch indexPath.row {
+        case 0:
+            return isAuth ? 0 : 80
+        case 1:
+            return isAuth ? 80 : 0
+        case 2:
+            return isAuth ? 80 : 0
+        case 4:
+            return isAuth ? 80 : 0
+        default:
+            return 80
+        }
     }
 
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -26,17 +38,24 @@ class MenuTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.row {
         case 0:
-            print("Entry")
+            let storyBoard = UIStoryboard(name: "Authorization", bundle: nil)
+            let authorizationVC = storyBoard.instantiateViewController(withIdentifier: "AuthorizationVC") as! AuthorizationViewController
+            navigationController?.pushViewController(authorizationVC, animated: false)
         case 1:
-            print("LK")
+            let storyBoard = UIStoryboard(name: "PartnerCabinet", bundle: nil)
+            let partherCabinet = storyBoard.instantiateViewController(withIdentifier: "PartnerCabinetVC") as! PartnerCabinetViewController
+            navigationController?.pushViewController(partherCabinet, animated: false)
         case 2:
             print("Orders")
         case 3:
-            let storyBoard : UIStoryboard = UIStoryboard(name: "ServiceList", bundle:nil)
+            let storyBoard: UIStoryboard = UIStoryboard(name: "ServiceList", bundle:nil)
             let servicesListVC = storyBoard.instantiateViewController(withIdentifier: "ServicesListVC") as! ServicesListViewController
             navigationController?.pushViewController(servicesListVC, animated: false)
         case 4:
-            print("Exit")
+            UserDefaults.standard.removeObject(forKey: "token")
+            let storyBoard: UIStoryboard = UIStoryboard(name: "ServiceList", bundle:nil)
+            let servicesListVC = storyBoard.instantiateViewController(withIdentifier: "ServicesListVC") as! ServicesListViewController
+            navigationController?.pushViewController(servicesListVC, animated: false)
             break
         default:
             break
