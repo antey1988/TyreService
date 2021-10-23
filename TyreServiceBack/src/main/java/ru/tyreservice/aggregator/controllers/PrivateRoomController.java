@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import ru.tyreservice.aggregator.dto.requests.ClientDTO;
 import ru.tyreservice.aggregator.dto.requests.CostWorkRequestDTO;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
@@ -18,10 +19,7 @@ import ru.tyreservice.aggregator.dto.responses.StatusResponse;
 import ru.tyreservice.aggregator.enums.Role;
 import ru.tyreservice.aggregator.enums.StateStatus;
 import ru.tyreservice.aggregator.security.UserAccount;
-import ru.tyreservice.aggregator.services.ClientService;
-import ru.tyreservice.aggregator.services.CostWorkService;
-import ru.tyreservice.aggregator.services.OrderService;
-import ru.tyreservice.aggregator.services.PartnerService;
+import ru.tyreservice.aggregator.services.*;
 import ru.tyreservice.aggregator.utils.GlobalConfig;
 
 import javax.servlet.http.HttpSession;
@@ -40,6 +38,7 @@ public class PrivateRoomController {
     private final ClientService clientService;
     private final CostWorkService costWorkService;
     private final OrderService orderService;
+    private final ImageService imageService;
     private final ObjectMapper mapper;
     private final GlobalConfig config;
     private final String request = "Request: %s http://localhost:%d/api/lk%s";
@@ -126,6 +125,15 @@ public class PrivateRoomController {
         log.info(String.format(request, "POST", config.getPort(), "/orders/" + id));
         orderService.changeStatus(account.getAccountId(), id, status);
         log.info(String.format("User %s change status of order with id= %d", account.getUsername(), id));
+        return StatusResponse.getOk();
+    }
+    @Operation(summary = "Загрузка фотографии сервиса",
+            security = @SecurityRequirement(name = "basic"))
+    @PostMapping(value = "/lk/images")
+    public StatusResponse uploadImage(@RequestParam MultipartFile image) {
+        UserAccount account = getAccount();
+        log.info(String.format(request, "POST", config.getPort(), "/images"));
+        imageService.uploadImage(account.getAccountId(), image);
         return StatusResponse.getOk();
     }
 }

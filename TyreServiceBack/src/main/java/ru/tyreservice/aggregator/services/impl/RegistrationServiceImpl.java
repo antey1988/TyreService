@@ -10,6 +10,7 @@ import ru.tyreservice.aggregator.dto.requests.RegDataRequest;
 import ru.tyreservice.aggregator.dto.responses.StatusResponse;
 import ru.tyreservice.aggregator.enums.Role;
 import ru.tyreservice.aggregator.exceptions.NullValueFieldException;
+import ru.tyreservice.aggregator.exceptions.UserExistsException;
 import ru.tyreservice.aggregator.services.ClientService;
 import ru.tyreservice.aggregator.services.PartnerService;
 import ru.tyreservice.aggregator.services.RegistrationService;
@@ -30,12 +31,12 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     @Transactional
-    public StatusResponse register(RegDataRequest request) {
+    public void register(RegDataRequest request) {
         String email = request.getEmail();
         Role role = request.getType() == null ? Role.PARTNER : request.getType();
         try {
             userService.findUserByLogin(email);
-            return StatusResponse.getBad(Collections.singletonList("Пользователь с указанным именем существует. Выберите другое имя"));
+            throw new UserExistsException("Пользователь с указанным именем существует. Выберите другое имя");
         } catch (RuntimeException e) {
             String password = request.getPassword();
             String phone = request.getPhone();
@@ -68,7 +69,6 @@ public class RegistrationServiceImpl implements RegistrationService {
                 userService.createUser(email, passwordEncoder.encode(password), Role.CLIENT, id);
             }
             log.info(String.format("Create user with name=%s ", name));
-            return StatusResponse.getOk();
         }
     }
 }

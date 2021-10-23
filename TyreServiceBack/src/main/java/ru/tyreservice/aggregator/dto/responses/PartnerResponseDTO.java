@@ -32,6 +32,8 @@ public class PartnerResponseDTO {
     private Double longitude;
     @Schema(description = "Тип сервиса")
     private StateCarType carType;
+    @Schema(description = "Имя файла с изображением сервиса")
+    private String imageName;
 
     public static PartnerResponseDTO fromEntity(Partner partner) {
         return new PartnerResponseDTO(
@@ -45,7 +47,8 @@ public class PartnerResponseDTO {
                 partner.getAddress(),
                 partner.getLatitude(),
                 partner.getLongitude(),
-                partner.getCarType()
+                partner.getCarType(),
+                partner.getImageName()
         );
     }
 }

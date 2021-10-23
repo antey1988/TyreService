@@ -41,6 +41,8 @@ public class PartnerWithDetailsDTO {
     private Set<CostWorkResponseDTO> works;
     @Schema(description = "Отзывы")
     private List<Review> reviews;
+    @Schema(description = "Имя файла с изображением сервиса")
+    private String imageName;
 
     public static PartnerWithDetailsDTO fromEntity(Partner partner) {
         return new PartnerWithDetailsDTO(
@@ -56,7 +58,8 @@ public class PartnerWithDetailsDTO {
                 partner.getLongitude(),
                 partner.getCarType(),
                 partner.getCostsWorks().stream().map(CostWorkResponseDTO::fromEntity).collect(Collectors.toSet()),
-                partner.getReviews()
+                partner.getReviews(),
+                partner.getImageName()
         );
     }
 }
