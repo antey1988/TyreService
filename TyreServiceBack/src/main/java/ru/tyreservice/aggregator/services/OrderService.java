@@ -10,6 +10,5 @@ import java.util.List;
 public interface OrderService {
     List<OrderResponseDTO> readListOrders(Long id, Role type);
     void changeStatus(Long partner, Long id, StateStatus status);
-    void createOrder(OrderRequestDTO orderRequest);
-    void createOrder(OrderRequestDTO orderRequest, Long clientId);
+    Long createOrder(OrderRequestDTO orderRequest, Long clientId);
 }

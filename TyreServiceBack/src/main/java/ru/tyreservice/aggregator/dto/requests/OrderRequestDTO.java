@@ -3,7 +3,6 @@ package ru.tyreservice.aggregator.dto.requests;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import ru.tyreservice.aggregator.entities.Order;
 import ru.tyreservice.aggregator.entities.Partner;
 import ru.tyreservice.aggregator.enums.StateStatus;
@@ -12,9 +11,7 @@ import java.sql.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
-@Slf4j
+@Getter@Setter
 @Schema(description = "Информация о создаваемом заказе")
 public class OrderRequestDTO {
     //Основная информация о заказе

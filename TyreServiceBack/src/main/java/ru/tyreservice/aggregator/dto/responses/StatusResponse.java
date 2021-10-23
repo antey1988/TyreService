@@ -1,17 +1,28 @@
 package ru.tyreservice.aggregator.dto.responses;
 
-import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-@Slf4j
 @Getter
-@Setter
-@Builder
 public class StatusResponse {
     private boolean success;
     private List<String> errors;
+
+    public StatusResponse(boolean success) {
+        this.success = success;
+    }
+
+    public StatusResponse(boolean success, List<String> errors) {
+        this.success = success;
+        this.errors = errors;
+    }
+
+    public static StatusResponse getOk() {
+        return new StatusResponse(true);
+    }
+
+    public static StatusResponse getBad(List<String> errors) {
+        return new StatusResponse(false, errors);
+    }
 }

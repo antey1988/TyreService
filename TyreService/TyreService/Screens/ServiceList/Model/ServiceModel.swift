@@ -28,14 +28,14 @@ struct TypeService: Decodable, Equatable {
 struct Service: Decodable {
     let id: Int
     let name: String
-    let description: String
+    let description: String?
     let email: String
-    let address: String
-    let latitude: Double
-    let longitude: Double
-    let schedule: String
+    let address: String?
+    let latitude: Double?
+    let longitude: Double?
+    let schedule: String?
     let phone: String
-    let rank: Double
+    let rank: Double?
     let carType: String
     let works: [TypeService]?
 }

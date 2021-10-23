@@ -9,12 +9,6 @@ import UIKit
 import SideMenu
 import RSSelectionMenu
 
-struct Employee: Equatable {
-    
-    let empId: Int?
-    let name: String?
-}
-
 class ServicesListViewController: UIViewController {
 
     @IBOutlet weak var filterCollectionView: UICollectionView!

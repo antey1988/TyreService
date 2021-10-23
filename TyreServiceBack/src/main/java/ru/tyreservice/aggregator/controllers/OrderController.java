@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tyreservice.aggregator.dto.requests.OrderRequestDTO;
+import ru.tyreservice.aggregator.dto.responses.StatusResponse;
+import ru.tyreservice.aggregator.security.UserAccount;
 import ru.tyreservice.aggregator.services.OrderService;
+import ru.tyreservice.aggregator.utils.GlobalConfig;
 
 import static ru.tyreservice.aggregator.security.SecurityUtil.getAccount;
 import static ru.tyreservice.aggregator.security.SecurityUtil.isAnonymous;
@@ -22,16 +25,20 @@ import static ru.tyreservice.aggregator.security.SecurityUtil.isAnonymous;
 public class OrderController {
 
     private final OrderService orderService;
+    private final GlobalConfig config;
 
     @PostMapping(value = "/orders")
     @Operation(summary = "Создание заказа", description = "Создание заказа на выполнение услуг, доступно всем пользователям")
-    public void createOrder(
+    public StatusResponse createOrder(
             @RequestBody OrderRequestDTO orderRequest) {
-        log.info("Request: POST http://localhost:8080/api/orders");
-        if (isAnonymous()) {
-            orderService.createOrder(orderRequest);
-        } else {
-            orderService.createOrder(orderRequest, getAccount().getAccountId());
+        log.info("Request: POST http://localhost:" + config.getPort() + "/api/orders");
+        Long clientId = null;
+        if (!isAnonymous()) {
+            UserAccount account = getAccount();
+            log.info(String.format("User %s create order", account.getUsername()));
+            clientId = account.getAccountId();
         }
+        orderService.createOrder(orderRequest, clientId);
+        return StatusResponse.getOk();
     }
 }

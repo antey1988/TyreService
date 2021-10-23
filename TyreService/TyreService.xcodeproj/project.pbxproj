@@ -47,6 +47,13 @@
 		ED4451B4270D01B200B24F2D /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4451AE270D01B200B24F2D /* SignUpViewModel.swift */; };
 		ED4451B6270D01B200B24F2D /* Registration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED4451B2270D01B200B24F2D /* Registration.storyboard */; };
 		ED4451B7270D01B200B24F2D /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4451B3270D01B200B24F2D /* RegistrationViewController.swift */; };
+		ED4C88632721C6AD00EB6323 /* RequestWorks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED4C88622721C6AD00EB6323 /* RequestWorks.storyboard */; };
+		ED4C88652721C6DA00EB6323 /* RequestWorksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4C88642721C6DA00EB6323 /* RequestWorksViewController.swift */; };
+		ED4C88672721C6F000EB6323 /* RequestWorksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED4C88662721C6F000EB6323 /* RequestWorksViewModel.swift */; };
+		ED76AD242721FFB900A2D9F6 /* RequestWorksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED76AD222721FFB900A2D9F6 /* RequestWorksTableViewCell.swift */; };
+		ED76AD252721FFB900A2D9F6 /* RequestWorksTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED76AD232721FFB900A2D9F6 /* RequestWorksTableViewCell.xib */; };
+		ED76AD272722005B00A2D9F6 /* RequestWorkCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED76AD262722005B00A2D9F6 /* RequestWorkCellViewModel.swift */; };
+		ED882946271E1D770038FEB7 /* ExtensionDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED882945271E1D770038FEB7 /* ExtensionDouble.swift */; };
 		ED489A7B2721A35F005CF284 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED489A7A2721A35F005CF284 /* Constants.swift */; };
 		ED952F66271DEBA50017B956 /* SideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED952F65271DEBA50017B956 /* SideMenu.storyboard */; };
 		ED984904271339DD00C924A1 /* Authorization.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED984903271339DD00C924A1 /* Authorization.storyboard */; };
@@ -136,6 +143,13 @@
 		ED4451AE270D01B200B24F2D /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		ED4451B2270D01B200B24F2D /* Registration.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Registration.storyboard; sourceTree = "<group>"; };
 		ED4451B3270D01B200B24F2D /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		ED4C88622721C6AD00EB6323 /* RequestWorks.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RequestWorks.storyboard; sourceTree = "<group>"; };
+		ED4C88642721C6DA00EB6323 /* RequestWorksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestWorksViewController.swift; sourceTree = "<group>"; };
+		ED4C88662721C6F000EB6323 /* RequestWorksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestWorksViewModel.swift; sourceTree = "<group>"; };
+		ED76AD222721FFB900A2D9F6 /* RequestWorksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestWorksTableViewCell.swift; sourceTree = "<group>"; };
+		ED76AD232721FFB900A2D9F6 /* RequestWorksTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RequestWorksTableViewCell.xib; sourceTree = "<group>"; };
+		ED76AD262722005B00A2D9F6 /* RequestWorkCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestWorkCellViewModel.swift; sourceTree = "<group>"; };
+		ED882945271E1D770038FEB7 /* ExtensionDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDouble.swift; sourceTree = "<group>"; };
 		ED489A7A2721A35F005CF284 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		ED952F65271DEBA50017B956 /* SideMenu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SideMenu.storyboard; sourceTree = "<group>"; };
 		ED984903271339DD00C924A1 /* Authorization.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authorization.storyboard; sourceTree = "<group>"; };
@@ -455,6 +469,34 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		ED4C885F2721C50B00EB6323 /* RequestWorks */ = {
+			isa = PBXGroup;
+			children = (
+				ED4C88612721C5C500EB6323 /* ViewModel */,
+				ED4C88602721C5BF00EB6323 /* View */,
+			);
+			path = RequestWorks;
+			sourceTree = "<group>";
+		};
+		ED4C88602721C5BF00EB6323 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ED76AD212721FF5E00A2D9F6 /* ServiceCell */,
+				ED4C88622721C6AD00EB6323 /* RequestWorks.storyboard */,
+				ED4C88642721C6DA00EB6323 /* RequestWorksViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		ED4C88612721C5C500EB6323 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				ED4C88662721C6F000EB6323 /* RequestWorksViewModel.swift */,
+				ED76AD262722005B00A2D9F6 /* RequestWorkCellViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		ED765B45271DE82400BEBC1E /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -470,6 +512,15 @@
 				ED2EC25F271F3C9C00B67EBD /* MenuTableViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		ED76AD212721FF5E00A2D9F6 /* ServiceCell */ = {
+			isa = PBXGroup;
+			children = (
+				ED76AD222721FFB900A2D9F6 /* RequestWorksTableViewCell.swift */,
+				ED76AD232721FFB900A2D9F6 /* RequestWorksTableViewCell.xib */,
+			);
+			path = ServiceCell;
 			sourceTree = "<group>";
 		};
 		ED9848FF2713391500C924A1 /* Authorization */ = {
@@ -546,6 +597,7 @@
 				ED9848FF2713391500C924A1 /* Authorization */,
 				EDE667EA270B5D51002DD027 /* ServiceList */,
 				ED32DC2427160CE800690C8C /* ServiceInfo */,
+				ED4C885F2721C50B00EB6323 /* RequestWorks */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -709,11 +761,13 @@
 				ED4451B6270D01B200B24F2D /* Registration.storyboard in Resources */,
 				ED08A808271A1752005C2A57 /* PartnerCabinet.storyboard in Resources */,
 				ED32DC3927161CCC00690C8C /* AboutServiceCollectionViewCell.xib in Resources */,
+				ED4C88632721C6AD00EB6323 /* RequestWorks.storyboard in Resources */,
 				ED3F1CAA2706189B00385D28 /* Assets.xcassets in Resources */,
 				ED32DC3D27161CDD00690C8C /* ContactsCollectionViewCell.xib in Resources */,
 				EDE667FA270B5FFA002DD027 /* CarTypeCollectionViewCell.xib in Resources */,
 				ED08A80C271A1752005C2A57 /* ServicesTableViewCell.xib in Resources */,
 				FE8D590227195685000AB01F /* ReviewsCollectionViewCell.xib in Resources */,
+				ED76AD252721FFB900A2D9F6 /* RequestWorksTableViewCell.xib in Resources */,
 				ED984904271339DD00C924A1 /* Authorization.storyboard in Resources */,
 				ED952F66271DEBA50017B956 /* SideMenu.storyboard in Resources */,
 				ED32DC2A27160D7700690C8C /* ServiceInfo.storyboard in Resources */,
@@ -850,6 +904,7 @@
 				ED98490827133AC800C924A1 /* AuthorizationViewController.swift in Sources */,
 				ED489A7B2721A35F005CF284 /* Constants.swift in Sources */,
 				EDE667F9270B5FFA002DD027 /* CarTypeCollectionViewCell.swift in Sources */,
+				ED4C88672721C6F000EB6323 /* RequestWorksViewModel.swift in Sources */,
 				ED08A7E7271A13A3005C2A57 /* Localization.swift in Sources */,
 				EDE66804270B6769002DD027 /* RequestStatus.swift in Sources */,
 				ED08A80D271A1752005C2A57 /* PartnerCabinetViewController.swift in Sources */,
@@ -869,8 +924,11 @@
 				ED98490A27133B7D00C924A1 /* AuthorizationViewModel.swift in Sources */,
 				EDE66808270B69AB002DD027 /* ServiceCellViewModel.swift in Sources */,
 				ED32DC3827161CCC00690C8C /* AboutServiceCollectionViewCell.swift in Sources */,
+				ED4C88652721C6DA00EB6323 /* RequestWorksViewController.swift in Sources */,
 				ED2EC260271F3C9C00B67EBD /* MenuTableViewController.swift in Sources */,
+				ED76AD272722005B00A2D9F6 /* RequestWorkCellViewModel.swift in Sources */,
 				ED08A805271A1752005C2A57 /* PartnerCabinetViewModel.swift in Sources */,
+				ED76AD242721FFB900A2D9F6 /* RequestWorksTableViewCell.swift in Sources */,
 				ED3F1CA52706189900385D28 /* ServicesListViewController.swift in Sources */,
 				EDE66806270B68AC002DD027 /* ServiceListViewModel.swift in Sources */,
 				EDE66801270B6530002DD027 /* ExtensionString.swift in Sources */,

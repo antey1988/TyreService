@@ -22,7 +22,6 @@ class NetworkManager {
     
     func getServices(filterCarType: String, pageNumber: Int, search: String, latitude: Double, longitude: Double, filterWorksType: [String], complition: @escaping ((RequestStatus, [Service]?) -> Void)) {
         let url = "http://194.67.91.182:8081/api/partners"
-        //let searchString = .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
         var parameters: [String: Any] = [
             "type": filterCarType,
             "name": search,
@@ -45,12 +44,31 @@ class NetworkManager {
     func getFullInfoService(id: Int, complition: @escaping ((RequestStatus, Service?) -> Void)) {
         let url = "http://194.67.91.182:8081/api/partners/\(id)"
         AF.request(url).validate().responseDecodable(of: Service.self) { (response) in
-            print(response)
             guard let data = response.value else {
                 complition(.error, nil)
                 return
             }
             complition(.ok, data)
         }
+    }
+    
+    func requestOnWorks(partnerId: Int, clientName: String, clientPhone: String, clientAuto: String, works: [TypeService], visitDate: String, currentDate: String, complition: @escaping ((RequestStatus) -> Void)) {
+        let url = "http://194.67.91.182:8081/api/orders"
+        let parameters: [String: Any] = [
+            "partnerId": partnerId,
+            "clientName": clientName,
+            "clientPhone": clientPhone,
+            "clientAuto": clientAuto,
+            "bookingDate": visitDate,
+            "createDate": currentDate,
+            "lines": works.map({ work in
+                return ["id": work.id, "price": work.price, "count": 1]
+            })
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
+            complition(.ok)
+        }
+        
     }
 }

@@ -33,11 +33,11 @@ public class Order {
 
     @Column(name = "client_id")
     private Long clientId;
-    @Column(name = "name")
+    @Column(name = "client_name")
     private String clientName;
-    @Column(nullable = false, name = "phone")
+    @Column(nullable = false, name = "client_phone")
     private String clientPhone;
-    @Column(name = "auto")
+    @Column(name = "client_auto")
     private String clientAuto;
 
     @ElementCollection

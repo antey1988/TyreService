@@ -16,7 +16,7 @@ INSERT INTO CLIENTS(id, name, phone, email) VALUES
 ;
 
 --Пароль для всех партнеров 12345
-INSERT INTO USERS(id, login, password, role, account_id) VALUES
+INSERT INTO USERS(id, login, password, role, account) VALUES
     (1, 'Partner1', '{bcrypt}$2a$10$O/NH7f05JJhN7wpldZa3.OHRDfbgX7aRMxpN1DHfxbywF4BKrN.H6', 'PARTNER', 1),
     (2, 'Partner2', '{bcrypt}$2a$10$O/NH7f05JJhN7wpldZa3.OHRDfbgX7aRMxpN1DHfxbywF4BKrN.H6', 'PARTNER', 2),
     (3, 'Partner3', '{bcrypt}$2a$10$O/NH7f05JJhN7wpldZa3.OHRDfbgX7aRMxpN1DHfxbywF4BKrN.H6', 'PARTNER', 3),
@@ -48,7 +48,7 @@ INSERT INTO COSTS_WORKS(partner_id, work_id, price) VALUES
     (4, 4, 45)
 ;
 
-INSERT INTO ORDERS(id, partner_id, create_date, booking_date, status, name, phone, auto) VALUES
+INSERT INTO ORDERS(id, partner_id, create_date, booking_date, status, client_name, client_phone, client_auto) VALUES
     (1, 1, '2020-10-01', '2020-10-02','WAITING', 'Иван', '892815748596145', 'VW Polo'),
     (2, 1, '2020-10-11', '2020-10-15','WAITING', 'Иван', '892815748596145', 'VW Polo'),
     (3, 2, '2020-10-13', '2020-10-20','WAITING', 'Сергей', '892815748596145', 'Sloda Rapid')

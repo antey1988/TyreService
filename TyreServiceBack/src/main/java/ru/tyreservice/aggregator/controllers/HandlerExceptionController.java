@@ -16,12 +16,12 @@ public class HandlerExceptionController {
     @ExceptionHandler(value = NotFoundException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public StatusResponse handleNotFoundException(NotFoundException e) {
-        return StatusResponse.builder().success(false).errors(Collections.singletonList(e.getError())).build();
+        return StatusResponse.getBad(Collections.singletonList(e.getError()));
     }
 
     @ExceptionHandler(value = NullValueFieldException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public StatusResponse handleNullValueFieldException(NullValueFieldException e) {
-        return StatusResponse.builder().success(false).errors(e.getErrors()).build();
+        return StatusResponse.getBad(e.getErrors());
     }
 }

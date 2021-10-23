@@ -8,11 +8,13 @@
 import Foundation
 
 class AboutCellViewModel {
+    private var actionRegistrationWorks: () -> Void
     var description: String
     var works: String = ""
     
-    required init(viewModel: Service) {
-        description = viewModel.description
+    required init(viewModel: Service, actionRegistrationWorks: @escaping () -> Void = { }) {
+        self.actionRegistrationWorks = actionRegistrationWorks
+        description = viewModel.description ?? ""
         works = workToStrings(works: viewModel.works ?? [])
     }
     
@@ -23,4 +25,9 @@ class AboutCellViewModel {
         }
         return worksString
     }
+    
+    public func showRegistrationWorksView() {
+        actionRegistrationWorks()
+    }
+    
 }

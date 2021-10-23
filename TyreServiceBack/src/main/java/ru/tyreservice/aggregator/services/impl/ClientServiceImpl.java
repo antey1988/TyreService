@@ -31,12 +31,16 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDTO readClient(Long id) {
         Client client = findById(id);
-        return new ClientDTO(client.getName(), client.getEmail(), client.getPhone());
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setEmail(client.getEmail());
+        clientDTO.setName(client.getName());
+        clientDTO.setPhone(client.getPhone());
+        return clientDTO;
     }
 
     @Override
     @Transactional
-    public ClientDTO updateClient(Long id, ClientDTO clientDTO) {
+    public void updateClient(Long id, ClientDTO clientDTO) {
         Client client = findById(id);
         String value = clientDTO.getName();
         if (!StringUtils.isBlank(value)) {
@@ -58,7 +62,6 @@ public class ClientServiceImpl implements ClientService {
         } else {
             clientDTO.setEmail(client.getEmail());
         }
-        return clientDTO;
     }
 
 

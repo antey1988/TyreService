@@ -72,8 +72,8 @@ class PartnerCabinetViewController: UIViewController {
             self?.emailTF.text = self?.viewModel.service.email
             self?.addressTF.text = self?.viewModel.service.address
             self?.workingHours.text = self?.viewModel.service.schedule
-            self?.latitudeTF.text = self?.viewModel.service.latitude.description
-            self?.longitudeTF.text = self?.viewModel.service.longitude.description
+            self?.latitudeTF.text = self?.viewModel.service.latitude?.description
+            self?.longitudeTF.text = self?.viewModel.service.longitude?.description
         }
     }
     
