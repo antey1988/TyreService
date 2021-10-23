@@ -24,6 +24,7 @@ import ru.tyreservice.aggregator.services.OrderService;
 import ru.tyreservice.aggregator.services.PartnerService;
 import ru.tyreservice.aggregator.utils.GlobalConfig;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static ru.tyreservice.aggregator.security.SecurityUtil.getAccount;
@@ -43,11 +44,19 @@ public class PrivateRoomController {
     private final GlobalConfig config;
     private final String request = "Request: %s http://localhost:%d/api/lk%s";
 
+    @Operation(summary = "Вход в личный кабинет",
+            description = "Первичный запрос на вход в кабинет, в ответ приходи идетнификатор сессии",
+            security = @SecurityRequirement(name = "basic"))
+    @GetMapping(value = "/login")
+    public String login(HttpSession session) {
+        return session.getId();
+    }
+
     @Operation(summary = "Главная страница личного кабинета",
             description = "Основная информация в личном кабинете",
             security = @SecurityRequirement(name = "basic"))
     @GetMapping(value = "/lk")
-    public Object login() {
+    public Object readAccount() {
         UserAccount account = getAccount();
         log.info(String.format(request, "GET", config.getPort(),""));
         log.info(String.format("User %s coming to private room", account.getUsername()));

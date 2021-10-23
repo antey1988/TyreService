@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.tyreservice.aggregator.dto.requests.CostWorkRequestDTO;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
-import ru.tyreservice.aggregator.dto.responses.PartnerWithWorksResponseDTO;
+import ru.tyreservice.aggregator.dto.responses.PartnerWithDetailsDTO;
 import ru.tyreservice.aggregator.entities.CostWork;
 import ru.tyreservice.aggregator.entities.Partner;
 import ru.tyreservice.aggregator.enums.StateCarType;
@@ -47,9 +47,9 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     @Transactional
-    public PartnerWithWorksResponseDTO readPartnerWithWorks(Long id) {
+    public PartnerWithDetailsDTO readPartnerWithWorks(Long id) {
         Partner partner = findById(id);
-        return PartnerWithWorksResponseDTO.fromEntity(partner);
+        return PartnerWithDetailsDTO.fromEntity(partner);
     }
 
     @Override
@@ -116,7 +116,8 @@ public class PartnerServiceImpl implements PartnerService {
         return repository.save(partner).getId();
     }
 
-    private Partner findById(Long id) {
+    @Override
+    public Partner findById(Long id) {
         Optional<Partner> optional = repository.findById(id);
         return optional.orElseThrow(() -> new NotFoundException("Партнера с указанным идентификатором не существует"));
     }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.tyreservice.aggregator.dto.requests.OrderRequestDTO;
+import ru.tyreservice.aggregator.dto.responses.StatusResponse;
 import ru.tyreservice.aggregator.security.UserAccount;
 import ru.tyreservice.aggregator.services.OrderService;
 import ru.tyreservice.aggregator.utils.GlobalConfig;
@@ -28,7 +29,7 @@ public class OrderController {
 
     @PostMapping(value = "/orders")
     @Operation(summary = "Создание заказа", description = "Создание заказа на выполнение услуг, доступно всем пользователям")
-    public void createOrder(
+    public StatusResponse createOrder(
             @RequestBody OrderRequestDTO orderRequest) {
         log.info("Request: POST http://localhost:" + config.getPort() + "/api/orders");
         Long clientId = null;
@@ -38,5 +39,6 @@ public class OrderController {
             clientId = account.getAccountId();
         }
         orderService.createOrder(orderRequest, clientId);
+        return StatusResponse.getOk();
     }
 }

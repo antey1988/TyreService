@@ -11,7 +11,7 @@ import java.util.Date;
 @Embeddable
 public class Review {
     @Column(nullable = false)
-    private Byte ball;
+    private Integer ball;
     @Column(nullable = false)
     private String message;
     @Column(nullable = false)
