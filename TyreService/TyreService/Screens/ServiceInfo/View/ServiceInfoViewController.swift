@@ -35,6 +35,14 @@ class ServiceInfoViewController: UIViewController {
         serviceNameLabel.text = viewModel.getServiceName()
         initMenuCollectionView()
         initInfoCollectionView()
+        viewModel.showRegistrationWorks = { [weak self] in
+            let storyBoard : UIStoryboard = UIStoryboard(name: "RequestWorks", bundle:nil)
+            if let registrationWorksVC = storyBoard.instantiateViewController(withIdentifier: "RequestWorksVC") as? RequestWorksViewController {
+                registrationWorksVC.viewModel = self?.viewModel.getRegistrationWorksViewModel()
+                self?.present(registrationWorksVC, animated: true, completion: nil)
+            }
+            
+        }
     }
     
     func initMenuCollectionView() {

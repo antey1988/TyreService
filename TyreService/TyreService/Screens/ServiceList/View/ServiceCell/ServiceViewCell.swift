@@ -52,7 +52,7 @@ class ServiceViewCell: UITableViewCell {
 
     public func configure(viewModel: ServiceCellViewModel) {
         nameLabel.text = viewModel.service.name
-        ratingLabel.text = viewModel.service.rank.description
+        ratingLabel.text = viewModel.service.rank?.description ?? ""
         descriptionLabel.text = viewModel.service.description
         addressLabel.text = viewModel.service.address
     }

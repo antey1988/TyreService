@@ -14,6 +14,8 @@ class AboutServiceCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var servicesLabel: UILabel!
     
+    weak var viewModel: AboutCellViewModel?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.cornerRadius = 5
@@ -31,11 +33,14 @@ class AboutServiceCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(viewModel: AboutCellViewModel) {
+        self.viewModel = viewModel
         descriptionLabel.text = viewModel.description
         servicesLabel.text = viewModel.works
     }
 
     @IBAction func actionRegistrationService(_ sender: Any) {
-        
+        if let viewModel = viewModel {
+            viewModel.showRegistrationWorksView()
+        }
     }
 }
