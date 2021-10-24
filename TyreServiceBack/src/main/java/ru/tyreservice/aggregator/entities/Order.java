@@ -5,7 +5,7 @@ import lombok.Setter;
 import ru.tyreservice.aggregator.enums.StateStatus;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
@@ -22,9 +22,9 @@ public class Order {
     private Partner partner;
 
     @Column(nullable = false, name = "create_date")
-    private Date createDate;
+    private LocalDateTime createDate;
     @Column(nullable = false, name = "booking_date")
-    private Date bookingDate;
+    private LocalDateTime bookingDate;
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private StateStatus status;

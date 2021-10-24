@@ -6,7 +6,7 @@ import lombok.Setter;
 import ru.tyreservice.aggregator.entities.Order;
 import ru.tyreservice.aggregator.enums.StateStatus;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,9 +19,9 @@ public class OrderResponseDTO {
     @Schema(description = "Партнер исполнитель")
     private String partner_name;
     @Schema(description = "Дата создания")
-    private Date createDate;
+    private LocalDateTime createDate;
     @Schema(description = "Дата бронирования")
-    private Date bookingDate;
+    private LocalDateTime bookingDate;
     @Schema(description = "Статус исполнения")
     private StateStatus status;
     //инфомация о клиенте

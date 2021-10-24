@@ -13,10 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.tyreservice.aggregator.dto.requests.ClientDTO;
 import ru.tyreservice.aggregator.dto.requests.CostWorkRequestDTO;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
-import ru.tyreservice.aggregator.dto.responses.CostWorkResponseDTO;
-import ru.tyreservice.aggregator.dto.responses.OrderResponseDTO;
-import ru.tyreservice.aggregator.dto.responses.StatusResponse;
+import ru.tyreservice.aggregator.dto.responses.*;
+import ru.tyreservice.aggregator.enums.EnumUtil;
 import ru.tyreservice.aggregator.enums.Role;
+import ru.tyreservice.aggregator.enums.StateCarType;
 import ru.tyreservice.aggregator.enums.StateStatus;
 import ru.tyreservice.aggregator.security.UserAccount;
 import ru.tyreservice.aggregator.services.*;
@@ -60,7 +60,8 @@ public class PrivateRoomController {
         log.info(String.format(request, "GET", config.getPort(),""));
         log.info(String.format("User %s coming to private room", account.getUsername()));
         if (account.getRole() == Role.PARTNER) {
-            return partnerService.readPartnerWithWorks(account.getAccountId());
+            return new PrivateRoomResponseDTO(partnerService.readPartnerWithWorks(account.getAccountId()), EnumUtil.getListKeyValue(StateCarType.values()));
+//            return partnerService.readPartnerWithWorks(account.getAccountId());
         }
         return clientService.readClient(account.getAccountId());
     }

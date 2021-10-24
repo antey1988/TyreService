@@ -5,10 +5,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import ru.tyreservice.aggregator.dto.requests.ReviewDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
-import ru.tyreservice.aggregator.dto.responses.PartnerWithDetailsDTO;
+import ru.tyreservice.aggregator.dto.responses.PartnerWithDetailsResponseDTO;
 import ru.tyreservice.aggregator.dto.responses.StatusResponse;
-import ru.tyreservice.aggregator.entities.Review;
 import ru.tyreservice.aggregator.enums.StateCarType;
 import ru.tyreservice.aggregator.services.PartnerService;
 import ru.tyreservice.aggregator.services.ReviewService;
@@ -51,7 +51,7 @@ public class PartnerController {
 
     @GetMapping(value = "/partners/{id}")
     @Operation(summary = "Информация о партнере", description = "Подробная информация об одном партнере, в том числе со списком информации об оказываемых услугах с их стоимостью")
-    public PartnerWithDetailsDTO readPartnerWithWorks(
+    public PartnerWithDetailsResponseDTO readPartnerWithWorks(
             @PathVariable(name = "id") Long id) {
         log.info(String.format(request, config.getPort(), "/" + id));
         return partnerService.readPartnerWithWorks(id);
@@ -60,7 +60,7 @@ public class PartnerController {
     @PostMapping(value = "/partners/{id}/reviews")
     @Operation(summary = "Добавление отзыва", description = "При добавлении в переменной пути указывается id партнера, которому добавляется отзыв")
     public StatusResponse createReview(
-            @PathVariable(name = "id") Long id, @RequestBody Review review) {
+            @PathVariable(name = "id") Long id, @RequestBody ReviewDTO review) {
         log.info(String.format(request, config.getPort(), "/" + id + "/reviews"));
         reviewService.createReview(id, review);
         return StatusResponse.getOk();
