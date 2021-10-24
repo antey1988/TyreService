@@ -6,6 +6,7 @@ import lombok.Setter;
 import ru.tyreservice.aggregator.entities.Review;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter@Setter
 @Schema(description = "Отзыв")
@@ -22,7 +23,7 @@ public class ReviewDTO {
         review.setBall(reviewDTO.getBall());
         review.setMessage(reviewDTO.getMessage());
         review.setName(reviewDTO.getName());
-        review.setDate(LocalDateTime.now());
+        review.setDate(new Date());
         return review;
     }
 }

@@ -7,6 +7,7 @@ import ru.tyreservice.aggregator.entities.Order;
 import ru.tyreservice.aggregator.enums.StateStatus;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,9 +20,9 @@ public class OrderResponseDTO {
     @Schema(description = "Партнер исполнитель")
     private String partner_name;
     @Schema(description = "Дата создания")
-    private LocalDateTime createDate;
+    private Date createDate;
     @Schema(description = "Дата бронирования")
-    private LocalDateTime bookingDate;
+    private Date bookingDate;
     @Schema(description = "Статус исполнения")
     private StateStatus status;
     //инфомация о клиенте
