@@ -48,6 +48,7 @@ public class PrivateRoomController {
             security = @SecurityRequirement(name = "basic"))
     @GetMapping(value = "/login")
     public String login(HttpSession session) {
+        session.setMaxInactiveInterval(-1);
         return session.getId();
     }
 

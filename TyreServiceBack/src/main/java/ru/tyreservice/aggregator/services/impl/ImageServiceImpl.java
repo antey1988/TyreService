@@ -26,9 +26,11 @@ import java.util.UUID;
 public class ImageServiceImpl implements ImageService {
     private final PartnerService partnerService;
     private final Path rootDirectory;
+    private final Path rootUrl;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
     public ImageServiceImpl(GlobalConfig config, PartnerService partnerService) {
         this.partnerService = partnerService;
+        this.rootUrl = Paths.get(config.getRootUrlForImages());
         this.rootDirectory = Paths.get(config.getRootDirectoryForImages());
         try {
             Files.createDirectories(rootDirectory);
@@ -45,10 +47,9 @@ public class ImageServiceImpl implements ImageService {
         String ext = name.substring(name.indexOf(".")+1, name.length());
         LocalDateTime ldt = LocalDateTime.now();
         String timeLabel = dateTimeFormatter.format(ldt);
-        String imageName = partner.getName() + "_" + timeLabel + "." + ext;
+        String imageName = partner.getName().replaceAll("\\s", "") + "_" + timeLabel + "." + ext;
         Path path = rootDirectory.resolve(imageName);
-        String foolImageName = path.toString();
-        partner.setImageName(path.toString());
+        partner.setImageName(rootUrl.resolve(imageName).toString());
         try {
             Files.copy(image.getInputStream(), path);
             log.info(String.format("User %s uploaded new file. File with name %s saved in the directory %s", partner.getName(),  imageName, rootDirectory));

@@ -18,4 +18,6 @@ public class GlobalConfig {
     private String adminPassword;
     @Value(value = "${images.root.directory}")
     private String rootDirectoryForImages;
+    @Value(value = "${images.root.url}")
+    private String rootUrlForImages;
 }
