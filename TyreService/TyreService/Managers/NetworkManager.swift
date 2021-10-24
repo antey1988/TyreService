@@ -90,4 +90,17 @@ class NetworkManager {
             complition(data.success ? .ok : .error)
         }
     }
+    
+    func getOrders(complition: @escaping ((RequestStatus, [Order]?) -> Void)) {
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        let headers: HTTPHeaders = ["Cookie": "JSESSIONID=\(token)"]
+        
+        AF.request(Constants.apiOrders, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: [Order].self) { (response) in
+            guard let data = response.value else {
+                complition(.error, nil)
+                return
+            }
+            complition(.ok, data)
+        }
+    }
 }

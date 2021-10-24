@@ -19,4 +19,5 @@ enum Errors {
     static let somethingWentWrong = "Что-то пошло не так"
     static let registrationFailed = "Ошибка регистрации"
     static let authorizationError = "Ошибка авторизации"
+    static let errorLoadData = "Ошибка загрузки данных"
 }

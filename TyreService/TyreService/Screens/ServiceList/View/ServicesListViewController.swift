@@ -83,16 +83,6 @@ class ServicesListViewController: UIViewController {
         partnersTableView.tableFooterView?.isHidden = true
     }
     
-//    @objc func keyboardWillShow(notification: NSNotification) {
-//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            self.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - keyboardSize.height)
-//        }
-//    }
-//
-//    @objc func keyboardWillHide(notification: NSNotification) {
-//        self.view.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-//    }
-    
     @IBAction func showLeftMenu(_ sender: Any) {
         let storyBoard: UIStoryboard = UIStoryboard(name: "SideMenu", bundle:nil)
         let menu = storyBoard.instantiateViewController(withIdentifier: "SideMenu") as! SideMenuNavigationController
@@ -124,13 +114,6 @@ class ServicesListViewController: UIViewController {
         settings.menuWidth = min(UIScreen.main.bounds.width - 50, 500);
         return settings
     }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        if touches.first != nil{
-//            view.endEditing(true)
-//        }
-//        super.touchesBegan(touches, with: event)
-//    }
 }
 
 extension ServicesListViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
