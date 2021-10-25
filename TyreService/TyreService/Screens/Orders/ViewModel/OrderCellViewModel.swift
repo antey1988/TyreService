@@ -24,7 +24,7 @@ class OrderCellViewModel {
     
     public func getDate() -> String {
         let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         inputFormatter.locale = Locale(identifier: "ru")
         guard let showDate = inputFormatter.date(from: order.bookingDate) else { return "30 окт." }
         inputFormatter.dateFormat = "d MMM"
@@ -33,7 +33,7 @@ class OrderCellViewModel {
     
     public func getTime() -> String {
         let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         inputFormatter.locale = Locale(identifier: "ru")
         guard let showDate = inputFormatter.date(from: order.bookingDate) else { return "17:00" }
         inputFormatter.dateFormat = "HH:mm"

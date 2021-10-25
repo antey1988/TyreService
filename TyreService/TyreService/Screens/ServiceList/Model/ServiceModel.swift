@@ -39,6 +39,7 @@ struct Service: Decodable {
     let carType: String
     let works: [TypeService]?
     let reviews: [Review]?
+    let imageName: String?
 }
 
 struct Review: Decodable {
