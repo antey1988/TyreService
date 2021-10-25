@@ -13,7 +13,6 @@ class RegistrationViewController: UIViewController {
     @IBOutlet weak var phoneOrganization: UITextField!
     @IBOutlet weak var emailOrganization: UITextField!
     @IBOutlet weak var passwordOneTF: UITextField!
-    @IBOutlet weak var passwordTwoTF: UITextField!
     
     @IBOutlet weak var redView: UIView!
     @IBOutlet weak var orangeView: UIView!
@@ -22,11 +21,12 @@ class RegistrationViewController: UIViewController {
     
     @IBOutlet weak var continueButton: UIButton!
     
-    var viewModel: SignUpViewModel!
+    private var viewModel: SignUpViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpViewModel()
+        hideKeyboardWhenTappedAround()
+        initViewModel()
         setUpStartColors()
     }
     
@@ -67,20 +67,19 @@ class RegistrationViewController: UIViewController {
     }
     
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
-        viewModel.registration(name: nameOrganization.text ?? "", phone: phoneOrganization.text ?? "", email: emailOrganization.text ?? "", passwordOne: passwordOneTF.text ?? "", passwordTho: passwordTwoTF.text ?? "") { [weak self] (error) in
-            if error != nil {
-                self?.showErrorAlert(and: Errors.somethingWentWrong)
-            } else {
-                //TODO: saving data to the database and switching to your personal account
-                print("That's ok")
-            }
-        }
+        viewModel.registration(name: nameOrganization.text ?? "", phone: phoneOrganization.text ?? "", email: emailOrganization.text ?? "", password: passwordOneTF.text ?? "")
     }
     
-    private func setUpViewModel() {
+    private func initViewModel() {
         viewModel = SignUpViewModel()
         viewModel.showErrorMessage =  { [weak self] errorMessage in
             self?.showErrorAlert(and: errorMessage)
+        }
+        viewModel.registrationFailed = { [weak self] (message) in
+            self?.showErrorAlert(and:message)
+        }
+        viewModel.dismissController = { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
         }
     }
     

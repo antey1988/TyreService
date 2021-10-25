@@ -10,14 +10,8 @@ import Foundation
 class AuthorizationViewModel {
     
     var showErrorMessage: ((String) -> ())?
-    
-    func checkEmptyEmail(email: String) {
-        if (isValidEmail(email) && email != "") {
-            print("That's ok")
-        } else {
-            self.showErrorMessage?(NSLocalizedString(Errors.emptyOrIncorrectEmail, comment: ""))
-        }
-    }
+    var authManager: AuthManager = AuthManager()
+    var success: (() -> ())?
     
     func checkEmptyPassword(password: String) -> Bool {
         if password.count <= 5 {
@@ -25,6 +19,32 @@ class AuthorizationViewModel {
         } else {
             return true
         }
+    }
+    
+    func authorization(email: String, password: String) {
+        let email = email.trimmingCharacters(in: .whitespaces)
+        let password = password.trimmingCharacters(in: .whitespaces)
+        
+        if !isValidEmail(email) {
+            self.showErrorMessage?(NSLocalizedString(Errors.emptyOrIncorrectEmail, comment: ""))
+            return
+        }
+        if password == "" {
+            self.showErrorMessage?(NSLocalizedString(Errors.smallPassword, comment: ""))
+            return
+        }
+        
+        authManager.authorizationPartner(email: email, password: password) { [weak self] (status, token) in
+            if status == .ok {
+                if let token = token {
+                    UserDefaults.standard.set(token, forKey: "token")
+                }
+                self?.success?()
+            } else {
+                self?.showErrorMessage?(NSLocalizedString(Errors.authorizationError, comment: ""))
+            }
+        }
+        
     }
     
     private func isValidEmail(_ email: String) -> Bool {

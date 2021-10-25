@@ -38,4 +38,12 @@ struct Service: Decodable {
     let rank: Double?
     let carType: String
     let works: [TypeService]?
+    let reviews: [Review]?
+}
+
+struct Review: Decodable {
+    let ball: Int
+    let message: String
+    let name: String
+    let date: String
 }

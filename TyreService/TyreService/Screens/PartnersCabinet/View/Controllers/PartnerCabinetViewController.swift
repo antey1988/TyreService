@@ -6,13 +6,16 @@
 //
 
 import UIKit
+import SideMenu
+import RSSelectionMenu
+import MapKit
 
 class PartnerCabinetViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var nameTF: UITextField!
-    @IBOutlet weak var descriptionTF: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var phoneTF: UITextField!
     @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var addressTF: UITextField!
@@ -20,8 +23,8 @@ class PartnerCabinetViewController: UIViewController {
     @IBOutlet weak var latitudeTF: UITextField!
     @IBOutlet weak var longitudeTF: UITextField!
     
-    var viewModel: PartnerCabinetViewModel!
-    let imagePicker = UIImagePickerController()
+    private var viewModel: PartnerCabinetViewModel!
+    private let imagePicker = UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,21 +38,36 @@ class PartnerCabinetViewController: UIViewController {
     }
     
     @IBAction func chooseTypeOfCar(_ sender: UIButton) {
-        //TODO: finish choosing the type of car
+        //TODO: open a drop-down list
     }
     
     @IBAction func saveCreatedInformation(_ sender: UIBarButtonItem) {
         //TODO: post request to save information
     }
     
+    @IBAction func showLeftMenu(_ sender: UIBarButtonItem) {
+        let storyBoard: UIStoryboard = UIStoryboard(name: "SideMenu", bundle:nil)
+        let menu = storyBoard.instantiateViewController(withIdentifier: "SideMenu") as! SideMenuNavigationController
+        menu.settings = createSettingsSideMenu()
+        SideMenuManager.default.leftMenuNavigationController = menu
+        if let navController = navigationController {
+            SideMenuManager.default.addPanGestureToPresent(toView: navController.navigationBar)
+            SideMenuManager.default.addScreenEdgePanGesturesToPresent(toView: navController.view)
+        }
+        present(menu, animated: true, completion: nil)
+    }
+    
     //MARK: - SetUpView
     
-    private func setUpViewModel() {
+    private func initViewModel() {
         viewModel = PartnerCabinetViewModel(idService: 3)
+        viewModel.showErrorMessage = { [weak self] errorMassage in
+            self?.showErrorAlert(and: errorMassage)
+        }
         viewModel.updateInfo = { [weak self] in
             self?.stopActivityIndicator()
             self?.nameTF.text = self?.viewModel.service.name
-            self?.descriptionTF.text = self?.viewModel.service.description
+            self?.descriptionTextView.text = self?.viewModel.service.description
             self?.phoneTF.text = self?.viewModel.service.phone
             self?.emailTF.text = self?.viewModel.service.email
             self?.addressTF.text = self?.viewModel.service.address
@@ -60,10 +78,11 @@ class PartnerCabinetViewController: UIViewController {
     }
     
     private func setUpUI() {
-        startActivityIndicator()
-        setUpViewModel()
-        imagePicker.delegate = self
+        stopActivityIndicator()
+        initViewModel()
         self.hideKeyboardWhenTappedAround()
+        imagePicker.delegate = self
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     private func startActivityIndicator() {
@@ -74,6 +93,14 @@ class PartnerCabinetViewController: UIViewController {
     private func stopActivityIndicator() {
         activityIndicator.stopAnimating()
         activityIndicator.isHidden = true
+    }
+    
+    private func createSettingsSideMenu() -> SideMenuSettings {
+        var settings = SideMenuSettings()
+        settings.presentationStyle = .menuSlideIn
+        settings.statusBarEndAlpha = 0
+        settings.menuWidth = min(UIScreen.main.bounds.width - 50, 500);
+        return settings
     }
     
     //MARK: - AlertOfActionSelection
