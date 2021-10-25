@@ -21,8 +21,10 @@ public class Order {
     @JoinColumn(nullable = false, name = "partner_id")
     private Partner partner;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, name = "create_date")
     private Date createDate;
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, name = "booking_date")
     private Date bookingDate;
     @Column(nullable = false)
