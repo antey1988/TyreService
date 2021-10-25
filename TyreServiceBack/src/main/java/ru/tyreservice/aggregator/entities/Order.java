@@ -5,7 +5,7 @@ import lombok.Setter;
 import ru.tyreservice.aggregator.enums.StateStatus;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -21,8 +21,10 @@ public class Order {
     @JoinColumn(nullable = false, name = "partner_id")
     private Partner partner;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, name = "create_date")
     private Date createDate;
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, name = "booking_date")
     private Date bookingDate;
     @Column(nullable = false)

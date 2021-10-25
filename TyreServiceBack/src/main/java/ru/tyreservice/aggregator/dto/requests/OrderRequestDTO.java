@@ -7,7 +7,8 @@ import ru.tyreservice.aggregator.entities.Order;
 import ru.tyreservice.aggregator.entities.Partner;
 import ru.tyreservice.aggregator.enums.StateStatus;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,8 +18,6 @@ public class OrderRequestDTO {
     //Основная информация о заказе
     @Schema(description = "Партнер исполнитель")
     private Long partnerId;
-    @Schema(description = "Дата создания")
-    private Date createDate;
     @Schema(description = "Дата бронирования")
     private Date bookingDate;
     //информация о клиенте
@@ -37,7 +36,7 @@ public class OrderRequestDTO {
         Partner partner = new Partner();
         partner.setId(orderRequest.getPartnerId());
         order.setPartner(partner);
-        order.setCreateDate(orderRequest.getCreateDate());
+        order.setCreateDate(new Date());
         order.setBookingDate((orderRequest.getBookingDate()));
         order.setStatus(StateStatus.WAITING);
         order.setClientName(orderRequest.getClientName());

@@ -22,7 +22,7 @@ public class StartController {
     private final GlobalConfig config;
 
     @GetMapping
-    @Operation(summary = "Стартовая стракица", description = "Первичный запрос при запуске приложения. " +
+    @Operation(summary = "Стартовая страница", description = "Первичный запрос при запуске приложения. " +
             "Получение списка партнеров, списка всевозможных услуг, типов сервисов и типов учетных записей")
     public StartInfoDTO readStartInfo() {
         log.info("Request: GET http://localhost:" + config.getPort() + "/api");

@@ -6,7 +6,8 @@ import lombok.Setter;
 import ru.tyreservice.aggregator.entities.Order;
 import ru.tyreservice.aggregator.enums.StateStatus;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
