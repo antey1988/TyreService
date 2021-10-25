@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import CoreLocation
 
 class ServiceListViewModel {
+    private let locationManager = CLLocationManager()
     private var servicesCellViewModel: [ServiceCellViewModel] = []
     private var filtersCellViewModel: [CarTypeCellViewModel] = []
     private var serviceInfoViewModel: ServiceInfoViewModel!
@@ -15,6 +17,8 @@ class ServiceListViewModel {
     private var selectedWorksType: [TypeService] = []
     private var networkManager: NetworkManager!
     private var selectedFilterId = ""
+    private var currentLocationLat: Double?
+    private var currentLocationLon: Double?
     private var allServices = false
     private var debounce_timer:Timer?
     private var searchText = "" {
@@ -68,7 +72,7 @@ class ServiceListViewModel {
         let filterWorksType = selectedWorksType.map { workType in
             return workType.id.description
         }
-        networkManager.getServices(filterCarType: selectedFilterId, pageNumber: page, search: searchText, latitude: 55.751244, longitude: 37.618423, filterWorksType: filterWorksType) { [weak self] (status, services) in
+        networkManager.getServices(filterCarType: selectedFilterId, pageNumber: page, search: searchText, latitude: currentLocationLat ?? 0, longitude: currentLocationLon ?? 0, filterWorksType: filterWorksType) { [weak self] (status, services) in
             switch status {
             case .ok:
                 self?.stopLoadIndicator?()
@@ -96,7 +100,7 @@ class ServiceListViewModel {
     
     private func initPartnersViewModel(services: [Service]) {
         services.forEach { service in
-            servicesCellViewModel.append(ServiceCellViewModel(service: service))
+            servicesCellViewModel.append(ServiceCellViewModel(service: service, lat: currentLocationLat, lon: currentLocationLon))
         }
     }
     
@@ -153,6 +157,12 @@ class ServiceListViewModel {
     
     public func updateSelectedWorksType(selectedWorksType: [TypeService]) {
         self.selectedWorksType = selectedWorksType
+        updatePartners(page: 0)
+    }
+    
+    public func setLatLon(lat: Double?, lon: Double?) {
+        currentLocationLat = lat
+        currentLocationLon = lon
         updatePartners(page: 0)
     }
 }

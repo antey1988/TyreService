@@ -8,14 +8,16 @@
 import UIKit
 import SideMenu
 import RSSelectionMenu
+import CoreLocation
 
-class ServicesListViewController: UIViewController {
+class ServicesListViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var filterCollectionView: UICollectionView!
     @IBOutlet weak var partnersTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
-    var activityIndicator: UIActivityIndicatorView?
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
+    private let location = CLLocationManager()
     
     lazy var viewModel: ServiceListViewModel = {
         return ServiceListViewModel()
@@ -24,10 +26,18 @@ class ServicesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
+        location.delegate = self
+        location.desiredAccuracy = kCLLocationAccuracyBest
+        location.requestAlwaysAuthorization()
+        viewModel.setLatLon(lat: location.location?.coordinate.latitude, lon: location.location?.coordinate.longitude)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        viewModel.setLatLon(lat: location.location?.coordinate.latitude, lon: location.location?.coordinate.longitude)
     }
     
     func initView() {
@@ -67,19 +77,18 @@ class ServicesListViewController: UIViewController {
     }
 
     func createActivityIndicator() {
-        activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator?.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: partnersTableView.bounds.width, height: CGFloat(50))
+        activityIndicator.frame = CGRect(x: CGFloat(0), y: CGFloat(0), width: partnersTableView.bounds.width, height: CGFloat(50))
         partnersTableView.tableFooterView = activityIndicator
         partnersTableView.tableFooterView?.isHidden = true
     }
     
     func startActivityIndicator() {
-        activityIndicator?.startAnimating()
+        activityIndicator.startAnimating()
         partnersTableView.tableFooterView?.isHidden = false
     }
     
     func stopActivityIndicator() {
-        activityIndicator?.stopAnimating()
+        activityIndicator.stopAnimating()
         partnersTableView.tableFooterView?.isHidden = true
     }
     
