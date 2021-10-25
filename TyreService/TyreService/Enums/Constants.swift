@@ -13,4 +13,5 @@ enum Constants {
     static let apiRegistration = "\(api)/registration"
     static let apiAuthorization = "\(api)/login"
     static let apiCreateOrder = "\(api)/orders"
+    static let apiOrders = "\(api)/lk/orders"
 }
