@@ -29,7 +29,7 @@ class ServicesListViewController: UIViewController, CLLocationManagerDelegate {
         location.delegate = self
         location.desiredAccuracy = kCLLocationAccuracyBest
         location.requestAlwaysAuthorization()
-        viewModel.setLatLon(lat: location.location?.coordinate.latitude, lon: location.location?.coordinate.longitude)
+        viewModel.setLatLon(lat: location.location?.coordinate.latitude, lon: location.location?.coordinate.longitude, updateData: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -37,7 +37,7 @@ class ServicesListViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        viewModel.setLatLon(lat: location.location?.coordinate.latitude, lon: location.location?.coordinate.longitude)
+        viewModel.setLatLon(lat: location.location?.coordinate.latitude, lon: location.location?.coordinate.longitude, updateData: true)
     }
     
     func initView() {
