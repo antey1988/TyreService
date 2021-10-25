@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sto" translatesAutoresizingMaskIntoConstraints="NO" id="nRB-7c-1Cz">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nRB-7c-1Cz">
                                 <rect key="frame" x="0.0" y="-5" width="414" height="300"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="RPP-Lr-L5f"/>
@@ -96,6 +96,7 @@
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="imageView" destination="nRB-7c-1Cz" id="5pJ-dC-QaG"/>
                         <outlet property="infoCollectionView" destination="21g-jj-XFt" id="ROM-Xp-fht"/>
                         <outlet property="menuCollectionView" destination="CF4-GI-Y9d" id="bif-du-9Lq"/>
                         <outlet property="serviceNameLabel" destination="gTa-Rx-TOP" id="6xC-Na-ifE"/>
@@ -108,7 +109,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="sto" width="1280" height="825"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

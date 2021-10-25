@@ -28,7 +28,6 @@ class ServiceViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        photo.image = UIImage(named: "sto")
         ratingView.layer.cornerRadius = 5
         ratingView.layer.masksToBounds = true
         ratingView.clipsToBounds = true
@@ -55,5 +54,22 @@ class ServiceViewCell: UITableViewCell {
         ratingLabel.text = viewModel.service.rank?.description ?? ""
         descriptionLabel.text = viewModel.service.description
         addressLabel.text = viewModel.service.address
+        setImage(viewModel: viewModel)
+    }
+    
+    private func setImage(viewModel: ServiceCellViewModel) {
+        if let image = viewModel.service.imageName {
+            if let imagePath = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                if let url = URL(string: "https://" + imagePath) {
+                    DispatchQueue.global().async {
+                        if let data = try? Data(contentsOf: url) {
+                            DispatchQueue.main.async { [weak self] in
+                                self?.photo.image = UIImage(data: data)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

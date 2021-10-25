@@ -13,6 +13,7 @@ class ServiceInfoViewController: UIViewController {
     @IBOutlet weak var infoCollectionView: UICollectionView!
     @IBOutlet weak var serviceNameView: UIView!
     @IBOutlet weak var serviceNameLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     
     weak var viewModel: ServiceInfoViewModel!
 
@@ -52,6 +53,10 @@ class ServiceInfoViewController: UIViewController {
                 }
                 self?.present(createReviewVC, animated: true, completion: nil)
             }
+        }
+        
+        viewModel.updateImageView = { [weak self] (data) in
+            self?.imageView.image = UIImage(data: data)
         }
     }
     
