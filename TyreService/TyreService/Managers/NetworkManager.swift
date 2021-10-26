@@ -103,4 +103,101 @@ class NetworkManager {
             complition(.ok, data)
         }
     }
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
+            complition(.ok)
+        }
+    }
+    
+    func getInfoForPartnerCabinet(completion: @escaping ((RequestStatus, PersonalArea?) -> Void)) {
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        let url = Constants.apiPersonalCabinet
+        let headers: HTTPHeaders = ["Cookie": "JSESSIONID=\(token)"]
+        
+        AF.request(url, headers: headers).validate().responseDecodable(of: PersonalArea.self) { response in
+            guard let data = response.value else {
+                completion(.error, nil)
+                return
+            }
+            completion(.ok, data)
+        }
+        
+    }
+    
+    func getFullServicesList(completion: @escaping ((RequestStatus, [TypeService]?) -> Void)) {
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        let url = Constants.apiServices
+        let headers: HTTPHeaders = ["Cookie": "JSESSIONID=\(token)"]
+        
+        AF.request(url, headers: headers).validate().responseDecodable(of: [TypeService].self) { response in
+            guard let data = response.value else {
+                completion(.error, nil)
+                return
+            }
+            completion(.ok, data)
+        }
+    }
+    
+    func saveServicesList(typeServices: [TypeService], completion: @escaping ((RequestStatus) -> Void)) {
+        
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        let url = Constants.apiUpdatingServices
+        let headers: HTTPHeaders = ["Cookie": "JSESSIONID=\(token)"]
+        
+        var request = try! URLRequest(url: url, method: .post, headers: headers)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        if typeServices.count > 0 {
+            request.httpBody = try! JSONSerialization.data(withJSONObject: typeServices.map({ typeService in
+                return ["id": typeService.id, "price": typeService.price]
+            }))
+        }
+        
+        AF.request(request).responseDecodable(of: ResponseStatus.self) { response in
+            guard let data = response.value else {
+                completion(.error)
+                return
+            }
+            if data.success {
+                completion(.ok)
+            } else {
+                completion(.error)
+            }
+        }
+        
+    }
+    
+    func savePersonalInfoPartner(id: Int, name: String, description: String, email: String, phone: String, address: String, schedule: String, longitude: Double, latitude: Double, completion: @escaping ((RequestStatus) -> Void)) {
+        
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        let url = Constants.apiSavePersonalInfoPartner
+        let headers: HTTPHeaders = ["Cookie": "JSESSIONID=\(token)"]
+        
+        let carType = "PASSENGER"
+        let parameters: [String: Any] = ["id": id,
+                                         "name": name,
+                                         "description": description,
+                                         "email": email,
+                                         "phone": phone,
+                                         "address": address,
+                                         "schedule": schedule,
+                                         "carType": carType,
+                                         "longitude": longitude,
+                                         "latitude": latitude]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: ResponseStatus.self) { response in
+            guard let data = response.value else {
+                print(response)
+                completion(.error)
+                return
+            }
+            if data.success {
+                completion(.ok)
+            } else {
+                completion(.error)
+            }
+            
+        }
+    }
+    
+    
 }

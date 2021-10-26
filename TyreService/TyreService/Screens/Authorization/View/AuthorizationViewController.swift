@@ -19,10 +19,7 @@ class AuthorizationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpViewModel()
-        signInButton.isEnabled = false
-        navigationController?.setNavigationBarHidden(false, animated: false)
-        hideKeyboardWhenTappedAround()
+        setupUI()
     }
     
     @IBAction func passwordTextField(_ sender: UITextField) {
@@ -48,6 +45,13 @@ class AuthorizationViewController: UIViewController {
     
     @IBAction func signInButtonPressed(_ sender: UIButton) {
         viewModel.authorization(email: emailTF.text ?? "", password: passwordTF.text ?? "")
+    }
+    
+    private func setupUI() {
+        setUpViewModel()
+        signInButton.isEnabled = false
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        hideKeyboardWhenTappedAround()
     }
     
     private func signInButtonTrue() {

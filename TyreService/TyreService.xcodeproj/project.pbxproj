@@ -11,11 +11,11 @@
 		8BF2216E93FACA5D7854E73D /* Pods_TyreService_TyreServiceUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09A8AB9E556D9CC384F461D3 /* Pods_TyreService_TyreServiceUITests.framework */; };
 		CBA15F69B84D8BAEF54BAB40 /* Pods_TyreServiceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C320EC2D13FBA58C30D270F /* Pods_TyreServiceTests.framework */; };
 		ED08A7E7271A13A3005C2A57 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A7E6271A13A3005C2A57 /* Localization.swift */; };
-		ED08A803271A1752005C2A57 /* ServicesCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A7EE271A1752005C2A57 /* ServicesCellViewModel.swift */; };
+		ED08A803271A1752005C2A57 /* PartnerServiceCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A7EE271A1752005C2A57 /* PartnerServiceCellViewModel.swift */; };
 		ED08A805271A1752005C2A57 /* PartnerCabinetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A7F0271A1752005C2A57 /* PartnerCabinetViewModel.swift */; };
 		ED08A808271A1752005C2A57 /* PartnerCabinet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED08A7F6271A1752005C2A57 /* PartnerCabinet.storyboard */; };
-		ED08A80B271A1752005C2A57 /* ServicesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A7FC271A1752005C2A57 /* ServicesTableViewCell.swift */; };
-		ED08A80C271A1752005C2A57 /* ServicesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED08A7FD271A1752005C2A57 /* ServicesTableViewCell.xib */; };
+		ED08A80B271A1752005C2A57 /* PartnerServiceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A7FC271A1752005C2A57 /* PartnerServiceTableViewCell.swift */; };
+		ED08A80C271A1752005C2A57 /* PartnerServiceTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED08A7FD271A1752005C2A57 /* PartnerServiceTableViewCell.xib */; };
 		ED08A80D271A1752005C2A57 /* PartnerCabinetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A7FF271A1752005C2A57 /* PartnerCabinetViewController.swift */; };
 		ED08A811271CB14C005C2A57 /* PartnerServicesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED08A810271CB14C005C2A57 /* PartnerServicesTableViewController.swift */; };
 		ED11C189272064BA00C41DF1 /* Partner.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED11C188272064BA00C41DF1 /* Partner.swift */; };
@@ -54,6 +54,7 @@
 		ED76AD242721FFB900A2D9F6 /* RequestWorksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED76AD222721FFB900A2D9F6 /* RequestWorksTableViewCell.swift */; };
 		ED76AD252721FFB900A2D9F6 /* RequestWorksTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED76AD232721FFB900A2D9F6 /* RequestWorksTableViewCell.xib */; };
 		ED76AD272722005B00A2D9F6 /* RequestWorkCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED76AD262722005B00A2D9F6 /* RequestWorkCellViewModel.swift */; };
+		ED830B872726BDA700889AF2 /* PersonalArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED830B862726BDA700889AF2 /* PersonalArea.swift */; };
 		ED952F66271DEBA50017B956 /* SideMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED952F65271DEBA50017B956 /* SideMenu.storyboard */; };
 		ED984904271339DD00C924A1 /* Authorization.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED984903271339DD00C924A1 /* Authorization.storyboard */; };
 		ED98490827133AC800C924A1 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED98490727133AC800C924A1 /* AuthorizationViewController.swift */; };
@@ -84,6 +85,7 @@
 		EDE66813270B73F4002DD027 /* ServiceViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE66811270B73F4002DD027 /* ServiceViewCell.swift */; };
 		EDE66814270B73F4002DD027 /* ServiceViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDE66812270B73F4002DD027 /* ServiceViewCell.xib */; };
 		EDED3C5D27244FA700079B87 /* ResponseStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED3C5C27244FA700079B87 /* ResponseStatus.swift */; };
+		EDED3C5F2724A0C400079B87 /* PartnerServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDED3C5E2724A0C400079B87 /* PartnerServicesViewModel.swift */; };
 		FE8D590127195685000AB01F /* ReviewsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8D58FF27195685000AB01F /* ReviewsCollectionViewCell.swift */; };
 		FE8D590227195685000AB01F /* ReviewsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE8D590027195685000AB01F /* ReviewsCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -116,11 +118,11 @@
 		CC149C8C569A852DD2A2FB7C /* Pods_TyreService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TyreService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E04100B3999D80CEC3DAB730 /* Pods-TyreService-TyreServiceUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TyreService-TyreServiceUITests.debug.xcconfig"; path = "Target Support Files/Pods-TyreService-TyreServiceUITests/Pods-TyreService-TyreServiceUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED08A7E6271A13A3005C2A57 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
-		ED08A7EE271A1752005C2A57 /* ServicesCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesCellViewModel.swift; sourceTree = "<group>"; };
+		ED08A7EE271A1752005C2A57 /* PartnerServiceCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartnerServiceCellViewModel.swift; sourceTree = "<group>"; };
 		ED08A7F0271A1752005C2A57 /* PartnerCabinetViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartnerCabinetViewModel.swift; sourceTree = "<group>"; };
 		ED08A7F6271A1752005C2A57 /* PartnerCabinet.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PartnerCabinet.storyboard; sourceTree = "<group>"; };
-		ED08A7FC271A1752005C2A57 /* ServicesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicesTableViewCell.swift; sourceTree = "<group>"; };
-		ED08A7FD271A1752005C2A57 /* ServicesTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServicesTableViewCell.xib; sourceTree = "<group>"; };
+		ED08A7FC271A1752005C2A57 /* PartnerServiceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartnerServiceTableViewCell.swift; sourceTree = "<group>"; };
+		ED08A7FD271A1752005C2A57 /* PartnerServiceTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PartnerServiceTableViewCell.xib; sourceTree = "<group>"; };
 		ED08A7FF271A1752005C2A57 /* PartnerCabinetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PartnerCabinetViewController.swift; sourceTree = "<group>"; };
 		ED08A810271CB14C005C2A57 /* PartnerServicesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerServicesTableViewController.swift; sourceTree = "<group>"; };
 		ED11C188272064BA00C41DF1 /* Partner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partner.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 		ED76AD222721FFB900A2D9F6 /* RequestWorksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestWorksTableViewCell.swift; sourceTree = "<group>"; };
 		ED76AD232721FFB900A2D9F6 /* RequestWorksTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RequestWorksTableViewCell.xib; sourceTree = "<group>"; };
 		ED76AD262722005B00A2D9F6 /* RequestWorkCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestWorkCellViewModel.swift; sourceTree = "<group>"; };
+		ED830B862726BDA700889AF2 /* PersonalArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalArea.swift; sourceTree = "<group>"; };
 		ED952F65271DEBA50017B956 /* SideMenu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SideMenu.storyboard; sourceTree = "<group>"; };
 		ED984903271339DD00C924A1 /* Authorization.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authorization.storyboard; sourceTree = "<group>"; };
 		ED98490727133AC800C924A1 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
@@ -193,6 +196,7 @@
 		EDE66811270B73F4002DD027 /* ServiceViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceViewCell.swift; sourceTree = "<group>"; };
 		EDE66812270B73F4002DD027 /* ServiceViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServiceViewCell.xib; sourceTree = "<group>"; };
 		EDED3C5C27244FA700079B87 /* ResponseStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseStatus.swift; sourceTree = "<group>"; };
+		EDED3C5E2724A0C400079B87 /* PartnerServicesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerServicesViewModel.swift; sourceTree = "<group>"; };
 		FE8D58FF27195685000AB01F /* ReviewsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsCollectionViewCell.swift; sourceTree = "<group>"; };
 		FE8D590027195685000AB01F /* ReviewsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ReviewsCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -251,6 +255,7 @@
 		ED08A7E9271A1752005C2A57 /* PartnersCabinet */ = {
 			isa = PBXGroup;
 			children = (
+				ED830B852726BD9000889AF2 /* Model */,
 				ED08A7EA271A1752005C2A57 /* ViewModel */,
 				ED08A7F4271A1752005C2A57 /* View */,
 			);
@@ -261,7 +266,8 @@
 			isa = PBXGroup;
 			children = (
 				ED08A7F0271A1752005C2A57 /* PartnerCabinetViewModel.swift */,
-				ED08A7EE271A1752005C2A57 /* ServicesCellViewModel.swift */,
+				EDED3C5E2724A0C400079B87 /* PartnerServicesViewModel.swift */,
+				ED08A7EE271A1752005C2A57 /* PartnerServiceCellViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -287,18 +293,18 @@
 		ED08A7F7271A1752005C2A57 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				ED08A7FB271A1752005C2A57 /* ServicesCell */,
+				ED08A7FB271A1752005C2A57 /* PartnerServiceTableViewCell */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		ED08A7FB271A1752005C2A57 /* ServicesCell */ = {
+		ED08A7FB271A1752005C2A57 /* PartnerServiceTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				ED08A7FD271A1752005C2A57 /* ServicesTableViewCell.xib */,
-				ED08A7FC271A1752005C2A57 /* ServicesTableViewCell.swift */,
+				ED08A7FD271A1752005C2A57 /* PartnerServiceTableViewCell.xib */,
+				ED08A7FC271A1752005C2A57 /* PartnerServiceTableViewCell.swift */,
 			);
-			path = ServicesCell;
+			path = PartnerServiceTableViewCell;
 			sourceTree = "<group>";
 		};
 		ED08A7FE271A1752005C2A57 /* Controllers */ = {
@@ -549,6 +555,14 @@
 				ED76AD232721FFB900A2D9F6 /* RequestWorksTableViewCell.xib */,
 			);
 			path = ServiceCell;
+			sourceTree = "<group>";
+		};
+		ED830B852726BD9000889AF2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				ED830B862726BDA700889AF2 /* PersonalArea.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		ED9848FF2713391500C924A1 /* Authorization */ = {
@@ -882,6 +896,7 @@
 				EDE5D6272725943900436FD7 /* CreateReview.storyboard in Resources */,
 				EDE5D61F2724946300436FD7 /* ReviewTableViewCell.xib in Resources */,
 				EDE5D63F2725C11800436FD7 /* OrderTableViewCell.xib in Resources */,
+				ED08A80C271A1752005C2A57 /* PartnerServiceTableViewCell.xib in Resources */,
 				FE8D590227195685000AB01F /* ReviewsCollectionViewCell.xib in Resources */,
 				ED76AD252721FFB900A2D9F6 /* RequestWorksTableViewCell.xib in Resources */,
 				ED984904271339DD00C924A1 /* Authorization.storyboard in Resources */,
@@ -1052,11 +1067,13 @@
 				ED3F1CA52706189900385D28 /* ServicesListViewController.swift in Sources */,
 				EDE66806270B68AC002DD027 /* ServiceListViewModel.swift in Sources */,
 				EDE66801270B6530002DD027 /* ExtensionString.swift in Sources */,
-				ED08A80B271A1752005C2A57 /* ServicesTableViewCell.swift in Sources */,
+				ED08A80B271A1752005C2A57 /* PartnerServiceTableViewCell.swift in Sources */,
 				ED32DC47271746F100690C8C /* AboutCellViewModel.swift in Sources */,
 				ED32DC2827160D2600690C8C /* ServiceInfoViewModel.swift in Sources */,
 				EDE5D6222724968700436FD7 /* ReviewTableCellViewModel.swift in Sources */,
+				ED830B872726BDA700889AF2 /* PersonalArea.swift in Sources */,
 				ED4451B7270D01B200B24F2D /* RegistrationViewController.swift in Sources */,
+				EDED3C5F2724A0C400079B87 /* PartnerServicesViewModel.swift in Sources */,
 				ED08A811271CB14C005C2A57 /* PartnerServicesTableViewController.swift in Sources */,
 				EDE5D6292725949700436FD7 /* CreateReviewViewController.swift in Sources */,
 				ED3F1CA12706189900385D28 /* AppDelegate.swift in Sources */,
@@ -1067,6 +1084,7 @@
 				ED11C18B27206B7F00C41DF1 /* AuthManager.swift in Sources */,
 				ED08A803271A1752005C2A57 /* ServicesCellViewModel.swift in Sources */,
 				EDE5D62B272594F400436FD7 /* CreateReviewViewModel.swift in Sources */,
+				ED08A803271A1752005C2A57 /* PartnerServiceCellViewModel.swift in Sources */,
 				ED4451AB270D017800B24F2D /* ExtensionUIViewController.swift in Sources */,
 				EDE5D63A2725B39C00436FD7 /* Order.swift in Sources */,
 			);

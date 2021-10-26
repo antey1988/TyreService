@@ -185,26 +185,6 @@
             </objects>
             <point key="canvasLocation" x="146" y="-21"/>
         </scene>
-        <!--Authorization-->
-        <scene sceneID="lBx-ri-mUo">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Authorization" id="ysn-Ad-heO" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="3Mc-dA-RfX"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zZs-D8-aes" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="870" y="-183"/>
-        </scene>
-        <!--PartnerCabinet-->
-        <scene sceneID="RhY-1C-GPk">
-            <objects>
-                <viewControllerPlaceholder storyboardName="PartnerCabinet" id="g1W-3C-QOx" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="W5t-uU-yQX"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vMe-gO-DZQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="870" y="-148"/>
-        </scene>
         <!--Side Menu Navigation Controller-->
         <scene sceneID="qhE-9L-znP">
             <objects>
