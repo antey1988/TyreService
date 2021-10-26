@@ -10,36 +10,34 @@ import Foundation
 class PartnerCabinetViewModel {
     
     private var networkManager: NetworkManager
-    var service: Service!
-    private var typeService: TypeService!
-    private var updateServicesViewModel: ServicesCellViewModel!
-    
-    public var startLoading: (() -> ())?
-    public var stopLoading: (() -> ())?
+    private var partnerServicesViewModel: PartnerServicesViewModel?
+    var service: PersonalArea!
     public var updateInfo: (() -> ())?
-    public var savingFailed: ((String) -> ())?
+    public var noDataSaved: ((String) -> ())?
+    public var dataSuccessfullySaved: ((String) -> ())?
     public var showErrorMessage: ((String) -> ())?
     
-    required init(idService: Int) {
+    required init() {
        networkManager = NetworkManager()
-       getServiceInfo(id: idService)
+       getServiceInfo()
    }
     
-    func getServiceInfo(id: Int) {
-        networkManager.getFullInfoService(id: id) { [weak self] (requestStatus, service) in
+    func getServiceInfo() {
+        networkManager.getInfoForPartnerCabinet { [weak self] (requestStatus, service) in
             switch requestStatus {
             case .ok:
                 if let service = service {
                     self?.service = service
+                    self?.updateInfo?()
+                    self?.partnerServicesViewModel = PartnerServicesViewModel(partnerServices: service.lk.works ?? [])
                 }
-                self?.updateInfo?()
             case .error:
                 break
             }
         }
     }
     
-    func saveCredentials(name: String, description: String, phone: String, email: String, address: String, workingHours: String, carType: String, lon: String, lat: String, completion: @escaping ((Error?) -> Void)) {
+    func saveCredentials(name: String, description: String, phone: String, email: String, address: String, workingHours: String, lon: String, lat: String) {
         
         let name = name.trimmingCharacters(in: .whitespaces)
         let description = description.trimmingCharacters(in: .whitespaces)
@@ -47,30 +45,28 @@ class PartnerCabinetViewModel {
         let email = email.trimmingCharacters(in: .whitespaces)
         let address = address.trimmingCharacters(in: .whitespaces)
         let workingHours = workingHours.trimmingCharacters(in: .whitespaces)
-        let lon = lon.trimmingCharacters(in: .whitespaces)
-        let lat = lat.trimmingCharacters(in: .whitespaces)
         
-        if name == "" && name.count < 2 {
+        if name.count < 2 {
             self.showErrorMessage?(NSLocalizedString(Errors.emptyName, comment: ""))
             return
         }
-        if description == "" && description.count < 25 {
+        if description.count < 25 {
             self.showErrorMessage?(NSLocalizedString(Errors.emptyField, comment: ""))
             return
         }
-        if phone == "" && phone.count < 11 {
+        if phone.count < 11 {
             self.showErrorMessage?(NSLocalizedString(Errors.emptyOrIncorrectPhone, comment: ""))
             return
         }
-        if email == "" && !isValidEmail(email) {
+        if !isValidEmail(email) {
             self.showErrorMessage?(NSLocalizedString(Errors.emptyOrIncorrectEmail, comment: ""))
             return
         }
-        if address == "" && address.count < 18 {
+        if address.count < 18 {
             self.showErrorMessage?(NSLocalizedString(Errors.emptyOrIncorrectAddress, comment:  ""))
             return
         }
-        if workingHours == "" && workingHours.count < 10 {
+        if workingHours.count < 10 {
             self.showErrorMessage?(NSLocalizedString(Errors.emptyWorkingHours, comment: ""))
             return
         }
@@ -79,16 +75,30 @@ class PartnerCabinetViewModel {
             return
         }
         
-        //как-то проверить фотку, если она не в string
+        let lonToDouble: Double = Double(lon.description ) ?? 0.0
+        let latToDouble: Double = Double(lat.description ) ?? 0.0
+        
+        networkManager.savePersonalInfoPartner(id: service.lk.id, name: name, description: description, email: email, phone: phone, address: address, schedule: workingHours, longitude: lonToDouble, latitude: latToDouble) { [weak self] response in
+            switch response {
+            case .ok:
+                self?.dataSuccessfullySaved?(NSLocalizedString(Errors.dataSuccessfullySaved, comment: ""))
+            case .error:
+                self?.noDataSaved?(NSLocalizedString(Errors.noDataSaved, comment: ""))
+            }
+        }
         
     }
     
-    func saveListOfServices() {
-        //TODO: checking services and post request
+    public func getTypeOfCar() -> [CarType] {
+        return service.types
     }
     
-    func getNumberOfRows() -> Int {
-        return service?.works?.count ?? 0
+    public func getKeyForTypeOfCar(object: CarType) -> String {
+        return object.key
+    }
+    
+    public func getPartnerServicesViewModel() -> PartnerServicesViewModel? {
+        return partnerServicesViewModel
     }
     
     private func isValidEmail(_ email: String) -> Bool {
@@ -96,5 +106,4 @@ class PartnerCabinetViewModel {
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
-    
 }

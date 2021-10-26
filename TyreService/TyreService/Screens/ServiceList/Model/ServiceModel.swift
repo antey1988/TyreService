@@ -13,7 +13,7 @@ struct ServiceInitData: Decodable {
     let partners: [Service]
 }
 
-struct CarType: Decodable {
+struct CarType: Decodable, Equatable {
     let key: String
     let name: String
 }
@@ -37,5 +37,6 @@ struct Service: Decodable {
     let phone: String
     let rank: Double?
     let carType: String
+    let imageName: String?
     let works: [TypeService]?
 }

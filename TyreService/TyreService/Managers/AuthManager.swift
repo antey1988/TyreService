@@ -16,6 +16,7 @@ class AuthManager {
         
         AF.request(url, method: .post, parameters: parter, encoder: JSONParameterEncoder.default).validate().responseDecodable(of: ResponseStatus.self) { response in
             guard let data = response.value else {
+                print(response)
                 completion(.error, nil)
                 return
             }
@@ -51,5 +52,3 @@ class AuthManager {
     }
     
 }
-
-

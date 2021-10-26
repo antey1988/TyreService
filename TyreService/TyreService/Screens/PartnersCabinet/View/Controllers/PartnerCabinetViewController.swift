@@ -8,11 +8,10 @@
 import UIKit
 import SideMenu
 import RSSelectionMenu
-import MapKit
+import CoreLocation
 
 class PartnerCabinetViewController: UIViewController {
-    
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var nameTF: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
@@ -22,7 +21,7 @@ class PartnerCabinetViewController: UIViewController {
     @IBOutlet weak var workingHours: UITextField!
     @IBOutlet weak var latitudeTF: UITextField!
     @IBOutlet weak var longitudeTF: UITextField!
-    
+    @IBOutlet weak var carTypeBtn: UIButton!
     private var viewModel: PartnerCabinetViewModel!
     private let imagePicker = UIImagePickerController()
     
@@ -38,11 +37,28 @@ class PartnerCabinetViewController: UIViewController {
     }
     
     @IBAction func chooseTypeOfCar(_ sender: UIButton) {
-        //TODO: open a drop-down list
+        let selectionMenu = RSSelectionMenu(selectionStyle: .multiple, dataSource: viewModel.getTypeOfCar()) { (cell, carType, indexPath) in
+            cell.textLabel?.text = carType.name
+        }
+        selectionMenu.onDismiss = { [weak self] selectedItem in
+            self?.carTypeBtn.titleLabel?.text = selectedItem.description
+        }
+        selectionMenu.cellSelectionStyle = .checkbox
+        selectionMenu.show(style: .actionSheet(title: "Тип авто", action: "Применить", height: 210), from: self)
+
+    }
+    
+    
+    @IBAction func showLServicesList(_ sender: UIBarButtonItem) {
+        let storyBoard = UIStoryboard(name: "PartnerCabinet", bundle: nil)
+        let partnerServicesVC = storyBoard.instantiateViewController(withIdentifier: "PartnerServicesTableVC") as! PartnerServicesTableViewController
+        partnerServicesVC.viewModel = viewModel.getPartnerServicesViewModel()
+        navigationController?.pushViewController(partnerServicesVC, animated: true)
+        
     }
     
     @IBAction func saveCreatedInformation(_ sender: UIBarButtonItem) {
-        //TODO: post request to save information
+        viewModel.saveCredentials(name: nameTF.text ?? "", description: descriptionTextView.text ?? "", phone: phoneTF.text ?? "", email: emailTF.text ?? "", address: addressTF.text ?? "", workingHours: workingHours.text ?? "", lon: longitudeTF.text ?? "", lat: latitudeTF.text ?? "")
     }
     
     @IBAction func showLeftMenu(_ sender: UIBarButtonItem) {
@@ -60,39 +76,27 @@ class PartnerCabinetViewController: UIViewController {
     //MARK: - SetUpView
     
     private func initViewModel() {
-        viewModel = PartnerCabinetViewModel(idService: 3)
+        viewModel = PartnerCabinetViewModel()
         viewModel.showErrorMessage = { [weak self] errorMassage in
             self?.showErrorAlert(and: errorMassage)
         }
         viewModel.updateInfo = { [weak self] in
-            self?.stopActivityIndicator()
-            self?.nameTF.text = self?.viewModel.service.name
-            self?.descriptionTextView.text = self?.viewModel.service.description
-            self?.phoneTF.text = self?.viewModel.service.phone
-            self?.emailTF.text = self?.viewModel.service.email
-            self?.addressTF.text = self?.viewModel.service.address
-            self?.workingHours.text = self?.viewModel.service.schedule
-            self?.latitudeTF.text = self?.viewModel.service.latitude?.description
-            self?.longitudeTF.text = self?.viewModel.service.longitude?.description
+            self?.nameTF.text = self?.viewModel.service.lk.name
+            self?.descriptionTextView.text = self?.viewModel.service.lk.description
+            self?.phoneTF.text = self?.viewModel.service.lk.phone
+            self?.emailTF.text = self?.viewModel.service.lk.email
+            self?.addressTF.text = self?.viewModel.service.lk.address
+            self?.workingHours.text = self?.viewModel.service.lk.schedule
+            self?.latitudeTF.text = self?.viewModel.service.lk.latitude?.description
+            self?.longitudeTF.text = self?.viewModel.service.lk.longitude?.description
         }
-    }
-    
-    private func setUpUI() {
-        stopActivityIndicator()
-        initViewModel()
-        self.hideKeyboardWhenTappedAround()
-        imagePicker.delegate = self
-        navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
-    private func startActivityIndicator() {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-    }
-    
-    private func stopActivityIndicator() {
-        activityIndicator.stopAnimating()
-        activityIndicator.isHidden = true
+        
+        viewModel.dataSuccessfullySaved = { [weak self] errorMessage in
+            self?.showErrorAlert(with: NSLocalizedString("Уведомление", comment: ""), and: errorMessage)
+        }
+        viewModel.noDataSaved = { [weak self] errorMessage in
+            self?.showErrorAlert(and: errorMessage)
+        }
     }
     
     private func createSettingsSideMenu() -> SideMenuSettings {
@@ -101,6 +105,14 @@ class PartnerCabinetViewController: UIViewController {
         settings.statusBarEndAlpha = 0
         settings.menuWidth = min(UIScreen.main.bounds.width - 50, 500);
         return settings
+    }
+    
+    private func setUpUI() {
+        initViewModel()
+        self.hideKeyboardWhenTappedAround()
+        imagePicker.delegate = self
+        descriptionTextView.layer.cornerRadius = 5
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     //MARK: - AlertOfActionSelection
@@ -167,5 +179,3 @@ extension PartnerCabinetViewController: UIScrollViewDelegate {
         }
     }
 }
-
-
