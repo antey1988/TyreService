@@ -39,4 +39,13 @@ struct Service: Decodable {
     let carType: String
     let imageName: String?
     let works: [TypeService]?
+    let reviews: [Review]?
+    let imageName: String?
+}
+
+struct Review: Decodable {
+    let ball: Int
+    let message: String
+    let name: String
+    let date: String
 }

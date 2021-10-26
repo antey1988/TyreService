@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.tyre-service</groupId>
     <artifactId>aggregator</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.8-SNAPSHOT</version>
     <name>aggregator</name>
     <description>aggregator</description>
     <properties>

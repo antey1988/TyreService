@@ -13,6 +13,7 @@ class ServiceInfoViewController: UIViewController {
     @IBOutlet weak var infoCollectionView: UICollectionView!
     @IBOutlet weak var serviceNameView: UIView!
     @IBOutlet weak var serviceNameLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     
     weak var viewModel: ServiceInfoViewModel!
 
@@ -41,7 +42,21 @@ class ServiceInfoViewController: UIViewController {
                 registrationWorksVC.viewModel = self?.viewModel.getRegistrationWorksViewModel()
                 self?.present(registrationWorksVC, animated: true, completion: nil)
             }
-            
+        }
+        
+        viewModel.showCreateReview = { [weak self] in
+            let storyBoard : UIStoryboard = UIStoryboard(name: "CreateReview", bundle:nil)
+            if let createReviewVC = storyBoard.instantiateViewController(withIdentifier: "CreateReviewVC") as? CreateReviewViewController {
+                createReviewVC.viewModel = self?.viewModel.getCreateReviewViewModel()
+                createReviewVC.handlerSuccessAddReview = { [weak self] in
+                    self?.viewModel.getFullInfoService()
+                }
+                self?.present(createReviewVC, animated: true, completion: nil)
+            }
+        }
+        
+        viewModel.updateImageView = { [weak self] (data) in
+            self?.imageView.image = UIImage(data: data)
         }
     }
     
@@ -85,6 +100,7 @@ extension ServiceInfoViewController: UICollectionViewDelegate, UICollectionViewD
                 return cell
             default:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ReviewsCollectionViewCell.cellIdentifier, for: indexPath) as! ReviewsCollectionViewCell
+                cell.configure(viewModel: viewModel.getReviewsCellViewModel())
                 return cell
             }
         }

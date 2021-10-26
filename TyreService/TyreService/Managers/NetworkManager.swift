@@ -11,7 +11,7 @@ import Alamofire
 class NetworkManager {
     
     func getServicesAndFilters(complition: @escaping ((RequestStatus, [Service]?, [CarType]?, [TypeService]?) -> Void)) {
-        AF.request("http://194.67.91.182:8081/api").validate().responseDecodable(of: ServiceInitData.self) { (response) in
+        AF.request(Constants.api).validate().responseDecodable(of: ServiceInitData.self) { (response) in
             guard let data = response.value else {
                 complition(.error, nil, nil, nil)
                 return
@@ -21,7 +21,6 @@ class NetworkManager {
     }
     
     func getServices(filterCarType: String, pageNumber: Int, search: String, latitude: Double, longitude: Double, filterWorksType: [String], complition: @escaping ((RequestStatus, [Service]?) -> Void)) {
-        let url = "http://194.67.91.182:8081/api/partners"
         var parameters: [String: Any] = [
             "type": filterCarType,
             "name": search,
@@ -32,7 +31,7 @@ class NetworkManager {
         if filterWorksType.count > 0 {
             parameters["id"] = filterWorksType.joined(separator: ",")
         }
-        AF.request(url, parameters: parameters).validate().responseDecodable(of: [Service].self) { (response) in
+        AF.request(Constants.apiPartners, parameters: parameters).validate().responseDecodable(of: [Service].self) { (response) in
             guard let data = response.value else {
                 complition(.error, nil)
                 return
@@ -42,7 +41,7 @@ class NetworkManager {
     }
     
     func getFullInfoService(id: Int, complition: @escaping ((RequestStatus, Service?) -> Void)) {
-        let url = "http://194.67.91.182:8081/api/partners/\(id)"
+        let url = Constants.apiPartners + "/\(id)"
         AF.request(url).validate().responseDecodable(of: Service.self) { (response) in
             guard let data = response.value else {
                 complition(.error, nil)
@@ -53,7 +52,6 @@ class NetworkManager {
     }
     
     func requestOnWorks(partnerId: Int, clientName: String, clientPhone: String, clientAuto: String, works: [TypeService], visitDate: String, currentDate: String, complition: @escaping ((RequestStatus) -> Void)) {
-        let url = "http://194.67.91.182:8081/api/orders"
         let parameters: [String: Any] = [
             "partnerId": partnerId,
             "clientName": clientName,
@@ -66,6 +64,45 @@ class NetworkManager {
             })
         ]
         
+        AF.request(Constants.apiCreateOrder, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseDecodable(of: ResponseStatus.self) { (response) in
+            guard let data = response.value else {
+                complition(.error)
+                return
+            }
+            complition(data.success ? .ok : .error)
+        }
+        
+    }
+    
+    func addReview(serviceId: Int, name: String, description: String, rating: Int, complition: @escaping ((RequestStatus) -> Void)) {
+        let url = Constants.apiPartners + "/\(serviceId)/reviews"
+        let parameters: [String: Any] = [
+            "ball": rating,
+            "message": description,
+            "name": name
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseDecodable(of: ResponseStatus.self) { (response) in
+            guard let data = response.value else {
+                complition(.error)
+                return
+            }
+            complition(data.success ? .ok : .error)
+        }
+    }
+    
+    func getOrders(complition: @escaping ((RequestStatus, [Order]?) -> Void)) {
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        let headers: HTTPHeaders = ["Cookie": "JSESSIONID=\(token)"]
+        
+        AF.request(Constants.apiOrders, encoding: JSONEncoding.default, headers: headers).validate().responseDecodable(of: [Order].self) { (response) in
+            guard let data = response.value else {
+                complition(.error, nil)
+                return
+            }
+            complition(.ok, data)
+        }
+    }
         AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
             complition(.ok)
         }

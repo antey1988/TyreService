@@ -35,7 +35,7 @@ public class Partner {
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL)
     private Set<CostWork> costsWorks = new HashSet<>();
     @Column(name = "image")
-    private String imagePath;
+    private String imageName;
     @ElementCollection
     @CollectionTable(name = "reviews", joinColumns = @JoinColumn(name = "partner_id", nullable = false))
     List<Review> reviews;

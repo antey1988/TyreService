@@ -30,6 +30,7 @@ public class RegistrationController {
     public StatusResponse register(@RequestBody RegDataRequest regData) {
         log.info("Request: POST http://localhost:" + config.getPort() + "/api/registration");
         log.info("Registration new account");
-        return registerService.register(regData);
+        registerService.register(regData);
+        return StatusResponse.getOk();
     }
 }

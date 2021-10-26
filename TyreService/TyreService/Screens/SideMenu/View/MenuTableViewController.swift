@@ -46,7 +46,9 @@ class MenuTableViewController: UITableViewController {
             let partherCabinet = storyBoard.instantiateViewController(withIdentifier: "PartnerCabinetVC") as! PartnerCabinetViewController
             navigationController?.pushViewController(partherCabinet, animated: false)
         case 2:
-            print("Orders")
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Orders", bundle:nil)
+            let servicesListVC = storyBoard.instantiateViewController(withIdentifier: "OrdersTableVC") as! OrdersTableViewController
+            navigationController?.pushViewController(servicesListVC, animated: false)
         case 3:
             let storyBoard: UIStoryboard = UIStoryboard(name: "ServiceList", bundle:nil)
             let servicesListVC = storyBoard.instantiateViewController(withIdentifier: "ServicesListVC") as! ServicesListViewController

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.tyreservice.aggregator.dto.requests.CostWorkRequestDTO;
 import ru.tyreservice.aggregator.dto.requests.PartnerRequestDTO;
 import ru.tyreservice.aggregator.dto.responses.PartnerResponseDTO;
-import ru.tyreservice.aggregator.dto.responses.PartnerWithDetailsDTO;
+import ru.tyreservice.aggregator.dto.responses.PartnerWithDetailsResponseDTO;
 import ru.tyreservice.aggregator.entities.CostWork;
 import ru.tyreservice.aggregator.entities.Partner;
 import ru.tyreservice.aggregator.enums.StateCarType;
@@ -47,9 +47,9 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Override
     @Transactional
-    public PartnerWithDetailsDTO readPartnerWithWorks(Long id) {
+    public PartnerWithDetailsResponseDTO readPartnerWithWorks(Long id) {
         Partner partner = findById(id);
-        return PartnerWithDetailsDTO.fromEntity(partner);
+        return PartnerWithDetailsResponseDTO.fromEntity(partner);
     }
 
     @Override

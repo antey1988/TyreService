@@ -21,6 +21,7 @@ class RequestWorksViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
+        hideKeyboardWhenTappedAround(changeViewSize: false)
     }
     
     private func initView() {
