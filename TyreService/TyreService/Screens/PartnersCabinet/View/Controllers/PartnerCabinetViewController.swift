@@ -37,15 +37,20 @@ class PartnerCabinetViewController: UIViewController {
     }
     
     @IBAction func chooseTypeOfCar(_ sender: UIButton) {
-        let selectionMenu = RSSelectionMenu(selectionStyle: .multiple, dataSource: viewModel.getTypeOfCar()) { (cell, carType, indexPath) in
+        let selectionMenu = RSSelectionMenu(selectionStyle: .single, dataSource: viewModel.getTypeOfCar()) { (cell, carType, indexPath) in
             cell.textLabel?.text = carType.name
         }
         selectionMenu.onDismiss = { [weak self] selectedItem in
-            self?.carTypeBtn.titleLabel?.text = selectedItem.description
+            if let carType = selectedItem.first {
+                self?.viewModel.updateCarType(carType: carType.key)
+                self?.carTypeBtn.setTitle(carType.name, for: .normal)
+            }
+        }
+        if let selectedType = viewModel.getSelectedCarTypeObject() {
+            selectionMenu.setSelectedItems(items: [selectedType]) { (text, index, isSelected, selectedItems) in }
         }
         selectionMenu.cellSelectionStyle = .checkbox
-        selectionMenu.show(style: .actionSheet(title: "Тип авто", action: "Применить", height: 210), from: self)
-
+        selectionMenu.show(style: .actionSheet(title: "Тип авто", action: "Применить", height: nil), from: self)
     }
     
     
@@ -89,10 +94,13 @@ class PartnerCabinetViewController: UIViewController {
             self?.workingHours.text = self?.viewModel.service.lk.schedule
             self?.latitudeTF.text = self?.viewModel.service.lk.latitude?.description
             self?.longitudeTF.text = self?.viewModel.service.lk.longitude?.description
+            if let selectedType = self?.viewModel.getSelectedCarTypeObject() {
+                self?.carTypeBtn.setTitle(selectedType.name, for: .normal)
+            }
         }
         
         viewModel.dataSuccessfullySaved = { [weak self] errorMessage in
-            self?.showErrorAlert(with: NSLocalizedString("Уведомление", comment: ""), and: errorMessage)
+            self?.showErrorAlert(with: "", and: errorMessage)
         }
         viewModel.noDataSaved = { [weak self] errorMessage in
             self?.showErrorAlert(and: errorMessage)

@@ -113,7 +113,7 @@ class ServicesListViewController: UIViewController, CLLocationManagerDelegate {
         }
         selectionMenu.setSelectedItems(items: viewModel.getSelectedWorksType()) { (text, index, isSelected, selectedItems) in }
         selectionMenu.cellSelectionStyle = .checkbox
-        selectionMenu.show(style: .actionSheet(title: "Фильтр по услугам", action: "Применить", height: 210), from: self)
+        selectionMenu.show(style: .actionSheet(title: "Фильтр по услугам", action: "Применить", height: nil), from: self)
     }
     
     func createSettingsSideMenu() -> SideMenuSettings {

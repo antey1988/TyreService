@@ -103,10 +103,6 @@ class NetworkManager {
             complition(.ok, data)
         }
     }
-        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default).responseJSON { (response) in
-            complition(.ok)
-        }
-    }
     
     func getInfoForPartnerCabinet(completion: @escaping ((RequestStatus, PersonalArea?) -> Void)) {
         let token = UserDefaults.standard.string(forKey: "token") ?? ""
@@ -166,13 +162,11 @@ class NetworkManager {
         
     }
     
-    func savePersonalInfoPartner(id: Int, name: String, description: String, email: String, phone: String, address: String, schedule: String, longitude: Double, latitude: Double, completion: @escaping ((RequestStatus) -> Void)) {
+    func savePersonalInfoPartner(id: Int, name: String, description: String, email: String, phone: String, address: String, schedule: String, longitude: Double, latitude: Double, carType: String, completion: @escaping ((RequestStatus) -> Void)) {
         
         let token = UserDefaults.standard.string(forKey: "token") ?? ""
         let url = Constants.apiSavePersonalInfoPartner
         let headers: HTTPHeaders = ["Cookie": "JSESSIONID=\(token)"]
-        
-        let carType = "PASSENGER"
         let parameters: [String: Any] = ["id": id,
                                          "name": name,
                                          "description": description,

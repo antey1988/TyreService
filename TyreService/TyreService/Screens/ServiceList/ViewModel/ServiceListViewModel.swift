@@ -161,9 +161,10 @@ class ServiceListViewModel {
     }
     
     public func setLatLon(lat: Double?, lon: Double?, updateData: Bool) {
+        let enableUpdate = currentLocationLon == nil && currentLocationLat == nil
         currentLocationLat = lat
         currentLocationLon = lon
-        if updateData {
+        if updateData && enableUpdate {
             updatePartners(page: 0)
         }
     }

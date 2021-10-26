@@ -9,7 +9,8 @@ import UIKit
 import SideMenu
 
 class OrdersTableViewController: UITableViewController {
-
+    
+    private var refreshView = UIRefreshControl()
     private var viewModel: OrdersViewModel = OrdersViewModel()
     
     override func viewDidLoad() {
@@ -18,14 +19,20 @@ class OrdersTableViewController: UITableViewController {
     }
     
     private func initView() {
+        refreshView = UIRefreshControl()
+        refreshView.attributedTitle = NSAttributedString(string: "Обновление данных")
+        refreshView.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        tableView.addSubview(refreshView)
         tableView.register(OrderTableViewCell.nib(), forCellReuseIdentifier: OrderTableViewCell.cellIdentifier)
         navigationController?.setNavigationBarHidden(false, animated: false)
+        
         viewModel.errorMessage = { [weak self] message in
             self?.showErrorAlert(and: message)
         }
         
         viewModel.reloadData = { [weak self] in
             self?.tableView.reloadData()
+            self?.refreshView.endRefreshing()
         }
     }
 
@@ -47,6 +54,10 @@ class OrdersTableViewController: UITableViewController {
         settings.statusBarEndAlpha = 0
         settings.menuWidth = min(UIScreen.main.bounds.width - 50, 500);
         return settings
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        viewModel.updateOrders()
     }
     
     // MARK: - Table view data source

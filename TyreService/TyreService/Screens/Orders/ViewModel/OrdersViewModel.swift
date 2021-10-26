@@ -45,4 +45,9 @@ class OrdersViewModel {
     public func getOrderCellViewModel(index: Int) -> OrderCellViewModel {
         return ordersCellViewModel[index]
     }
+    
+    public func updateOrders() {
+        ordersCellViewModel = []
+        getOrders()
+    }
 }

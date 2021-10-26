@@ -65,6 +65,7 @@ class ServiceViewCell: UITableViewCell {
     }
     
     private func setImage(viewModel: ServiceCellViewModel) {
+        photo.image = UIImage(named: "no-image")
         if let image = viewModel.service.imageName {
             if let imagePath = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
                 if let url = URL(string: "https://" + imagePath) {
