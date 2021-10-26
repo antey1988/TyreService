@@ -43,6 +43,7 @@ class PartnerServicesViewModel {
         }.map { serviceCellViewModel in
             return TypeService(id: serviceCellViewModel.id, name: serviceCellViewModel.name, price: serviceCellViewModel.price, description: nil)
         }
+        
         networkManager.saveServicesList(typeServices: activeServices) { [weak self] status in
             switch status {
             case .ok:

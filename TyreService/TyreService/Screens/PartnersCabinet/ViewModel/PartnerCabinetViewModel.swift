@@ -11,6 +11,7 @@ class PartnerCabinetViewModel {
     
     private var networkManager: NetworkManager
     private var partnerServicesViewModel: PartnerServicesViewModel?
+    private var selectedCarType: String?
     var service: PersonalArea!
     public var updateInfo: (() -> ())?
     public var noDataSaved: ((String) -> ())?
@@ -27,6 +28,7 @@ class PartnerCabinetViewModel {
             switch requestStatus {
             case .ok:
                 if let service = service {
+                    self?.selectedCarType = service.lk.carType
                     self?.service = service
                     self?.updateInfo?()
                     self?.partnerServicesViewModel = PartnerServicesViewModel(partnerServices: service.lk.works ?? [])
@@ -78,7 +80,16 @@ class PartnerCabinetViewModel {
         let lonToDouble: Double = Double(lon.description ) ?? 0.0
         let latToDouble: Double = Double(lat.description ) ?? 0.0
         
-        networkManager.savePersonalInfoPartner(id: service.lk.id, name: name, description: description, email: email, phone: phone, address: address, schedule: workingHours, longitude: lonToDouble, latitude: latToDouble) { [weak self] response in
+        networkManager.savePersonalInfoPartner(id: service.lk.id,
+                                               name: name,
+                                               description: description,
+                                               email: email,
+                                               phone: phone,
+                                               address: address,
+                                               schedule: workingHours,
+                                               longitude: lonToDouble,
+                                               latitude: latToDouble,
+                                               carType: selectedCarType ?? "") { [weak self] response in
             switch response {
             case .ok:
                 self?.dataSuccessfullySaved?(NSLocalizedString(Errors.dataSuccessfullySaved, comment: ""))
@@ -105,5 +116,19 @@ class PartnerCabinetViewModel {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
+    }
+    
+    public func updateCarType(carType: String) {
+        selectedCarType = carType
+    }
+    
+    public func getSelectedCarTypeObject() -> CarType? {
+        for type in service.types {
+            if selectedCarType == type.key {
+                return type
+            }
+        }
+        
+        return nil
     }
 }

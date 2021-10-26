@@ -40,7 +40,6 @@ struct Service: Decodable {
     let imageName: String?
     let works: [TypeService]?
     let reviews: [Review]?
-    let imageName: String?
 }
 
 struct Review: Decodable {
