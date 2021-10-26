@@ -11,7 +11,7 @@ class ServiceViewCell: UITableViewCell {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var photo: UIImageView!
+    @IBOutlet weak var photo: LazyImageView!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
@@ -43,6 +43,8 @@ class ServiceViewCell: UITableViewCell {
         distanceView.layer.cornerRadius = 5
         distanceView.layer.masksToBounds = true
         distanceView.clipsToBounds = true
+        
+        photo.image = nil
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -55,19 +57,18 @@ class ServiceViewCell: UITableViewCell {
         descriptionLabel.text = viewModel.service.description
         addressLabel.text = viewModel.service.address
         setImage(viewModel: viewModel)
+        if let distance = viewModel.distance {
+            distanceLabel.text = String(format: "%.1f ", distance) + " км"
+        } else {
+            distanceLabel.text = ""
+        }
     }
     
     private func setImage(viewModel: ServiceCellViewModel) {
         if let image = viewModel.service.imageName {
             if let imagePath = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
                 if let url = URL(string: "https://" + imagePath) {
-                    DispatchQueue.global().async {
-                        if let data = try? Data(contentsOf: url) {
-                            DispatchQueue.main.async { [weak self] in
-                                self?.photo.image = UIImage(data: data)
-                            }
-                        }
-                    }
+                    photo.loadImage(fromURL: url, placeHolderImage: "no-image")
                 }
             }
         }
