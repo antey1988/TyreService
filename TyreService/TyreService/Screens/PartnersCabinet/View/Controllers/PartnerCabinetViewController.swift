@@ -10,9 +10,9 @@ import SideMenu
 import RSSelectionMenu
 import CoreLocation
 
-class PartnerCabinetViewController: UIViewController {
+class PartnerCabinetViewController: UIViewController, CLLocationManagerDelegate {
 
-    @IBOutlet weak var photo: UIImageView!
+    @IBOutlet weak var photo: LazyImageView!
     @IBOutlet weak var nameTF: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var phoneTF: UITextField!
@@ -24,6 +24,7 @@ class PartnerCabinetViewController: UIViewController {
     @IBOutlet weak var carTypeBtn: UIButton!
     private var viewModel: PartnerCabinetViewModel!
     private let imagePicker = UIImagePickerController()
+    private let location = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,6 +79,11 @@ class PartnerCabinetViewController: UIViewController {
         present(menu, animated: true, completion: nil)
     }
     
+    @IBAction func defineCurrentLocation(_ sender: Any) {
+        latitudeTF.text = location.location?.coordinate.latitude.description
+        longitudeTF.text = location.location?.coordinate.longitude.description
+    }
+    
     //MARK: - SetUpView
     
     private func initViewModel() {
@@ -94,6 +100,13 @@ class PartnerCabinetViewController: UIViewController {
             self?.workingHours.text = self?.viewModel.service.lk.schedule
             self?.latitudeTF.text = self?.viewModel.service.lk.latitude?.description
             self?.longitudeTF.text = self?.viewModel.service.lk.longitude?.description
+            if let image = self?.viewModel.service.lk.imageName {
+                if let imagePath = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                    if let url = URL(string: "https://" + imagePath) {
+                        self?.photo.loadImage(fromURL: url, placeHolderImage: "no-image")
+                    }
+                }
+            }
             if let selectedType = self?.viewModel.getSelectedCarTypeObject() {
                 self?.carTypeBtn.setTitle(selectedType.name, for: .normal)
             }
@@ -121,6 +134,9 @@ class PartnerCabinetViewController: UIViewController {
         imagePicker.delegate = self
         descriptionTextView.layer.cornerRadius = 5
         navigationController?.setNavigationBarHidden(false, animated: false)
+        location.delegate = self
+        location.desiredAccuracy = kCLLocationAccuracyBest
+        location.requestAlwaysAuthorization()
     }
     
     //MARK: - AlertOfActionSelection
@@ -164,14 +180,17 @@ class PartnerCabinetViewController: UIViewController {
     //MARK: - Extension
 
 extension PartnerCabinetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-         guard let selectedImage = info[.originalImage] as? UIImage else {
-             fatalError("\(info)")
-         }
-         photo.image = selectedImage
-         dismiss(animated: true, completion: nil)
-     }
+        guard let selectedImage = info[.originalImage] as? UIImage else {
+            fatalError("\(info)")
+        }
+        photo.image = selectedImage
+        if let imgData = selectedImage.jpegData(compressionQuality: 0.3) {
+            viewModel.uploadPhoto(imageData: imgData)
+        }
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension PartnerCabinetViewController: UIScrollViewDelegate {

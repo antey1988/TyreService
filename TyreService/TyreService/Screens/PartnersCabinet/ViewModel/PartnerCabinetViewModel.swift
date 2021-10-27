@@ -131,4 +131,15 @@ class PartnerCabinetViewModel {
         
         return nil
     }
+    
+    public func uploadPhoto(imageData: Data) {
+        networkManager.uploadPartnerPhoto(data: imageData) { [weak self] status in
+            switch status {
+            case .ok:
+                self?.dataSuccessfullySaved?(NSLocalizedString(Errors.imageSuccessSave, comment: ""))
+            case .error:
+                self?.noDataSaved?(NSLocalizedString(Errors.imageErrorSave, comment: ""))
+            }
+        }
+    }
 }

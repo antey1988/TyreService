@@ -28,14 +28,12 @@ class ReviewTableViewCell: UITableViewCell {
         nameLabel.text = viewModel.review.name
         messageLabel.text = viewModel.review.message
         dateLabel.text = viewModel.getDate()
-        fillRatingView(rating: viewModel.review.ball)
+        fillRatingView(rating: viewModel.review.ball - 1)
     }
     
     private func fillRatingView(rating: Int) {
-        if rating > 0 {
-            for ratingNumber in 0...rating - 1 {
-                ratingCollectionView[ratingNumber].tintColor = #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1)
-            }
+        for ratingNumber in 0...4 {
+            ratingCollectionView[ratingNumber].tintColor = rating >= ratingNumber ? #colorLiteral(red: 0.9882352941, green: 0.7607843137, blue: 0, alpha: 1) : UIColor.systemGray4
         }
     }
 }

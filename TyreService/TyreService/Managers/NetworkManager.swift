@@ -193,5 +193,22 @@ class NetworkManager {
         }
     }
     
-    
+    func uploadPartnerPhoto(data: Data, completion: @escaping ((RequestStatus) -> Void)) {
+        let token = UserDefaults.standard.string(forKey: "token") ?? ""
+        let headers: HTTPHeaders = ["Cookie": "JSESSIONID=\(token)"]
+        
+        AF.upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(data, withName: "image", fileName: UUID().uuidString + ".jpeg")
+        }, to: Constants.apiUploadPartnerPhoto, headers: headers).responseDecodable(of: ResponseStatus.self) { response in
+            guard let data = response.value else {
+                completion(.error)
+                return
+            }
+            if data.success {
+                completion(.ok)
+            } else {
+                completion(.error)
+            }
+        }
+    }
 }
