@@ -19,6 +19,8 @@ enum Errors {
     static let failedToLoadListOfServices = "Не удалось загрузить список сервисов "
     static let noDataSaved = "Не удалось сохранить информацию"
     static let dataSuccessfullySaved = "Данные успешно сохранены"
+    static let imageSuccessSave = "Фотография успешно обновлена"
+    static let imageErrorSave = "Фотография не обновлена"
     static let somethingWentWrong = "Что-то пошло не так"
     static let registrationFailed = "Ошибка регистрации"
     static let authorizationError = "Ошибка авторизации"
