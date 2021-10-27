@@ -23,7 +23,7 @@ class SignUpViewModel {
     func registration(name: String, phone: String, email: String, password: String) {
         
         let name = name.trimmingCharacters(in: .whitespaces)
-        let phone = phone.trimmingCharacters(in: .whitespaces)
+        let phone = phone.trimmingCharacters(in: .whitespaces).filter("0123456789".contains)
         let email = email.trimmingCharacters(in: .whitespaces)
         let password = password.trimmingCharacters(in: .whitespaces)
         

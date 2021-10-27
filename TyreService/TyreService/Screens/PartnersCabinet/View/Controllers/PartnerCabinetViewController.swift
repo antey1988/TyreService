@@ -9,10 +9,11 @@ import UIKit
 import SideMenu
 import RSSelectionMenu
 import CoreLocation
+import Kingfisher
 
 class PartnerCabinetViewController: UIViewController, CLLocationManagerDelegate {
 
-    @IBOutlet weak var photo: LazyImageView!
+    @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var nameTF: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var phoneTF: UITextField!
@@ -80,8 +81,13 @@ class PartnerCabinetViewController: UIViewController, CLLocationManagerDelegate 
     }
     
     @IBAction func defineCurrentLocation(_ sender: Any) {
-        latitudeTF.text = location.location?.coordinate.latitude.description
-        longitudeTF.text = location.location?.coordinate.longitude.description
+        latitudeTF.text = 53.894828.description
+        longitudeTF.text = 27.533744.description
+    }
+    
+    @IBAction func changePhoneNumber(_ sender: Any) {
+        guard let text = phoneTF.text else { return }
+        phoneTF.text = text.applyPatternOnNumbers(pattern: "+# (###) ###-####", replacementCharacter: "#")
     }
     
     //MARK: - SetUpView
@@ -94,7 +100,7 @@ class PartnerCabinetViewController: UIViewController, CLLocationManagerDelegate 
         viewModel.updateInfo = { [weak self] in
             self?.nameTF.text = self?.viewModel.service.lk.name
             self?.descriptionTextView.text = self?.viewModel.service.lk.description
-            self?.phoneTF.text = self?.viewModel.service.lk.phone
+            self?.phoneTF.text = self?.viewModel.service.lk.phone.applyPatternOnNumbers(pattern: "+# (###) ###-####", replacementCharacter: "#")
             self?.emailTF.text = self?.viewModel.service.lk.email
             self?.addressTF.text = self?.viewModel.service.lk.address
             self?.workingHours.text = self?.viewModel.service.lk.schedule
@@ -103,7 +109,7 @@ class PartnerCabinetViewController: UIViewController, CLLocationManagerDelegate 
             if let image = self?.viewModel.service.lk.imageName {
                 if let imagePath = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
                     if let url = URL(string: "https://" + imagePath) {
-                        self?.photo.loadImage(fromURL: url, placeHolderImage: "no-image")
+                        self?.photo.kf.setImage(with: url)
                     }
                 }
             }

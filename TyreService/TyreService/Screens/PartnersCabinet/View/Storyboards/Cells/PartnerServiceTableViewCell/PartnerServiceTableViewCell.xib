@@ -39,6 +39,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                         <connections>
+                                            <action selector="priceChanged:" destination="KGk-i7-Jjw" eventType="editingChanged" id="7S4-6F-eGy"/>
                                             <action selector="priceDidEnd:" destination="KGk-i7-Jjw" eventType="editingDidEnd" id="zLd-HY-pmf"/>
                                         </connections>
                                     </textField>

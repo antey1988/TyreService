@@ -23,7 +23,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IOT-cL-Lpz">
                         <rect key="frame" x="15" y="15" width="399" height="284"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tcA-8r-d8p" customClass="LazyImageView" customModule="TyreService" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tcA-8r-d8p">
                                 <rect key="frame" x="0.0" y="0.0" width="399" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="160" id="ssl-1o-I0g"/>

@@ -58,7 +58,7 @@ class RequestWorksViewModel {
         
         networkManager.requestOnWorks(partnerId: serviceInfo.id,
                                       clientName: name,
-                                      clientPhone: phone,
+                                      clientPhone: phone.filter("0123456789".contains),
                                       clientAuto: auto,
                                       works: works,
                                       visitDate: parseDate(date: visitDate),

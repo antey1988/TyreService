@@ -23,11 +23,7 @@ class AuthorizationViewController: UIViewController {
     }
     
     @IBAction func passwordTextField(_ sender: UITextField) {
-        if viewModel.checkEmptyPassword(password: passwordTF.text ?? "") {
-            signInButtonTrue()
-        } else {
-            signInButtonFalse()
-        }
+        viewModel.checkEmptyPassword(password: passwordTF.text ?? "") ? signInButtonTrue() : signInButtonFalse()
     }
     
     @IBAction func showSideMenu(_ sender: UIBarButtonItem) {

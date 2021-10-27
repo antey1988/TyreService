@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ServiceInfoViewController: UIViewController {
 
@@ -34,6 +35,9 @@ class ServiceInfoViewController: UIViewController {
         navigationController?.view.backgroundColor = .clear
         serviceNameView.layer.cornerRadius = 8
         serviceNameLabel.text = viewModel.getServiceName()
+        if let imageUrl = viewModel.getImageUrl() {
+            imageView.kf.setImage(with: imageUrl)
+        }
         initMenuCollectionView()
         initInfoCollectionView()
         viewModel.showRegistrationWorks = { [weak self] in
@@ -53,10 +57,6 @@ class ServiceInfoViewController: UIViewController {
                 }
                 self?.present(createReviewVC, animated: true, completion: nil)
             }
-        }
-        
-        viewModel.updateImageView = { [weak self] (data) in
-            self?.imageView.image = UIImage(data: data)
         }
     }
     
