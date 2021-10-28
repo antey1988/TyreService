@@ -66,6 +66,11 @@ class RegistrationViewController: UIViewController {
         }
     }
     
+    @IBAction func actionPhoneNumberChange(_ sender: Any) {
+        guard let text = phoneOrganization.text else { return }
+        phoneOrganization.text = text.applyPatternOnNumbers(pattern: "+# (###) ###-####", replacementCharacter: "#")
+    }
+    
     @IBAction func signUpButtonPressed(_ sender: UIButton) {
         viewModel.registration(name: nameOrganization.text ?? "", phone: phoneOrganization.text ?? "", email: emailOrganization.text ?? "", password: passwordOneTF.text ?? "")
     }

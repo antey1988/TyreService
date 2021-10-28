@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bLU-dd-MqA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bLU-dd-MqA">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -30,7 +30,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="iE0-zY-zG4">
                                                         <rect key="frame" x="0.0" y="0.0" width="384" height="240"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="36z-gQ-rgY" customClass="LazyImageView" customModule="TyreService" customModuleProvider="target">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="36z-gQ-rgY">
                                                                 <rect key="frame" x="0.0" y="0.5" width="384" height="187"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="189" id="hGE-SW-vJy"/>
@@ -114,6 +114,10 @@
                                                                                 <rect key="frame" x="139" y="0.5" width="245" height="34"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                                                                <connections>
+                                                                                    <action selector="changePhoneNumber:" destination="Hya-Ac-8Dg" eventType="editingChanged" id="83j-tx-evQ"/>
+                                                                                    <action selector="editPhoneNumber:" destination="Hya-Ac-8Dg" eventType="editingDidEnd" id="ypP-JQ-dBh"/>
+                                                                                </connections>
                                                                             </textField>
                                                                         </subviews>
                                                                         <constraints>
@@ -276,7 +280,7 @@
                             <constraint firstItem="MXA-Nf-kxb" firstAttribute="top" secondItem="bJ3-ph-YxY" secondAttribute="top" id="xWc-xJ-F2Z"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Личный кабинет" id="o5K-qr-NaM">
+                    <navigationItem key="navigationItem" title="Личный кабинет" largeTitleDisplayMode="always" id="o5K-qr-NaM">
                         <barButtonItem key="leftBarButtonItem" title="Item" image="line.horizontal.3" catalog="system" style="plain" id="tQu-8t-mc0">
                             <color key="tintColor" name="buttonColor"/>
                             <connections>

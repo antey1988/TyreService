@@ -43,7 +43,7 @@ class PartnerCabinetViewModel {
         
         let name = name.trimmingCharacters(in: .whitespaces)
         let description = description.trimmingCharacters(in: .whitespaces)
-        let phone = phone.trimmingCharacters(in: .whitespaces)
+        let phone = phone.trimmingCharacters(in: .whitespaces).filter("0123456789".contains)
         let email = email.trimmingCharacters(in: .whitespaces)
         let address = address.trimmingCharacters(in: .whitespaces)
         let workingHours = workingHours.trimmingCharacters(in: .whitespaces)

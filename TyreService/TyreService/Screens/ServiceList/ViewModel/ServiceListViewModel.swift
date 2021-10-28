@@ -42,7 +42,8 @@ class ServiceListViewModel {
     var reloadFilter: (()->())?
     var startLoadIndicator: (()->())?
     var stopLoadIndicator: (()->())?
-
+    var stopReloadIndicator: (()->())?
+    
     required init() {
         networkManager = NetworkManager()
         initPartnersAndGroups()
@@ -84,6 +85,7 @@ class ServiceListViewModel {
                     self?.initPartnersViewModel(services: services)
                 }
                 self?.reloadPartners?()
+                self?.stopReloadIndicator?()
                 break
             case .error:
                 break
@@ -167,5 +169,9 @@ class ServiceListViewModel {
         if updateData && enableUpdate {
             updatePartners(page: 0)
         }
+    }
+    
+    public func refreshPartners() {
+        updatePartners(page: 0)
     }
 }

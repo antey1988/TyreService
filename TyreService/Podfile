@@ -10,6 +10,7 @@ target 'TyreService' do
   pod 'Alamofire', '~> 5.4'
   pod 'SideMenu', '~> 6.5'
   pod 'RSSelectionMenu', '~> 7.1'
+  pod 'Kingfisher', '~> 7.1'
 
   target 'TyreServiceTests' do
     inherit! :search_paths

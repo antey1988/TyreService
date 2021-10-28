@@ -46,6 +46,10 @@ class RequestWorksViewController: UIViewController {
         viewModel?.sendRequestOnWorks(name: name.text ?? "", phone: phoneNumber.text ?? "", auto: carInfo.text ?? "", visitDate: visitDate.date)
     }
     
+    @IBAction func changePhoneNumber(_ sender: Any) {
+        guard let text = phoneNumber.text else { return }
+        phoneNumber.text = text.applyPatternOnNumbers(pattern: "+# (###) ###-####", replacementCharacter: "#")
+    }
 }
 
 extension RequestWorksViewController: UITableViewDataSource, UITableViewDelegate {
@@ -62,6 +66,6 @@ extension RequestWorksViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return UITableView.automaticDimension
     }
 }

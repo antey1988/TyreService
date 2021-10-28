@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ServiceViewCell: UITableViewCell {
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var photo: LazyImageView!
+    @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var ratingLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
@@ -69,7 +70,7 @@ class ServiceViewCell: UITableViewCell {
         if let image = viewModel.service.imageName {
             if let imagePath = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
                 if let url = URL(string: "https://" + imagePath) {
-                    photo.loadImage(fromURL: url, placeHolderImage: "no-image")
+                    photo.kf.setImage(with: url)
                 }
             }
         }

@@ -72,7 +72,6 @@
 		EDE5D63E2725C11800436FD7 /* OrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE5D63C2725C11800436FD7 /* OrderTableViewCell.swift */; };
 		EDE5D63F2725C11800436FD7 /* OrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDE5D63D2725C11800436FD7 /* OrderTableViewCell.xib */; };
 		EDE5D6422725C2FD00436FD7 /* OrderCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE5D6412725C2FD00436FD7 /* OrderCellViewModel.swift */; };
-		EDE5D64427273D9F00436FD7 /* LazyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE5D64327273D9F00436FD7 /* LazyImageView.swift */; };
 		EDE667F1270B5E69002DD027 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE667F0270B5E69002DD027 /* NetworkManager.swift */; };
 		EDE667F9270B5FFA002DD027 /* CarTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDE667F7270B5FFA002DD027 /* CarTypeCollectionViewCell.swift */; };
 		EDE667FA270B5FFA002DD027 /* CarTypeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EDE667F8270B5FFA002DD027 /* CarTypeCollectionViewCell.xib */; };
@@ -183,7 +182,6 @@
 		EDE5D63C2725C11800436FD7 /* OrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderTableViewCell.swift; sourceTree = "<group>"; };
 		EDE5D63D2725C11800436FD7 /* OrderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderTableViewCell.xib; sourceTree = "<group>"; };
 		EDE5D6412725C2FD00436FD7 /* OrderCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCellViewModel.swift; sourceTree = "<group>"; };
-		EDE5D64327273D9F00436FD7 /* LazyImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyImageView.swift; sourceTree = "<group>"; };
 		EDE667F0270B5E69002DD027 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		EDE667F7270B5FFA002DD027 /* CarTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		EDE667F8270B5FFA002DD027 /* CarTypeCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CarTypeCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -769,7 +767,6 @@
 			children = (
 				EDE66811270B73F4002DD027 /* ServiceViewCell.swift */,
 				EDE66812270B73F4002DD027 /* ServiceViewCell.xib */,
-				EDE5D64327273D9F00436FD7 /* LazyImageView.swift */,
 			);
 			path = ServiceCell;
 			sourceTree = "<group>";
@@ -892,7 +889,7 @@
 				ED32DC3D27161CDD00690C8C /* ContactsCollectionViewCell.xib in Resources */,
 				EDE5D6312725AA3700436FD7 /* Orders.storyboard in Resources */,
 				EDE667FA270B5FFA002DD027 /* CarTypeCollectionViewCell.xib in Resources */,
-				ED08A80C271A1752005C2A57 /* ServicesTableViewCell.xib in Resources */,
+				ED08A80C271A1752005C2A57 /* PartnerServiceTableViewCell.xib in Resources */,
 				EDE5D6272725943900436FD7 /* CreateReview.storyboard in Resources */,
 				EDE5D61F2724946300436FD7 /* ReviewTableViewCell.xib in Resources */,
 				EDE5D63F2725C11800436FD7 /* OrderTableViewCell.xib in Resources */,
@@ -1078,11 +1075,10 @@
 				EDE5D6292725949700436FD7 /* CreateReviewViewController.swift in Sources */,
 				ED3F1CA12706189900385D28 /* AppDelegate.swift in Sources */,
 				ED3F1CA32706189900385D28 /* SceneDelegate.swift in Sources */,
-				EDE5D64427273D9F00436FD7 /* LazyImageView.swift in Sources */,
 				EDED3C5D27244FA700079B87 /* ResponseStatus.swift in Sources */,
 				EDE5D6372725B20000436FD7 /* OrdersViewModel.swift in Sources */,
 				ED11C18B27206B7F00C41DF1 /* AuthManager.swift in Sources */,
-				ED08A803271A1752005C2A57 /* ServicesCellViewModel.swift in Sources */,
+				ED08A803271A1752005C2A57 /* PartnerServiceCellViewModel.swift in Sources */,
 				EDE5D62B272594F400436FD7 /* CreateReviewViewModel.swift in Sources */,
 				ED08A803271A1752005C2A57 /* PartnerServiceCellViewModel.swift in Sources */,
 				ED4451AB270D017800B24F2D /* ExtensionUIViewController.swift in Sources */,

@@ -43,23 +43,6 @@ class ServiceInfoViewModel {
                                                            phone: service.phone)
         getFullInfoService()
         createMenu()
-        getImage()
-    }
-    
-    private func getImage() {
-        if let image = service?.imageName {
-            if let imagePath = image.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                if let url = URL(string: "https://" + imagePath) {
-                    DispatchQueue.global().async {
-                        if let data = try? Data(contentsOf: url) {
-                            DispatchQueue.main.async { [weak self] in
-                                self?.updateImageView?(data)
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
     
     public func getFullInfoService() {
@@ -136,6 +119,17 @@ class ServiceInfoViewModel {
             return createReviewViewModel
         }
         
+        return nil
+    }
+    
+    public func getImageUrl() -> URL? {
+        if let imageName = service?.imageName {
+            if let imagePath = imageName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                if let url = URL(string: "https://" + imagePath) {
+                    return url
+                }
+            }
+        }
         return nil
     }
 }

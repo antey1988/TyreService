@@ -23,10 +23,9 @@ class PartnerServiceTableViewCell: UITableViewCell {
     static func nib() -> UINib {
         return UINib(nibName: cellIdentifier, bundle: nil)
     }
-    
-    @IBAction func priceDidEnd(_ sender: UITextField) {
-        let priceToInt: Int? = Int(price.text ?? "")
-        if let priceToInt = priceToInt {
+
+    @IBAction func priceChanged(_ sender: Any) {
+        if let priceToInt = Int(price.text ?? "") {
             viewModel?.price = priceToInt
         }
     }
@@ -34,6 +33,7 @@ class PartnerServiceTableViewCell: UITableViewCell {
     @IBAction func tappedSwitch(_ sender: UISwitch) {
         viewModel?.isActive = switchService.isOn
     }
+    
     public func configure(viewModel: PartnerServiceCellViewModel) {
         self.viewModel = viewModel
         
