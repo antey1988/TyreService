@@ -15,7 +15,8 @@ class ServicesListViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var filterCollectionView: UICollectionView!
     @IBOutlet weak var partnersTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
-    
+
+    private var refreshView = UIRefreshControl()
     private let activityIndicator = UIActivityIndicatorView(style: .large)
     private let location = CLLocationManager()
     
@@ -37,7 +38,7 @@ class ServicesListViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        //viewModel.setLatLon(lat: location.location?.coordinate.latitude, lon: location.location?.coordinate.longitude, updateData: true)
+        viewModel.setLatLon(lat: location.location?.coordinate.latitude, lon: location.location?.coordinate.longitude, updateData: true)
     }
     
     func initView() {
@@ -59,6 +60,10 @@ class ServicesListViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func initTableView() {
+        refreshView = UIRefreshControl()
+        refreshView.attributedTitle = NSAttributedString(string: "Обновление данных")
+        refreshView.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        partnersTableView.addSubview(refreshView)
         partnersTableView.register(ServiceViewCell.nib(), forCellReuseIdentifier: ServiceViewCell.cellIdentifier)
         partnersTableView.delegate = self
         partnersTableView.dataSource = self
@@ -73,6 +78,10 @@ class ServicesListViewController: UIViewController, CLLocationManagerDelegate {
         
         viewModel.startLoadIndicator = { [weak self] in
             self?.startActivityIndicator()
+        }
+        
+        viewModel.stopReloadIndicator = { [weak self] in
+            self?.refreshView.endRefreshing()
         }
     }
 
@@ -122,6 +131,10 @@ class ServicesListViewController: UIViewController, CLLocationManagerDelegate {
         settings.statusBarEndAlpha = 0
         settings.menuWidth = min(UIScreen.main.bounds.width - 50, 500);
         return settings
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        viewModel.refreshPartners()
     }
 }
 

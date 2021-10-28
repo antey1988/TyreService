@@ -19,7 +19,7 @@ class OrderCellViewModel {
     }
     
     public func getPhone() -> String {
-        return order.clientPhone
+        return order.clientPhone.applyPatternOnNumbers(pattern: "+# (###) ###-####", replacementCharacter: "#")
     }
     
     public func getDate() -> String {
